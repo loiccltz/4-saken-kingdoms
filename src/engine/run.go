@@ -12,28 +12,33 @@ func (engine *Engine) Run() {
 		rl.BeginDrawing()
 
 		switch engine.StateMenu {
-		case HOME:
-			engine.HomeRendering()
-			engine.HomeLogic()
+			case HOME:
+				engine.HomeRendering()
+				engine.HomeLogic()
 
-		case SETTINGS:
-			engine.SettingsLogic()
+			case SETTINGS:
+				engine.SettingsLogic()
 
-		case PLAY:
-			switch engine.StateEngine {
-			case INGAME:
-				engine.InGameRendering()
-				engine.InGameLogic()
-
-			case PAUSE:
-				engine.PauseRendering()
-				engine.PauseLogic()
-
-			case GAMEOVER:
-				//...
+			case PLAY:
+				switch engine.StateEngine {
+				case INGAME:
+					engine.InGameRendering()
+					engine.InGameLogic()
+				
+				case INFIGHT:
+					engine.FightRendering()
+					engine.FightLogic()
+					engine.InFightLogic()
+				
+				case PAUSE:
+					engine.PauseRendering()
+					engine.PauseLogic()
+				
+				case GAMEOVER:
+					engine.GameOverRendering()
+					engine.GameOverLogic()
 			}
 		}
-
 		rl.EndDrawing()
 	}
 }

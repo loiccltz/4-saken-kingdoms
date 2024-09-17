@@ -12,7 +12,7 @@
             "scaleInEditor": 1
         },
         "tilesets/map.json": {
-            "scale": 1,
+            "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 481.3333333333333,

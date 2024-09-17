@@ -8,4 +8,5 @@ require (
 	github.com/ebitengine/purego v0.7.1 // indirect
 	golang.org/x/exp v0.0.0-20240808152545-0cdaa3abc0fa // indirect
 	golang.org/x/sys v0.24.0 // indirect
+	arcadia/src/engine v1.2.3
 )
