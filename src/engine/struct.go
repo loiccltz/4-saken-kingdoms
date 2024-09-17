@@ -26,7 +26,9 @@ const (
 	INVENTORY engine = iota
 	GAMEOVER  engine = iota
 	INFIGHT   engine = iota
-)
+	MENUSELLER engine = iota
+)	
+
 
 type Engine struct {
 	Player   entity.Player
@@ -54,6 +56,8 @@ type Engine struct {
 	StateMenu   menu
 	StateEngine engine
 	StateFight  menu
+	InventoryMenu engine
+	SellerMenu engine
 }
 type Fight struct {
 	CurrentMonster      entity.Monster

@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	ScreenWidth  = 1400
-	ScreenHeight = 800
+	ScreenWidth  = 2500
+	ScreenHeight = 1500
 )
 const (
 	ScreenWidthF  = 600
@@ -94,12 +94,18 @@ func (e *Engine) Init_Shop() {
 }
 
 func (e *Engine) InitEntities() {
-
 	e.Player = entity.Player{
-		Position:  rl.Vector2{X: 300, Y: 300},
+		Position:  rl.Vector2{X: 2000, Y: 2000},
 		Health:    100,
+		//MaxHealth:	100,
+		//Shield: 10,
+		//MaxShield: 100,
+		//ShieldRechargeRate: 1,
+		//Endurance:	10,
+		//MaxEndurance:	100,
+		//EnduranceRechargeRate:	1,
 		Money:     1000,
-		Speed:     8,
+		Speed:     6,
 		Damage:    10,
 		Inventory: []item.Item{},
 
@@ -107,6 +113,7 @@ func (e *Engine) InitEntities() {
 
 		Sprite: e.Player.Sprite,
 	}
+	
 
 	e.Shop = building.Shop{
 		Name:     "Sharp Sword",

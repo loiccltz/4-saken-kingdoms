@@ -154,6 +154,12 @@ func (e *Engine) InGameLogic() {
 	if rl.IsKeyPressed(rl.KeyEscape) {
 		e.StateEngine = PAUSE
 	}
+	if rl.IsKeyPressed(rl.KeyI) {
+		e.StateEngine = INVENTORY
+	}
+	if rl.IsKeyPressed(rl.KeyQ) {
+		e.StateEngine = MENUSELLER
+	}
 
 	e.CheckCollisions()
 
@@ -164,6 +170,24 @@ func (e *Engine) InGameLogic() {
 	}
 	rl.UpdateMusicStream(e.Music)
 }
+
+
+
+
+func (e *Engine) InventoryLogic() {
+	if rl.IsKeyPressed(rl.KeyI) {
+		e.StateEngine = INGAME
+	}
+	if rl.IsKeyPressed(rl.KeyI){
+		e.InventoryMenu = INVENTORY
+	}
+}
+func (e Engine) MenuSellerLogic () {
+	if rl.IsKeyPressed(rl.KeyQ) {
+		e.SellerMenu = MENUSELLER
+	}
+}
+
 func (e *Engine) CheckCollisionsWithObjects()  bool{
     playerRect := rl.NewRectangle(e.Player.Position.X, e.Player.Position.Y, 40, 40)
 	// * 2 - 16

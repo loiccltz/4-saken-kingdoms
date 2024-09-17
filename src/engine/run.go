@@ -30,6 +30,15 @@ func (engine *Engine) Run() {
 					engine.FightLogic()
 					engine.InFightLogic()
 				
+				case INVENTORY:
+					engine.InventoryRendering()
+					engine.InventoryLogic()
+		
+				case MENUSELLER:
+					engine.MenuSeller()
+					engine.MenuSellerLogic()
+				
+				
 				case PAUSE:
 					engine.PauseRendering()
 					engine.PauseLogic()
