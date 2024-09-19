@@ -4,162 +4,113 @@ import (
 	"main/src/building"
 	"main/src/entity"
 	"main/src/item"
-	"main/src/fight"
+	"time"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
 const (
-	ScreenWidth  = 2500
-	ScreenHeight = 1500
-)
-const (
-	ScreenWidthF  = 600
-	ScreenHeightF = 1400
+	ScreenWidth  = 1280
+	ScreenHeight = 720
 )
 
-const (
-	ScreenWidthS  = 800
-	ScreenHeightS = 800
-)
-
+/*
+	func (e *Engine) InitWindow() {
+		rl.InitWindow(0, 0, "textures/4SKMENUENTRE-Photoroom.png")
+		rl.CloseWindow()
+		for !rl.WindowShouldClose() {
+			rl.BeginDrawing()
+			rl.ClearBackground(rl.RayWhite)
+		}
+	}
+*/
 func (e *Engine) Init() {
 	rl.InitWindow(ScreenWidth, ScreenHeight, "4saken Kingdom")
 	e.IsRunning = true
 	e.Sprites = make(map[string]rl.Texture2D)
 	e.InitEntities()
+	e.InitBuilding()
+	e.InitItem()
+	e.InitMobs()
+	e.InitMonsters()
+	e.InitShoot()
 	e.InitCamera()
 	e.InitMusic()
-	e.InitMobs()
+	e.Load()
 	e.InitMap("textures/map/tilesets/map.json")
 
 }
-func (e *Engine) Init_lvl1() {
-	rl.CloseWindow()
-	rl.InitWindow(ScreenWidthF, ScreenHeightF, "Tower")
-	e.IsRunning = true
-	e.Sprites = make(map[string]rl.Texture2D)
-	e.InitEntities()
-	e.InitCamera()
-	e.InitMusicF()
-	e.InitShoot()
-	e.InitMonsters1()
-	e.InitMap("textures/map/tilesets/map.json")
-}
-func (e *Engine) Init_lvl2() {
-	rl.CloseWindow()
-	rl.InitWindow(ScreenWidthF, ScreenHeightF, "Tower")
-	e.IsRunning = true
-	e.Sprites = make(map[string]rl.Texture2D)
-	e.InitEntities()
-	e.InitCamera()
-	e.InitMusicF()
-	e.InitShoot()
-	e.InitMonsters2()
-	e.InitMap("textures/map/tilesets/map.json")
-}
-func (e *Engine) Init_lvl3() {
-	rl.CloseWindow()
-	rl.InitWindow(ScreenWidthF, ScreenHeightF, "Tower")
-	e.IsRunning = true
-	e.Sprites = make(map[string]rl.Texture2D)
-	e.InitEntities()
-	e.InitCamera()
-	e.InitMusicF()
-	e.InitShoot()
-	e.InitMonsters3()
-	e.InitMap("textures/map/tilesets/map.json")
-}
-func (e *Engine) Init_lvl4() {
-	rl.CloseWindow()
-	rl.InitWindow(ScreenWidthF, ScreenHeightF, "Tower")
-	e.IsRunning = true
-	e.Sprites = make(map[string]rl.Texture2D)
-	e.InitEntities()
-	e.InitCamera()
-	e.InitMusicF()
-	e.InitShoot()
-	e.InitMonsters4()
-	e.InitMap("textures/map/tilesets/map.json")
-}
-func (e *Engine) Init_Shop() {
-	rl.CloseWindow()
-	rl.InitWindow(ScreenWidthF, ScreenHeightF, "Tower")
-	e.IsRunning = true
-	e.Sprites = make(map[string]rl.Texture2D)
-	e.InitEntitiesShop()
-	e.InitCamera()
-	e.InitMusicF()
-	e.InitMap("textures/map/tilesets/map.json")
-}
 
-func (e *Engine) InitEntities() {
-	e.Player = entity.Player{
-		Position:  rl.Vector2{X: 2000, Y: 2000},
-		Health:    100,
-		//MaxHealth:	100,
-		//Shield: 10,
-		//MaxShield: 100,
-		//ShieldRechargeRate: 1,
-		//Endurance:	10,
-		//MaxEndurance:	100,
-		//EnduranceRechargeRate:	1,
-		Money:     1000,
-		Speed:     6,
-		Damage:    10,
-		Inventory: []item.Item{},
-
-		IsAlive: true,
-
-		Sprite: e.Player.Sprite,
-	}
-	
-
+func (e *Engine) InitBuilding() {
 	e.Shop = building.Shop{
 		Name:     "Sharp Sword",
 		Position: rl.Vector2{X: -100, Y: -20},
 		Sprite:   rl.LoadTexture("textures/items/itemschelou.png"),
 	}
-
 	e.Tower = append(e.Tower, building.Tower{
 		Name:     "Royaume de Ran",
-		Position: rl.Vector2{X: -25, Y: -20},
+		Position: rl.Vector2{X: 3943, Y: 4890},
 		Worth:    25,
 		Sprite:   rl.LoadTexture("textures/towers/TXStruct.png"),
 	})
 
 	e.Tower = append(e.Tower, building.Tower{
 		Name:     "Royaume de Salkin",
-		Position: rl.Vector2{X: -50, Y: -20},
+		Position: rl.Vector2{X: 3950, Y: 4900},
 		Worth:    50,
 		Sprite:   rl.LoadTexture("textures/towers/TXStruct.png"),
 	})
 
 	e.Tower = append(e.Tower, building.Tower{
 		Name:     "Royaume d'Usun",
-		Position: rl.Vector2{X: -75, Y: -20},
+		Position: rl.Vector2{X: 4000, Y: 4950},
 		Worth:    75,
 		Sprite:   rl.LoadTexture("textures/towers/TXStruct.png"),
 	})
 
 	e.Tower = append(e.Tower, building.Tower{
 		Name:     "Royaume de Siroi",
-		Position: rl.Vector2{X: -100, Y: -20},
+		Position: rl.Vector2{X: 4050, Y: 5000},
 		Worth:    100,
 		Sprite:   rl.LoadTexture("textures/towers/TXStruct.png"),
 	})
-
-	e.Player.Money = 10
 }
-
-func (e *Engine) InitEntitiesShop() {
+func (e *Engine) InitEntities() {
+	e.Player = entity.Player{
+		Position:              rl.Vector2{X: 4430, Y: 6720},
+		Health:                100,
+		PlayerSrc: rl.NewRectangle(0, 0, 32, 32),
+		PlayerDest: rl.NewRectangle(0, 0, -20, -10,),
+		MaxHealth:             100,
+		Shield:                10,
+		MaxShield:             100,
+		ShieldRechargeRate:    1,
+		Endurance:             10,
+		MaxEndurance:          100,
+		EnduranceRechargeRate: 1,
+		Money:                 1000,
+		Speed:                 9,
+		Damage:                5,
+		Inventory:             []item.Item{},
+		IsAlive:               true,
+		Sprite:                e.Player.Sprite,
+	}
+	e.Player.Money = 10
+	//fmt.Println(e.Player.Position.X)
+	//fmt.Println(e.Player.Position.Y)
 	e.Seller = entity.Seller{
-		Position:  rl.Vector2{X: 300, Y: 300},
+		Name:	   "Robin",
+		Position:  rl.Vector2{X: 4400, Y: 6700},
 		Money:     500,
 		Inventory: []item.Item{},
 		IsAlive:   true,
 		Sprite:    rl.LoadTexture("textures/towers/TXStruct.png"),
 	}
+
+}
+
+func (e *Engine) InitItem() {
+
 	e.Seller.Inventory = append(e.Seller.Inventory, item.Item{
 		Name:         "Biscuit",
 		Price:        5,
@@ -183,54 +134,48 @@ func (e *Engine) InitEntitiesShop() {
 	})
 
 }
-func (e *Engine) InitMaps(){
-	e.Maps = append(e.Maps, fight.Fight2{
-		Map:     1,
-		Sprite:  rl.LoadTexture("textures/items/itemschelou.png"),
-	})
-	e.Maps = append(e.Maps, fight.Fight2{
-		Map:     2,
-		Sprite:  rl.LoadTexture("textures/items/itemschelou.png"),
-	})
-	e.Maps = append(e.Maps, fight.Fight2{
-		Map:     4,
-		Sprite:  rl.LoadTexture("textures/items/itemschelou.png"),
-	})
-	e.Maps = append(e.Maps, fight.Fight2{
-		Map:     4,
-		Sprite:  rl.LoadTexture("textures/items/itemschelou.png"),
-	})
-}
 
 func (e *Engine) InitMobs() {
 	e.Mobs = append(e.Mobs, entity.Mobs{
 		Name:     "mob1",
-		Position: rl.Vector2{X: 1000, Y: -20},
+		Position: rl.Vector2{X: 4430, Y: 6880},
 		Health:   20,
-		Damage:   1,
+		Damage:   2,
 		Loot:     []item.Item{},
 		Worth:    25,
-
-		IsAlive: true,
-		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+		CoolDown: 5 * time.Second,
+		IsAlive:  true,
+		Sprite:   rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
 	})
+
+	e.Mobs[len(e.Mobs)-1].Loot = append(e.Mobs[len(e.Mobs)-1].Loot, item.Item{
+		Name:         "Biscuit",
+		Price:        5,
+		IsConsumable: true,
+		IsEquippable: false,
+		Sprite:       rl.LoadTexture("textures/items/itemschelou.png")})
 
 	e.Mobs = append(e.Mobs, entity.Mobs{
 		Name:     "mob2",
-		Position: rl.Vector2{X: 900, Y: -20},
+		Position: rl.Vector2{X: 4400, Y: 6800},
 		Health:   20,
-		Damage:   1,
+		Damage:   2,
 		Loot:     []item.Item{},
 		Worth:    25,
 
 		IsAlive: true,
 		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
 	})
-
+	e.Mobs[len(e.Mobs)-1].Loot = append(e.Mobs[len(e.Mobs)-1].Loot, item.Item{
+		Name:         "Biscuit",
+		Price:        5,
+		IsConsumable: true,
+		IsEquippable: false,
+		Sprite:       rl.LoadTexture("textures/items/itemschelou.png")})
 	e.Mobs = append(e.Mobs, entity.Mobs{
 		Name:     "mob3",
-		Position: rl.Vector2{X: 800, Y: -20},
-		Health:   20,
+		Position: rl.Vector2{X: 4450, Y: 6850},
+		Health:   3,
 		Damage:   1,
 		Loot:     []item.Item{},
 		Worth:    25,
@@ -238,72 +183,18 @@ func (e *Engine) InitMobs() {
 		IsAlive: true,
 		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
 	})
-
-	e.Mobs = append(e.Mobs, entity.Mobs{
-		Name:     "mob4",
-		Position: rl.Vector2{X: 700, Y: -20},
-		Health:   20,
-		Damage:   1,
-		Loot:     []item.Item{},
-		Worth:    25,
-
-		IsAlive: true,
-		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
-	})
-
-	e.Mobs = append(e.Mobs, entity.Mobs{
-		Name:     "mob5",
-		Position: rl.Vector2{X: 600, Y: -20},
-		Health:   20,
-		Damage:   1,
-		Loot:     []item.Item{},
-		Worth:    25,
-
-		IsAlive: true,
-		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
-	})
-
-	e.Mobs = append(e.Mobs, entity.Mobs{
-		Name:     "mob6",
-		Position: rl.Vector2{X: 500, Y: -20},
-		Health:   20,
-		Damage:   1,
-		Loot:     []item.Item{},
-		Worth:    25,
-
-		IsAlive: true,
-		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
-	})
-
-	e.Mobs = append(e.Mobs, entity.Mobs{
-		Name:     "mob7",
-		Position: rl.Vector2{X: 400, Y: -20},
-		Health:   20,
-		Damage:   1,
-		Loot:     []item.Item{},
-		Worth:    25,
-
-		IsAlive: true,
-		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
-	})
-
-	e.Mobs = append(e.Mobs, entity.Mobs{
-		Name:     "mob8",
-		Position: rl.Vector2{X: 300, Y: -20},
-		Health:   20,
-		Damage:   1,
-		Loot:     []item.Item{},
-		Worth:    25,
-
-		IsAlive: true,
-		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
-	})
+	e.Mobs[len(e.Mobs)-1].Loot = append(e.Mobs[len(e.Mobs)-1].Loot, item.Item{
+		Name:         "Biscuit",
+		Price:        5,
+		IsConsumable: true,
+		IsEquippable: false,
+		Sprite:       rl.LoadTexture("textures/items/itemschelou.png")})
 }
 
-func (e *Engine) InitMonsters1() {
+func (e *Engine) InitMonsters() {
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "lvl 1",
-		Position: rl.Vector2{X: 1000, Y: -20},
+		Position: rl.Vector2{X: 4450, Y: 6900},
 		Health:   20,
 		Damage:   1,
 		Loot:     []item.Item{},
@@ -312,9 +203,13 @@ func (e *Engine) InitMonsters1() {
 		IsAlive: true,
 		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
 	})
-}
+	e.Monsters[len(e.Monsters)-1].Loot = append(e.Monsters[len(e.Monsters)-1].Loot, item.Item{
+		Name:         "Biscuit",
+		Price:        5,
+		IsConsumable: true,
+		IsEquippable: false,
+		Sprite:       rl.LoadTexture("textures/items/itemschelou.png")})
 
-func (e *Engine) InitMonsters2() {
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "lvl 2",
 		Position: rl.Vector2{X: 1000, Y: 620},
@@ -326,9 +221,12 @@ func (e *Engine) InitMonsters2() {
 		IsAlive: true,
 		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
 	})
-}
-
-func (e *Engine) InitMonsters3() {
+	e.Monsters[len(e.Monsters)-1].Loot = append(e.Monsters[len(e.Monsters)-1].Loot, item.Item{
+		Name:         "Biscuit",
+		Price:        5,
+		IsConsumable: true,
+		IsEquippable: false,
+		Sprite:       rl.LoadTexture("textures/items/itemschelou.png")})
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "lvl 3",
 		Position: rl.Vector2{X: -100, Y: 620},
@@ -340,9 +238,12 @@ func (e *Engine) InitMonsters3() {
 		IsAlive: true,
 		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
 	})
-}
-
-func (e *Engine) InitMonsters4() {
+	e.Monsters[len(e.Monsters)-1].Loot = append(e.Monsters[len(e.Monsters)-1].Loot, item.Item{
+		Name:         "Biscuit",
+		Price:        5,
+		IsConsumable: true,
+		IsEquippable: false,
+		Sprite:       rl.LoadTexture("textures/items/itemschelou.png")})
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "lvl 4",
 		Position: rl.Vector2{X: -100, Y: -20},
@@ -354,91 +255,33 @@ func (e *Engine) InitMonsters4() {
 		IsAlive: true,
 		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
 	})
+	e.Monsters[len(e.Monsters)-1].Loot = append(e.Monsters[len(e.Monsters)-1].Loot, item.Item{
+		Name:         "Biscuit",
+		Price:        5,
+		IsConsumable: true,
+		IsEquippable: false,
+		Sprite:       rl.LoadTexture("textures/items/itemschelou.png")})
 }
+
 func (e *Engine) InitShoot() {
 	e.Shoot = append(e.Shoot, entity.Shoot{
-		Position:   rl.Vector2{X: -75, Y: -20},
+		Position:   rl.Vector2{X: 0, Y: 0},
 		IsShooting: true,
-		Sprite:     rl.LoadTexture("textures/towers/TXStruct.png"),
+		Sprite:     rl.LoadTexture("textures/tilesets/TX Tileset Stone Ground.png"),
 	})
 	e.Shoot = append(e.Shoot, entity.Shoot{
-		Position:   rl.Vector2{X: -75, Y: -20},
+		Position:   rl.Vector2{X: 5, Y: 5},
 		IsShooting: true,
-		Sprite:     rl.LoadTexture("textures/towers/TXStruct.png"),
+		Sprite:     rl.LoadTexture("textures/tilesets/TX Tileset Stone Ground.png"),
 	})
 	e.Shoot = append(e.Shoot, entity.Shoot{
-		Position:   rl.Vector2{X: -75, Y: -20},
+		Position:   rl.Vector2{X: 10, Y: 10},
 		IsShooting: true,
-		Sprite:     rl.LoadTexture("textures/towers/TXStruct.png"),
-	})
-	e.Shoot = append(e.Shoot, entity.Shoot{
-		Position:   rl.Vector2{X: -75, Y: -20},
-		IsShooting: true,
-		Sprite:     rl.LoadTexture("textures/towers/TXStruct.png"),
-	})
-	e.Shoot = append(e.Shoot, entity.Shoot{
-		Position:   rl.Vector2{X: -75, Y: -20},
-		IsShooting: true,
-		Sprite:     rl.LoadTexture("textures/towers/TXStruct.png"),
-	})
-	e.Shoot = append(e.Shoot, entity.Shoot{
-		Position:   rl.Vector2{X: -75, Y: -20},
-		IsShooting: true,
-		Sprite:     rl.LoadTexture("textures/towers/TXStruct.png"),
-	})
-	e.Shoot = append(e.Shoot, entity.Shoot{
-		Position:   rl.Vector2{X: -75, Y: -20},
-		IsShooting: true,
-		Sprite:     rl.LoadTexture("textures/towers/TXStruct.png"),
-	})
-	e.Shoot = append(e.Shoot, entity.Shoot{
-		Position:   rl.Vector2{X: -75, Y: -20},
-		IsShooting: true,
-		Sprite:     rl.LoadTexture("textures/towers/TXStruct.png"),
-	})
-	e.Shoot = append(e.Shoot, entity.Shoot{
-		Position:   rl.Vector2{X: -75, Y: -20},
-		IsShooting: true,
-		Sprite:     rl.LoadTexture("textures/towers/TXStruct.png"),
-	})
-	e.Shoot = append(e.Shoot, entity.Shoot{
-		Position:   rl.Vector2{X: -75, Y: -20},
-		IsShooting: true,
-		Sprite:     rl.LoadTexture("textures/towers/TXStruct.png"),
-	})
-	e.Shoot = append(e.Shoot, entity.Shoot{
-		Position:   rl.Vector2{X: -75, Y: -20},
-		IsShooting: true,
-		Sprite:     rl.LoadTexture("textures/towers/TXStruct.png"),
-	})
-	e.Shoot = append(e.Shoot, entity.Shoot{
-		Position:   rl.Vector2{X: -75, Y: -20},
-		IsShooting: true,
-		Sprite:     rl.LoadTexture("textures/towers/TXStruct.png"),
-	})
-	e.Shoot = append(e.Shoot, entity.Shoot{
-		Position:   rl.Vector2{X: -75, Y: -20},
-		IsShooting: true,
-		Sprite:     rl.LoadTexture("textures/towers/TXStruct.png"),
-	})
-	e.Shoot = append(e.Shoot, entity.Shoot{
-		Position:   rl.Vector2{X: -75, Y: -20},
-		IsShooting: true,
-		Sprite:     rl.LoadTexture("textures/towers/TXStruct.png"),
-	})
-	e.Shoot = append(e.Shoot, entity.Shoot{
-		Position:   rl.Vector2{X: -75, Y: -20},
-		IsShooting: true,
-		Sprite:     rl.LoadTexture("textures/towers/TXStruct.png"),
-	})
-	e.Shoot = append(e.Shoot, entity.Shoot{
-		Position:   rl.Vector2{X: -75, Y: -20},
-		IsShooting: true,
-		Sprite:     rl.LoadTexture("textures/towers/TXStruct.png"),
+		Sprite:     rl.LoadTexture("textures/tilesets/TX Tileset Stone Ground.png"),
 	})
 }
 func (e *Engine) InitCamera() {
-	e.Camera = rl.NewCamera2D( 
+	e.Camera = rl.NewCamera2D(
 		rl.NewVector2(0, 0),
 		rl.NewVector2(0, 0),
 		0.0,
@@ -447,14 +290,6 @@ func (e *Engine) InitCamera() {
 }
 
 func (e *Engine) InitMusic() {
-	rl.InitAudioDevice()
-
-	e.Music = rl.LoadMusicStream("sounds/music/OSC-Ambient-Time-08-Egress.mp3")
-
-	rl.PlayMusicStream(e.Music)
-}
-
-func (e *Engine) InitMusicF() {
 	rl.InitAudioDevice()
 
 	e.Music = rl.LoadMusicStream("sounds/music/OSC-Ambient-Time-08-Egress.mp3")

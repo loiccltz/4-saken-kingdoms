@@ -8,6 +8,7 @@ import (
 )
 
 type Seller struct {
+	Name	  string
 	Position  rl.Vector2
 	Money     int
 	Inventory []item.Item

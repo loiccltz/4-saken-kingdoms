@@ -1,6 +1,7 @@
 package fight
 
 import (
+	"fmt"
 	"main/src/entity"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -18,51 +19,67 @@ const (
 	MOBS_TURN    fight = iota
 )
 
-func FightMonster(player entity.Player, monster entity.Monster) {
-
-	for { // Boucle infinie
-		// Check si le joueur ou le monstre est vaincu. Si c'est le cas, on sort de la boucle
-		if player.Health <= 0 {
-			player.IsAlive = false
-			break
-		}
-		if monster.Health <= 0 {
-			player.Inventory = append(player.Inventory, monster.Loot[0])
-			player.Money += monster.Worth
-			break
-		}
-
-		player.AttackOfPlayer(&monster)
-		monster.AttackOfMonster(&player)
+func MonsterVsPlayer(player *entity.Player, monster *entity.Monster) {
+	if player.Health <= 0 {
+		player.IsAlive = false
+		return
 	}
+	if monster.Health <= 0 {
+		player.Inventory = append(player.Inventory, monster.Loot[0])
+		player.Money += monster.Worth
+		rl.UnloadTexture(monster.Sprite)
+	}
+	monster.AttackOfMonster(player)
+}
+func PlayerVsMonster(player *entity.Player, monster *entity.Monster) {
+	if player.Health <= 0 {
+		player.IsAlive = false
+		return
+	}
+	if monster.Health <= 0 {
+		player.Inventory = append(player.Inventory, monster.Loot[0])
+		player.Money += monster.Worth
+		rl.UnloadTexture(monster.Sprite)
+
+	}
+	player.AttackOfPlayer(monster)
 }
 
-func FightMobs(player entity.Player, mobs entity.Mobs) {
-
-	for { // Boucle infinie
-		// Check si le joueur ou le monstre est vaincu. Si c'est le cas, on sort de la boucle
-		if player.Health <= 0 {
-			player.IsAlive = false
-			break
-		}
-		if mobs.Health <= 0 {
-			player.Inventory = append(player.Inventory, mobs.Loot[0])
-			player.Money += mobs.Worth
-			break
-		}
-		player.AttackOfPlayerOnMobs(&mobs)
-		mobs.Attack(&player)
+func MobsVsPlayer(player *entity.Player, mobs *entity.Mobs) {
+	if player.Health <= 0 {
+		player.IsAlive = false
+	
 	}
+	if mobs.Health <= 0 {
+		player.Inventory = append(player.Inventory, mobs.Loot[0])
+		player.Money += mobs.Worth
+		mobs.IsAlive= false
+		fmt.Println("dddd")
+		rl.UnloadTexture(mobs.Sprite)
+
+	}
+	mobs.Attack(player)
+}
+func PlayerVsMobs(player *entity.Player, mobs *entity.Mobs) {
+	if player.Health <= 0 {
+		player.IsAlive = false
+	}
+	if mobs.Health <= 0 {
+		player.Inventory = append(player.Inventory, mobs.Loot[0])
+		player.Money += mobs.Worth
+		mobs.IsAlive= false
+		fmt.Println("dddd")
+		rl.UnloadTexture(mobs.Sprite)
+
+	}
+	player.AttackOfPlayerOnMobs(mobs)
+
 }
 
-func FightShoot(player *entity.Player, shoot *entity.Shoot) {
-
-	for { // Boucle infinie
-		// Check si le joueur ou le monstre est vaincu. Si c'est le cas, on sort de la boucle
-		if player.Health <= 0 {
-			player.IsAlive = false
-			break
-		}
-		shoot.AttackOfShoot(player)
+func ShootVsPlayer(player *entity.Player, shoot *entity.Shoot) {
+	if player.Health <= 0 {
+		player.IsAlive = false
+		return
 	}
+	shoot.AttackOfShoot(player)
 }

@@ -8,11 +8,12 @@ import (
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
+
 type Object struct {
-	X      float32 `json:"x"`
-	Y      float32 `json:"y"`
-	Width  float32 `json:"width"`
-	Height float32 `json:"height"`
+    X      float32 `json "x"`
+    Y      float32 `json "y"`
+    Width  float32 `json "width"`
+    Height float32 `json "height"`
 }
 
 type Layer struct {
@@ -26,6 +27,7 @@ type Layer struct {
 	Width   int     `json:"width"`
 	X       int     `json:"x"`
 	Y       int     `json:"y"`
+	Objects []Object `json: "objects"`
 }
 
 type TileSet struct {
@@ -103,80 +105,18 @@ func (e *Engine) RenderMap() {
 	// Prepare source and destination rectangle (only X and Y will change on both)
 	srcRectangle := rl.Rectangle{X: 0, Y: 0, Width: float32(e.MapJSON.TileHeight), Height: float32(e.MapJSON.TileHeight)}
 	destRectangle := rl.Rectangle{X: 0, Y: 0, Width: float32(e.MapJSON.TileWidth), Height: float32(e.MapJSON.TileWidth)}
-	column_counter := -1
+	column_counter := 0
 
 	for _, Layer := range e.MapJSON.Layers {
-		for _, tile := range Layer.Data {
-			if tile != 0 {
-				wantedTileSet := e.MapJSON.TileSets[0]
-				for _, TileSet := range e.MapJSON.TileSets { // Get correct texture
-					if TileSet.FirstGid < tile {
-						wantedTileSet = TileSet
-					}
-				}
-
-				index := tile - wantedTileSet.FirstGid
-
-				srcRectangle.X = float32(index)
-				srcRectangle.Y = 0
-
-				if index > wantedTileSet.Columns { // If Tile number exceeds columns (overflow), adjust, find X and Y coordinates
-					srcRectangle.X = float32(index % wantedTileSet.Columns)
-					srcRectangle.Y = float32(index / wantedTileSet.Columns)
-				}
-
-				srcRectangle.X *= float32(e.MapJSON.TileWidth)
-				srcRectangle.Y *= float32(e.MapJSON.TileHeight)
-
-				rl.DrawTexturePro(
-					e.Sprites[wantedTileSet.Name],
-					srcRectangle,
-					destRectangle,
-					rl.Vector2{X: 0, Y: 0},
-					0,
-					rl.White,
-				)
-			}
-
-			// After each draw, move to the right. When at max width, new line (like a typewriter)
-			destRectangle.X += 32
-			column_counter += 1
-			if column_counter >= e.MapJSON.Width {
-				destRectangle.X = 0
-				destRectangle.Y += 32
-				column_counter = 0
-			}
-
+		if Layer.Type == "objectgroup" {
+			e.Objects = append(e.Objects, Layer.Objects...) // Ajouter les objets à e.Objects
 		}
-		destRectangle.X, destRectangle.Y, column_counter = 0, 0, 0
-	}
-}
-
-// AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-func (e *Engine) RenderMap2() {
-	/*
-		Naive & slow map loader, render all layers everywhere each frame:
-		- Parse JSON
-		- Load required textures
-		- For each layer
-			- For each tile
-				- Find closest TileSet GID to select correct texture
-				- Get X and Y coordinates of the tile
-				- Draw tile
-				- Move to next position (line, or column)
-	*/
-
-	// Prepare source and destination rectangle (only X and Y will change on both)
-	srcRectangle := rl.Rectangle{X: 0, Y: 0, Width: float32(e.MapJSON.TileHeight), Height: float32(e.MapJSON.TileHeight)}
-	destRectangle := rl.Rectangle{X: 0, Y: 0, Width: float32(e.MapJSON.TileWidth), Height: float32(e.MapJSON.TileWidth)}
-	column_counter := -1
-
-	for _, Layer := range e.MapJSON.Layers {
+		
 		for _, tile := range Layer.Data {
 			if tile != 0 {
 				wantedTileSet := e.MapJSON.TileSets[0]
 				for _, TileSet := range e.MapJSON.TileSets { // Get correct texture
-					if TileSet.FirstGid < tile {
+					if TileSet.FirstGid <= tile {
 						wantedTileSet = TileSet
 					}
 				}
@@ -186,13 +126,13 @@ func (e *Engine) RenderMap2() {
 				srcRectangle.X = float32(index)
 				srcRectangle.Y = 0
 
-				if index > wantedTileSet.Columns { // If Tile number exceeds columns (overflow), adjust, find X and Y coordinates
+				if index >= wantedTileSet.Columns { // If Tile number exceeds columns (overflow), adjust, find X and Y coordinates
 					srcRectangle.X = float32(index % wantedTileSet.Columns)
 					srcRectangle.Y = float32(index / wantedTileSet.Columns)
 				}
 
-				srcRectangle.X *= float32(e.MapJSON.TileWidth)
-				srcRectangle.Y *= float32(e.MapJSON.TileHeight)
+				srcRectangle.X *= 16//float32(e.MapJSON.TileWidth)
+				srcRectangle.Y *= 16//float32(e.MapJSON.TileHeight)
 
 				rl.DrawTexturePro(
 					e.Sprites[wantedTileSet.Name],

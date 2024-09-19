@@ -3,6 +3,7 @@ package engine
 import (
 	"main/src/building"
 	"main/src/entity"
+	"fmt"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -18,7 +19,7 @@ func (e *Engine) HomeRendering() {
 	
 }
 func(e *Engine) InventoryRendering() {
-	rl.ClearBackground(rl.White)
+	rl.ClearBackground(rl.Black)
 
 	rl.DrawText("Invetory Menu", int32(rl.GetScreenWidth())/2-rl.MeasureText("Inventory Menu", 40)/2, int32(rl.GetScreenHeight())/2-150, 40, rl.RayWhite)
 	rl.DrawText("[I] to resume", int32(rl.GetScreenWidth())/2-rl.MeasureText("[I] to resume", 20)/2, int32(rl.GetScreenHeight())/2, 20, rl.Beige)
@@ -38,7 +39,7 @@ func (e *Engine) PauseRendering() {
 
 }
 
-func(e *Engine) MenuSeller() {
+func(e *Engine) SellerRendering() {
 	rl.ClearBackground(rl.White)
 
 	rl.DrawText("MenuSeller", int32(rl.GetScreenWidth())/2-rl.MeasureText("MesnuSeller", 40)/2, int32(rl.GetScreenHeight())/2-150, 40, rl.RayWhite)
@@ -50,48 +51,59 @@ func(e *Engine) MenuSeller() {
 	
 }
 
-
-func (e *Engine) FightRendering() {
-	rl.ClearBackground(rl.Blue)
-	rl.BeginMode2D(e.Camera)
-	e.RenderMap2()
-	e.RenderShoot()
-	e.RenderPlayer()
-	rl.EndMode2D()
-	rl.DrawText("Playing", int32(rl.GetScreenWidth())/2-rl.MeasureText("Playing", 40)/2, int32(rl.GetScreenHeight())/2-350, 40, rl.RayWhite)
-	rl.DrawText("[Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Esc] to Pause", 20)/2, int32(rl.GetScreenHeight())/2-300, 20, rl.RayWhite)
-
-}
-
-// AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 func (e *Engine) InGameRendering() {
 	rl.ClearBackground(rl.Gray)
 	rl.BeginMode2D(e.Camera)
 	e.RenderMap()
-	e.RenderMonsters()
+	e.RenderMobs()
 	e.RenderTower()
-	e.RenderShop()
+	e.UpdateAnimation()
+	e.RenderSeller()
+	e.RenderMonsters()
+	e.RenderEnduranceBar()
+	e.RenderHealthBar()
+	e.RenderShieldBar()
+	e.UpdateAndRenderEndurance()
+	e.UpdateAndRenderShield()
 	e.RenderPlayer()
 	rl.EndMode2D()
 	rl.DrawText("Playing", int32(rl.GetScreenWidth())/2-rl.MeasureText("Playing", 40)/2, int32(rl.GetScreenHeight())/2-350, 40, rl.RayWhite)
 	rl.DrawText("[Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[P] or [Esc] to Pause", 20)/2, int32(rl.GetScreenHeight())/2-300, 20, rl.RayWhite)
-	e.RenderHealthBar()
-	e.RenderShieldBar()
-	e.RenderEnduranceBar()
-	e.UpdateAndRender()
+	rl.DrawText("[Q]/[A] to Quit", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Esc] to Quit", 20)/2, int32(rl.GetScreenHeight())/2+100, 20, rl.RayWhite)
 }
 
+func (e *Engine) InFightRendering() {
+	rl.ClearBackground(rl.Gray)
+	rl.BeginMode2D(e.Camera)
+	e.RenderMap()
+	e.RenderMobs()
+	e.RenderTower()
+	e.RenderSeller()
+	e.RenderMonsters()
+	e.RenderEnduranceBar()
+	e.RenderHealthBar()
+	e.RenderShieldBar()
+	e.RenderShoot()
+	e.UpdateAndRenderEndurance()
+	e.UpdateAndRenderShield()
+	e.RenderPlayer()
+	rl.EndMode2D()
+	rl.DrawText("Playing", int32(rl.GetScreenWidth())/2-rl.MeasureText("Playing", 40)/2, int32(rl.GetScreenHeight())/2-350, 40, rl.RayWhite)
+	rl.DrawText("[Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[P] or [Esc] to Pause", 20)/2, int32(rl.GetScreenHeight())/2-300, 20, rl.RayWhite)
+}
 
-
-func (e *Engine) RenderPlayer() {
+func (e *Engine) RenderPlayer(){
+	//rl.DrawTexturePro(e.Player.Sprite, e.Player.PlayerSrc, e.Player.PlayerDest, rl.Vector2{X: 0, Y:0}, 0, rl.White)
 	rl.DrawTexturePro(
 		e.Player.Sprite,
-		rl.NewRectangle(0, 0, 100, 100),
-		rl.NewRectangle(e.Player.Position.X, e.Player.Position.Y, 150, 150),
-		rl.Vector2{X: 0, Y: 0},
+		e.Player.PlayerSrc,
+		// e.Payer.Dest ne marche pas alors que c la mm chose ????
+		rl.NewRectangle(e.Player.Position.X, e.Player.Position.Y, 48, 48),
+		rl.NewVector2(e.Player.PlayerDest.Width, e.Player.PlayerDest.Height),
 		0,
 		rl.White,
 	)
+
 }
 func (e *Engine) RenderShoot() {
 	for _, Shoot := range e.Shoot {
@@ -130,16 +142,7 @@ func (e *Engine) RenderMobs() {
 		)
 	}
 }
-func (e *Engine) RenderShop() {
-	rl.DrawTexturePro(
-		e.Shop.Sprite,
-		rl.NewRectangle(0, 0, 100, 100),
-		rl.NewRectangle(e.Shop.Position.X, e.Shop.Position.Y, 150, 150),
-		rl.Vector2{X: 0, Y: 0},
-		0,
-		rl.White,
-	)
-}
+
 func (e *Engine) RenderSeller() {
 	rl.DrawTexturePro(
 		e.Seller.Sprite,
@@ -151,7 +154,7 @@ func (e *Engine) RenderSeller() {
 	)
 }
 
-// AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
 func (e *Engine) RenderTower() {
 	for _, tower := range e.Tower {
 		rl.DrawTexturePro(
@@ -175,8 +178,18 @@ func (e *Engine) RenderDialog(m entity.Monster, sentence string) {
 	)
 	rl.EndMode2D()
 }
+func (e *Engine) RenderDialogMobs(m entity.Mobs, sentence string) {
+	rl.BeginMode2D(e.Camera)
+	rl.DrawText(
+		sentence,
+		int32(m.Position.X),
+		int32(m.Position.Y)+50,
+		10,
+		rl.RayWhite,
+	)
+	rl.EndMode2D()
+}
 
-// AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 func (e *Engine) RenderExplanation(m building.Tower, sentence string) {
 	rl.BeginMode2D(e.Camera)
 	rl.DrawText(
@@ -203,41 +216,48 @@ func (e *Engine) RenderExplanationShop(m building.Shop, sentence string) {
 
 func (e *Engine) GameOverRendering() {
 	rl.ClearBackground(rl.Black)
-	rl.DrawText("You DIED", int32(rl.GetScreenWidth())/2-rl.MeasureText("Playing", 40)/2, int32(rl.GetScreenHeight())/2-350, 40, rl.RayWhite)
-	rl.DrawText("[Esc] to Exit or [Enter] to Replay", int32(rl.GetScreenWidth())/2-rl.MeasureText("[P] or [Esc] to Pause", 20)/2, int32(rl.GetScreenHeight())/2-300, 20, rl.RayWhite)
+
+	// Texte "GAME OVER" en rouge avec contour blanc
+	title := "GAME OVER"
+	titleWidth := int32(rl.MeasureText(title, 80))
+	screenWidth := int32(rl.GetScreenWidth()) // Utiliser int32 ici
+	xPos := (screenWidth - titleWidth) / 2    // Pas besoin de conversion
+
+	// Dessin du texte
+	rl.DrawText(title, xPos, 280, 80, rl.Red)
+	rl.DrawText(title, xPos+2, 282, 80, rl.White)
+
+	// Instructions en dessous
+	instructions1 := "Press ENTER to restart"
+	instructions2 := "Press ESC to leave"
+	instruction1Width := int32(rl.MeasureText(instructions1, 32))
+	instruction2Width := int32(rl.MeasureText(instructions2, 32))
+
+	rl.DrawText(instructions1, (screenWidth-instruction1Width)/2, 600, 32, rl.White)
+	rl.DrawText(instructions2, (screenWidth-instruction2Width)/2, 640, 32, rl.White)
 }
+
 
 func (e *Engine) RenderHealthBar() {
     screenHeight := int32(rl.GetScreenHeight())
-
-    // Dimensions et positions de la barre de vie
-    barWidth := int32(150)  // Largeur de la barre de vie
-    barHeight := int32(20)  // Hauteur de la barre de vie
-    barX := int32(20)       // 20 pixels de marge depuis le bord gauche
-    barY := screenHeight - barHeight - 20 // 20 pixels de marge depuis le bord bas
-
-    // Calcul de la largeur de la barre de vie en fonction de la santé
-    healthRatio := float32(e.Player.Health) / float32(e.Player.MaxHealth) // Supposons que la vie maximale est 100
+    barWidth := int32(250)  
+    barHeight := int32(20)  
+    barX := int32(20)    
+    barY := screenHeight - barHeight - 20 
+     healthRatio := float32(e.Player.Health) / float32(e.Player.MaxHealth)
     if healthRatio > 1 {
         healthRatio = 1
     } else if healthRatio < 0 {
         healthRatio = 0
     }
     healthBarWidth := int32(float32(barWidth) * healthRatio)
-
-    // Dessine le fond de la barre de vie
     rl.DrawRectangle(barX, barY, barWidth, barHeight, rl.Gray)
-
-    // Dessine la barre de vie
     rl.DrawRectangle(barX, barY, healthBarWidth, barHeight, rl.Red)
 }
 
-func (e *Engine) UpdateAndRender() {
-    // Mise à jour de l'endurance du joueur
+func (e *Engine) UpdateAndRenderEndurance() {
     e.Player.UpdateEndurance()
-
-    // Vérifie si la touche Q est pressée pour effectuer une action
-    if rl.IsKeyPressed(rl.KeyQ) {
+    if rl.IsKeyPressed(rl.KeyEnter) {
         if e.Player.Endurance >= e.Player.MaxEndurance {
             fmt.Println("Action effectuée !")
             e.Player.Endurance = 0
@@ -246,15 +266,12 @@ func (e *Engine) UpdateAndRender() {
 }
 
 func (e *Engine) RenderEnduranceBar() {
-    // Calcul de la largeur de la barre d'endurance en fonction de l'endurance
     screenWidth := int32(rl.GetScreenWidth())
     screenHeight := int32(rl.GetScreenHeight())
-    barWidth := int32(150) // Largeur de la barre d'endurance
-    barHeight := int32(20) // Hauteur de la barre d'endurance
+    barWidth := int32(150) 
+    barHeight := int32(20)
     barX := screenWidth - barWidth - 20
     barY := screenHeight - barHeight - 20
-
-    // Ratio de l'endurance pour déterminer la largeur de la barre
     enduranceRatio := float32(e.Player.Endurance) / float32(e.Player.MaxEndurance)
     if enduranceRatio > 1 {
         enduranceRatio = 1
@@ -262,17 +279,12 @@ func (e *Engine) RenderEnduranceBar() {
         enduranceRatio = 0
     }
     enduranceBarWidth := int32(float32(barWidth) * enduranceRatio)
-
-    // Dessine le fond et la barre d'endurance
     rl.DrawRectangle(barX, barY, barWidth, barHeight, rl.Gray)
     rl.DrawRectangle(barX, barY, enduranceBarWidth, barHeight, rl.Yellow)
 }
 
-func (e *Engine) UpdateAndRender2() {
-    // Mise à jour du bouclier du joueur
+func (e *Engine) UpdateAndRenderShield() {
     e.Player.UpdateShield()
-
-    // Vérifie si la touche Q est pressée pour effectuer une action
     if rl.IsKeyPressed(rl.KeyQ) {
         if e.Player.Shield >= e.Player.MaxShield {
             fmt.Println("Action effectuée !")
@@ -283,16 +295,10 @@ func (e *Engine) UpdateAndRender2() {
 
 func (e *Engine) RenderShieldBar() {
     screenHeight := int32(rl.GetScreenHeight())
-
-    // Dimensions de la barre de bouclier
-    barWidth := int32(150) // Largeur de la barre de bouclier
-    barHeight := int32(20) // Hauteur de la barre de bouclier
-
-    // Positionnement en bas à gauche avec une marge de 20 pixels
+    barWidth := int32(100)
+    barHeight := int32(20)
     barX := int32(20)
-    barY := screenHeight - barHeight - 60 // Position modifiée pour la barre de bouclier
-
-    // Ratio du bouclier pour déterminer la largeur de la barre
+    barY := screenHeight - barHeight - 60 
     shieldRatio := float32(e.Player.Shield) / float32(e.Player.MaxShield)
     if shieldRatio > 1 {
         shieldRatio = 1
@@ -300,11 +306,9 @@ func (e *Engine) RenderShieldBar() {
         shieldRatio = 0
     }
     shieldBarWidth := int32(float32(barWidth) * shieldRatio)
-
-    // Dessine le fond et la barre de bouclier
     rl.DrawRectangle(barX, barY, barWidth, barHeight, rl.Gray)
     rl.DrawRectangle(barX, barY, shieldBarWidth, barHeight, rl.Blue)
-
-    // Optionnel: Affichage de l'état du bouclier dans la console
-    fmt.Printf("Shield: %d / %d\n", e.Player.Shield, e.Player.MaxShield)
 }
+
+
+

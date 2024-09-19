@@ -7,27 +7,30 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-
 type Player struct {
-
-	Position  rl.Vector2
-	Health    int
-	//MaxHealth	int
-	//Shield:	int
-	//MaxShield: int
-	//ShieldRechargeRate: int
-	//Endurance	int
-	//MaxEndurance	int
-	//EnduranceRechargeRate	int
-	Money     int
-	Speed     float32
-	Damage    int
-	Inventory []item.Item
+	Position              rl.Vector2
+	Health                int
+	PlayerSrc rl.Rectangle
+	PlayerDest rl.Rectangle
+	PlayerFrame int
+	FrameCount int
+	MaxHealth             int
+	Shield                int
+	MaxShield             int
+	ShieldRechargeRate    int
+	Endurance             int
+	MaxEndurance          int
+	EnduranceRechargeRate int
+	Money                 int
+	Speed                 float32
+	Damage                int
+	Inventory             []item.Item
 
 	IsAlive bool
 
 	Sprite rl.Texture2D
 }
+
 func (p *Player) AttackOfPlayer(m *Monster) {
 	m.Health -= p.Damage
 }
@@ -35,16 +38,17 @@ func (p *Player) AttackOfPlayerOnMobs(g *Mobs) {
 	g.Health -= p.Damage
 }
 func (p *Player) SpendMoney(s *Seller) {
-	if s.Inventory[0].Name == "Biscuit"{
+	if s.Inventory[0].Name == "Biscuit" {
 		p.Money -= 5
 		p.Inventory = append(p.Inventory, s.Inventory[0])
-	}else if s.Inventory[1].Name == "Gateau"{
+	} else if s.Inventory[1].Name == "Gateau" {
 		p.Money -= 15
 		p.Inventory = append(p.Inventory, s.Inventory[1])
-	}else if s.Inventory[2].Name == "Bouclier"{
+	} else if s.Inventory[2].Name == "Bouclier" {
 		p.Money -= 25
 		p.Inventory = append(p.Inventory, s.Inventory[2])
-}}
+	}
+}
 
 func (p *Player) ToString() {
 	fmt.Printf(`
@@ -55,6 +59,7 @@ func (p *Player) ToString() {
 	
 	\n`, p.Health, p.Money, p.Inventory)
 }
+
 func (p *Player) UpdateEndurance() {
     // Détermine le montant d'endurance à ajouter par mise à jour
     increment := int(p.EnduranceRechargeRate)
