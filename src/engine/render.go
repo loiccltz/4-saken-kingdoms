@@ -185,7 +185,18 @@ func (e *Engine) RenderExplanation(m building.Tower, sentence string) {
 
 
 
-func (e *Engine) RenderExplanationShop(m building.Shop, sentence string) {
+func (e *Engine) RenderExplanationShop(m entity.Seller, sentence string) {
+	rl.BeginMode2D(e.Camera)
+	rl.DrawText(
+		sentence,
+		int32(m.Position.X),
+		int32(m.Position.Y)+50,
+		10,
+		rl.RayWhite,
+	)
+	rl.EndMode2D()
+}
+func (e *Engine) RenderExplanationPnj(m entity.Pnj, sentence string) {
 	rl.BeginMode2D(e.Camera)
 	rl.DrawText(
 		sentence,

@@ -44,11 +44,6 @@ func (e *Engine) InitPauseRendering() {
 	rl.InitWindow(ScreenWidth, ScreenHeight, "4SKPAUSEMENU.png")
 }
 func (e *Engine) InitBuilding() {
-	e.Shop = building.Shop{
-		Name:     "Sharp Sword",
-		Position: rl.Vector2{X: -100, Y: -20},
-		Sprite:   rl.LoadTexture("textures/items/itemschelou.png"),
-	}
 	e.Tower = append(e.Tower, building.Tower{
 		Name:     "Royaume de Ran",
 		Position: rl.Vector2{X: 3943, Y: 4890},
@@ -105,6 +100,12 @@ func (e *Engine) InitEntities() {
 		Position:  rl.Vector2{X: 4400, Y: 6700},
 		Money:     500,
 		Inventory: []item.Item{},
+		IsAlive:   true,
+		Sprite:    rl.LoadTexture("textures/towers/TXStruct.png"),
+	}
+	e.Pnj = entity.Pnj{
+		Name:      "Jack",
+		Position:  rl.Vector2{X: 4400, Y: 6700},
 		IsAlive:   true,
 		Sprite:    rl.LoadTexture("textures/towers/TXStruct.png"),
 	}

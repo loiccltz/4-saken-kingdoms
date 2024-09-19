@@ -252,15 +252,20 @@ func (e *Engine) SellerCollisions() {
 		e.Seller.Position.Y > e.Player.Position.Y-20 &&
 		e.Seller.Position.Y < e.Player.Position.Y+20 {
 		if e.Seller.Name == "Robin" {
-			e.NormalExplanationShop(e.Shop, "We have all do you want to rescue the princess, press n to enter")
-			if rl.IsKeyPressed(rl.KeyN) {
-				e.Player.Position.X = 100
-				e.Player.Position.Y = 700
-			}
+			e.NormalExplanationShop(e.Seller, "We have all do you want to rescue the princess, press R to enter")
 		}
 	}
 }
-
+func (e *Engine) PnjCollisions() {
+	if e.Pnj.Position.X > e.Player.Position.X-20 &&
+		e.Pnj.Position.X < e.Player.Position.X+20 &&
+		e.Pnj.Position.Y > e.Player.Position.Y-20 &&
+		e.Pnj.Position.Y < e.Player.Position.Y+20 {
+		if e.Pnj.Name == "Jack" {
+			e.NormalExplanationPnj(e.Pnj, "We have all do you want to rescue the princess, press R to enter")
+		}
+	}
+}
 func (e *Engine) TowerCollisions() {
 	for _, tower := range e.Tower {
 		if tower.Position.X > e.Player.Position.X-20 &&
@@ -385,9 +390,13 @@ func (e *Engine) NormalExplanation(m building.Tower, sentence string) {
 	e.RenderExplanation(m, sentence)
 }
 
-func (e *Engine) NormalExplanationShop(m building.Shop, sentence string) {
+func (e *Engine) NormalExplanationShop(m entity.Seller, sentence string) {
 	e.RenderExplanationShop(m, sentence)
-} /*
+}
+func (e *Engine) NormalExplanationPnj(m entity.Pnj, sentence string) {
+	e.RenderExplanationPnj(m, sentence)
+}
+/*
 func (e *Engine) ComeBackLogic() {
 	if rl.IsKeyPressed(rl.KeySpace) {
 		e.StateEngine = INGAME

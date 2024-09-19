@@ -34,24 +34,24 @@ type Engine struct {
 	Mobs     []entity.Mobs
 	Item     []item.Item
 	Tower    []building.Tower
-	Shop     building.Shop
+	Pnj      entity.Pnj
 	Shoot    []entity.Shoot
 	Maps     []fight.Fight2
 
-	Objects  []Object
+	Objects []Object
 
 	Music       rl.Music
 	MusicVolume float32
 
-	Sprites map[string]rl.Texture2D
+	Sprites    map[string]rl.Texture2D
 	Animations Animations
-	Camera rl.Camera2D
+	Camera     rl.Camera2D
 
 	MapJSON MapJSON
 
-	IsRunning     bool
-	StateMenu     menu
-	StateEngine   engine
+	IsRunning   bool
+	StateMenu   menu
+	StateEngine engine
 
 	InventoryMenu engine
 	SellerMenu    engine
@@ -63,6 +63,6 @@ type Fight struct {
 	CurrentMobsIndex    int
 }
 
-const(
+const (
 	ChaseDistance = 100
 )
