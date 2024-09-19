@@ -15,7 +15,6 @@ const (
 	HOME     menu = iota
 	SETTINGS menu = iota
 	PLAY     menu = iota
-	FIGHT    menu = iota
 )
 
 type engine int
@@ -25,7 +24,6 @@ const (
 	INVENTORY  engine = iota
 	MENUSELLER engine = iota
 	PAUSE      engine = iota
-	INFIGHT    engine = iota
 	GAMEOVER   engine = iota
 )
 
@@ -54,7 +52,7 @@ type Engine struct {
 	IsRunning     bool
 	StateMenu     menu
 	StateEngine   engine
-	StateFight    menu
+
 	InventoryMenu engine
 	SellerMenu    engine
 }

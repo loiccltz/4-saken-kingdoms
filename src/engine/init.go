@@ -40,7 +40,9 @@ func (e *Engine) Init() {
 	e.InitMap("textures/map/tilesets/map.json")
 
 }
-
+func (e *Engine) InitPauseRendering() {
+	rl.InitWindow(ScreenWidth, ScreenHeight, "4SKPAUSEMENU.png")
+}
 func (e *Engine) InitBuilding() {
 	e.Shop = building.Shop{
 		Name:     "Sharp Sword",
@@ -78,9 +80,9 @@ func (e *Engine) InitBuilding() {
 func (e *Engine) InitEntities() {
 	e.Player = entity.Player{
 		Position:              rl.Vector2{X: 4430, Y: 6720},
-		Health:                10000,
-		PlayerSrc: rl.NewRectangle(0, 0, 32, 32),
-		PlayerDest: rl.NewRectangle(0, 0, -20, -10,),
+		Health:                100,
+		PlayerSrc:             rl.NewRectangle(0, 0, 32, 32),
+		PlayerDest:            rl.NewRectangle(0, 0, -20, -10),
 		MaxHealth:             100,
 		Shield:                10,
 		MaxShield:             100,
@@ -99,7 +101,7 @@ func (e *Engine) InitEntities() {
 	//fmt.Println(e.Player.Position.X)
 	//fmt.Println(e.Player.Position.Y)
 	e.Seller = entity.Seller{
-		Name:	   "Robin",
+		Name:      "Robin",
 		Position:  rl.Vector2{X: 4400, Y: 6700},
 		Money:     500,
 		Inventory: []item.Item{},

@@ -32,28 +32,7 @@ func (e *Engine) HomeLogic() {
 	}
 }
 
-func (e *Engine) GameOverLogic() {
-	if e.Player.Health <= 0 {
-		if !rl.IsMusicStreamPlaying(e.Music) {
-			e.Music = rl.LoadMusicStream("sounds/music/OSC-Ambient-Time-08-Egress.mp3")
-			rl.PlayMusicStream(e.Music)
-		}
-		rl.UpdateMusicStream(e.Music)
 
-		//Menus
-		if rl.IsKeyPressed(rl.KeyEnter) {
-			e.Player.IsAlive = true
-			e.Player.Health = e.Player.MaxHealth
-			e.StateMenu = PLAY
-			e.StateEngine = INGAME
-			rl.StopMusicStream(e.Music)
-
-		}
-		if rl.IsKeyPressed(rl.KeyEscape) {
-			e.IsRunning = false
-		}
-	}
-}
 
 func (e *Engine) SettingsLogic() {
 	//Menus
@@ -114,71 +93,53 @@ func (e *Engine) InGameLogic() {
 	}
 
 	e.FightCollisions()
+	/*posX := e.Player.Position.X
+	posY := e.Player.Position.Y
+	//si je suis en combat de boss
+	if posX == 356 && posY == 200 {
+	 	//je lance mein Kampf et tant que mon boss.health > 0
+	 	for e.Monsters.health > 0 {
+	 		if rand.Intn(100) < 10 {
+	 			e.CreateShoot()
+	 		}
+	 		e.MoveShoot()
+		 	fmt.Println("L===moveshoot=========================")
 
-	if rl.IsKeyPressed(rl.KeyJ) || rl.IsKeyPressed(rl.KeyK) || rl.IsKeyPressed(rl.KeyL) || rl.IsKeyPressed(rl.KeyM) {
-		e.StateFight = FIGHT
-		e.StateEngine = INFIGHT
-		rl.StopMusicStream(e.Music)
-
-	}
-
-	if rl.IsKeyPressed(rl.KeyEscape) {
-		e.IsRunning = false
-	}
-}
-}
-func (e *Engine) ShootLogic() {
-	if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
-		e.Player.Position.Y -= e.Player.Speed
-	}
-	if rl.IsKeyDown(rl.KeyS) || rl.IsKeyDown(rl.KeyDown) {
-		e.Player.Position.Y += e.Player.Speed
-	}
-	if rl.IsKeyDown(rl.KeyA) || rl.IsKeyDown(rl.KeyLeft) {
-		e.Player.Position.X -= e.Player.Speed
-	}
-	if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
-		e.Player.Position.X += e.Player.Speed
-	}
-
-	// Camera
-	e.Camera.Target = rl.Vector2{X: e.Player.Position.X + 70, Y: e.Player.Position.Y + 70}
-	e.Camera.Offset = rl.Vector2{X: ScreenWidth / 2, Y: ScreenHeight / 2}
-
-	// Menus
-	if rl.IsKeyPressed(rl.KeyEscape) {
-		e.StateEngine = PAUSE
-	}
-	e.CheckCollisions()
-
-	//Musique
-	if !rl.IsMusicStreamPlaying(e.Music) {
-		e.Music = rl.LoadMusicStream("sounds/music/OSC-Ambient-Time-07-Simon_s-In-There-Somewhere.mp3")
-		rl.PlayMusicStream(e.Music)
-	}
-	rl.UpdateMusicStream(e.Music)
-
-	if e.Player.Health <= 0 {
-		e.Player.IsAlive = false
-		e.Player.Money /= 2
-		e.StateEngine = GAMEOVER
-	}
-
-	e.FightCollisions()
-	for i := range e.Monsters {
-		if e.Monsters[i].Health <= 0 {
-		e.Monsters[i].IsAlive = false
-		e.StateEngine = INGAME
-	}}
-
-	for {
-		if rand.Intn(100) < 10 {
-			e.CreateShoot()
-		}
-		e.MoveShoot()
 		e.UpdateShoot()
 		e.ShootCollision()
-	}}
+		}
+			if boss.health <= 0 {
+
+	 			break
+	 		}
+	 	}
+	posX =
+	posY =
+	 }*/
+}}
+func (e *Engine) GameOverLogic() {
+	if e.Player.Health <= 0 {
+		if !rl.IsMusicStreamPlaying(e.Music) {
+			e.Music = rl.LoadMusicStream("sounds/music/OSC-Ambient-Time-08-Egress.mp3")
+			rl.PlayMusicStream(e.Music)
+		}
+		rl.UpdateMusicStream(e.Music)
+
+		//Menus
+		if rl.IsKeyPressed(rl.KeyEnter) {
+			e.Player.IsAlive = true
+			e.Player.Health = e.Player.MaxHealth
+			e.StateMenu = PLAY
+			e.StateEngine = INGAME
+			rl.StopMusicStream(e.Music)
+
+		}
+		if rl.IsKeyPressed(rl.KeyEscape) {
+			e.IsRunning = false
+		}
+	}
+}
+
 func (e *Engine) InventoryLogic() {
 	if rl.IsKeyPressed(rl.KeyI) {
 		e.StateEngine = INGAME
@@ -319,21 +280,6 @@ func (e *Engine) MobsCollisions() {
 		}
 	}
 
-func (e *Engine) KillMobs(mobs *entity.Mobs) {
-    // Libérer la texture du monstre
-    rl.UnloadTexture(mobs.Sprite)
-
-    // Optionnel : supprimer le monstre de la liste
-    for i := len(e.Mobs) - 1; i >= 0; i-- {
-        m := &e.Mobs[i] // Utiliser un pointeur ici
-
-        // Comparer les valeurs plutôt que les pointeurs
-        if m.Name == mobs.Name && m.Position == mobs.Position {
-            e.Mobs = append(e.Mobs[:i], e.Mobs[i+1:]...) // Supprimer le monstre
-            break
-        }
-    }
-}
 /*
 	func (e *Engine) MonsterCollisions() {
 		for i, monster := range e.Monsters {
@@ -408,17 +354,12 @@ func (e *Engine) ComeBackLogic() {
 		e.StateEngine = INGAME
 	}
 }*/
-func (e *Engine) AutoAttack() {
-	if rl.IsKeyPressed(rl.KeyE) {
-		e.StateEngine = INFIGHT
-	}
-}
 
 func (e *Engine) PauseLogic() {
-	if rl.IsKeyPressed(rl.KeyEscape) {
+	if rl.IsKeyPressed(rl.KeyR) {
 		e.StateEngine = INGAME
 	}
-	if rl.IsKeyPressed(rl.KeyF) {
+	if rl.IsKeyPressed(rl.KeyEscape) {
 		e.StateMenu = HOME
 		rl.StopMusicStream(e.Music)
 	}

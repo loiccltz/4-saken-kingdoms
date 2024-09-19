@@ -25,11 +25,8 @@ func (engine *Engine) Run() {
 					engine.InGameRendering()
 					engine.InGameLogic()
 					if engine.Player.Health <= 0 {
-						engine.StateEngine = GAMEOVER}
-	
-				case INFIGHT:
-					engine.InFightRendering()
-					engine.ShootLogic()
+						engine.StateEngine = GAMEOVER
+					}
 				
 				case INVENTORY:
 					engine.InventoryRendering()
@@ -39,7 +36,6 @@ func (engine *Engine) Run() {
 				case MENUSELLER:
 					engine.SellerRendering()
 					engine.SellerLogic()
-
 				
 				case PAUSE:
 					engine.PauseRendering()
