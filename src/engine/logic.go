@@ -26,7 +26,6 @@ func (e *Engine) HomeLogic() {
 		e.StateMenu = PLAY
 		e.StateEngine = INGAME
 		rl.StopMusicStream(e.Music)
-
 	}
 	if rl.IsKeyPressed(rl.KeyEscape) {
 		e.IsRunning = false
