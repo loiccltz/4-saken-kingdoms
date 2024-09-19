@@ -8,6 +8,7 @@ type Shoot struct {
 	Position rl.Vector2
 	IsShooting bool
 	Sprite rl.Texture2D
+	Damage int
 }
 
 func (m *Shoot) AttackOfShoot(p *Player) {

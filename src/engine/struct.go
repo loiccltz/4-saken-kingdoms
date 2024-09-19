@@ -37,6 +37,7 @@ type Engine struct {
 	Pnj      entity.Pnj
 	Shoot    []entity.Shoot
 	Maps     []fight.Fight2
+	selectedIndex int 
 
 	Objects []Object
 

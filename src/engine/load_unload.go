@@ -20,7 +20,6 @@ func (e *Engine) Load() {
 	
 }
 func (e *Engine) UpdateAnimation() {
-	// Sélectionner la bonne texture en fonction de la direction et de la frame
 	switch {
 	case rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp):
 		e.Player.Sprite = e.Animations.Player.Walk[1] //   haut
@@ -57,7 +56,6 @@ func (e *Engine) UpdateAnimation() {
 }
 
 func loadTextures(paths []string) []rl.Texture2D {
-	// convertir en rl 2texture2d
 	var textures []rl.Texture2D
 	for _, path := range paths {
 		texture := rl.LoadTexture(path)
@@ -67,7 +65,6 @@ func loadTextures(paths []string) []rl.Texture2D {
 }
 
 func (e *Engine) Unload() {
-	// On libère les textures chargées, le joueur, la map, les monstres, etc...
 	rl.UnloadTexture(e.Player.Sprite)
 
 	for _, sprite := range e.Sprites {
