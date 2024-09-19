@@ -6,6 +6,7 @@ import (
 	"main/src/entity"
 	"main/src/fight"
 	"math/rand"
+
 	//"time"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -31,8 +32,6 @@ func (e *Engine) HomeLogic() {
 		e.IsRunning = false
 	}
 }
-
-
 
 func (e *Engine) SettingsLogic() {
 	//Menus
@@ -89,34 +88,74 @@ func (e *Engine) InGameLogic() {
 	}
 	for i := range e.Mobs {
 		if e.Mobs[i].Health <= 0 {
-		e.Mobs[i].IsAlive = false
-	}
-
-	e.FightCollisions()
-	/*posX := e.Player.Position.X
-	posY := e.Player.Position.Y
-	//si je suis en combat de boss
-	if posX == 356 && posY == 200 {
-	 	//je lance mein Kampf et tant que mon boss.health > 0
-	 	for e.Monsters.health > 0 {
-	 		if rand.Intn(100) < 10 {
-	 			e.CreateShoot()
-	 		}
-	 		e.MoveShoot()
-		 	fmt.Println("L===moveshoot=========================")
-
-		e.UpdateShoot()
-		e.ShootCollision()
+			e.Mobs[i].IsAlive = false
 		}
-			if boss.health <= 0 {
 
-	 			break
-	 		}
-	 	}
-	posX =
-	posY =
-	 }*/
-}}
+		e.FightCollisions()
+		posX := e.Player.Position.X
+		posY := e.Player.Position.Y
+		if posX == 356 && posY == 200 {
+			for e.Monsters[0].Health > 0 {
+				if rand.Intn(100) < 10 {
+					e.CreateShoot()
+				}
+				e.MoveShoot()
+				e.UpdateShoot()
+				e.ShootCollision()
+			}
+			if e.Monsters[0].Health <= 0 {
+				posX =3
+				posY =3
+				break
+			}
+		}
+		if posX == 356 && posY == 200 {
+			for e.Monsters[1].Health > 0 {
+				if rand.Intn(100) < 10 {
+					e.CreateShoot()
+				}
+				e.MoveShoot()
+				e.UpdateShoot()
+				e.ShootCollision()
+			}
+			if e.Monsters[1].Health <= 0 {
+				posX =3
+				posY =3
+				break
+			}
+		}
+		if posX == 356 && posY == 200 {
+			for e.Monsters[2].Health > 0 {
+				if rand.Intn(100) < 10 {
+					e.CreateShoot()
+				}
+				e.MoveShoot()
+				e.UpdateShoot()
+				e.ShootCollision()
+			}
+			if e.Monsters[2].Health <= 0 {
+				posX =3
+				posY =3
+				break
+			}
+		}
+		if posX == 356 && posY == 200 {
+			for e.Monsters[3].Health > 0 {
+				if rand.Intn(100) < 10 {
+					e.CreateShoot()
+				}
+				e.MoveShoot()
+				e.UpdateShoot()
+				e.ShootCollision()
+			}
+			if e.Monsters[3].Health <= 0 {
+				posX =3
+				posY =3
+				break
+			}
+		}
+	}
+}
 func (e *Engine) GameOverLogic() {
 	if e.Player.Health <= 0 {
 		if !rl.IsMusicStreamPlaying(e.Music) {
@@ -171,7 +210,6 @@ func (e *Engine) CheckCollisionsWithObjects() bool {
 	return false
 }
 
-
 func (e *Engine) CheckCollisions() {
 	// fmt.Println(e.Player.Position.X)
 	// fmt.Println(e.Player.Position.Y)
@@ -184,21 +222,21 @@ func (e *Engine) CheckCollisions() {
 	e.CheckCollisionsWithObjects()
 	e.BlockCollisions()
 }
-func (e *Engine) BlockCollisions(){
-    if e.CheckCollisionsWithObjects(){
-        if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
-            e.Player.Position.Y += e.Player.Speed
-        }
-        if rl.IsKeyDown(rl.KeyS) || rl.IsKeyDown(rl.KeyDown) {
-            e.Player.Position.Y -= e.Player.Speed
-        }
-        if rl.IsKeyDown(rl.KeyA) || rl.IsKeyDown(rl.KeyLeft) {
-            e.Player.Position.X += e.Player.Speed
-        }
-        if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
-            e.Player.Position.X -= e.Player.Speed
-        }
-    }
+func (e *Engine) BlockCollisions() {
+	if e.CheckCollisionsWithObjects() {
+		if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
+			e.Player.Position.Y += e.Player.Speed
+		}
+		if rl.IsKeyDown(rl.KeyS) || rl.IsKeyDown(rl.KeyDown) {
+			e.Player.Position.Y -= e.Player.Speed
+		}
+		if rl.IsKeyDown(rl.KeyA) || rl.IsKeyDown(rl.KeyLeft) {
+			e.Player.Position.X += e.Player.Speed
+		}
+		if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
+			e.Player.Position.X -= e.Player.Speed
+		}
+	}
 }
 func (e *Engine) FightCollisions() {
 	e.UpdateShoot()
@@ -206,7 +244,8 @@ func (e *Engine) FightCollisions() {
 	e.UpdateShoot()
 	//e.SpellCollision()
 }
-//GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
+
+// GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
 func (e *Engine) SellerCollisions() {
 	if e.Seller.Position.X > e.Player.Position.X-20 &&
 		e.Seller.Position.X < e.Player.Position.X+20 &&
@@ -268,17 +307,17 @@ func (e *Engine) MobsCollisions() {
 				if e.Mobs[i].IsAlive == true && e.Player.IsAlive {
 					e.NormalTalkMobs(e.Mobs[i], "Bonjour")
 					//if time.Since(e.Mobs[i].LastAttackTime) < e.Mobs[i].CoolDown {
-						fight.MobsVsPlayer(&e.Player, &e.Mobs[i])
-						//e.Mobs[i].LastAttackTime = time.Now()
-					}
-					if rl.IsKeyPressed(rl.KeyE) {
-						fight.PlayerVsMobs(&e.Player, &e.Mobs[i])
-						fmt.Println(e.Player.Health)
-					}
+					fight.MobsVsPlayer(&e.Player, &e.Mobs[i])
+					//e.Mobs[i].LastAttackTime = time.Now()
+				}
+				if rl.IsKeyPressed(rl.KeyE) {
+					fight.PlayerVsMobs(&e.Player, &e.Mobs[i])
+					fmt.Println(e.Player.Health)
 				}
 			}
 		}
 	}
+}
 
 /*
 	func (e *Engine) MonsterCollisions() {
@@ -348,7 +387,7 @@ func (e *Engine) NormalExplanation(m building.Tower, sentence string) {
 
 func (e *Engine) NormalExplanationShop(m building.Shop, sentence string) {
 	e.RenderExplanationShop(m, sentence)
-}/*
+} /*
 func (e *Engine) ComeBackLogic() {
 	if rl.IsKeyPressed(rl.KeySpace) {
 		e.StateEngine = INGAME
