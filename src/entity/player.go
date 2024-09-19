@@ -10,7 +10,7 @@ import (
 type Player struct {
 	Position              rl.Vector2
 	Health                int
-	
+
 	PlayerSrc rl.Rectangle
 	PlayerDest rl.Rectangle
 	PlayerFrame int
@@ -39,6 +39,7 @@ func (p *Player) AttackOfPlayer(m *Monster) {
 func (p *Player) AttackOfPlayerOnMobs(g *Mobs) {
 	g.Health -= p.Damage
 }
+
 func (p *Player) SpendMoney(s *Seller) {
 	if s.Inventory[0].Name == "Biscuit" {
 		p.Money -= 5
@@ -74,6 +75,8 @@ func (p *Player) UpdateEndurance() {
         }
     }
 }
+
+
 
 func (p *Player) UpdateShield() {
     // Détermine le montant de bouclier à ajouter par mise à jour

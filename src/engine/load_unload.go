@@ -13,12 +13,14 @@ func (e *Engine) Load() {
 		"textures/entities/player/animation/Q.png",
     })
 	
-	e.Monsters[0].Sprite = rl.LoadTexture("textures/entities/boss/animation/LoupD.png")
-	e.Animations.Monsters.Walk = loadTextures([]string{
-		"textures/entities/boss/animation/Loup.png",
-    })
+	e.Monsters[0].Sprite = rl.LoadTexture("textures/entities/boss/animation/loup.png")
+	e.Monsters[1].Sprite = rl.LoadTexture("textures/entities/boss/animation/Gryphon.png")
+	e.Monsters[2].Sprite = rl.LoadTexture("textures/entities/boss/animation/Crabe.png")
+	e.Monsters[3].Sprite = rl.LoadTexture("textures/entities/boss/animation/dragon.png")
 	
 }
+
+
 func (e *Engine) UpdateAnimation() {
 	switch {
 	case rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp):
@@ -44,14 +46,14 @@ func (e *Engine) UpdateAnimation() {
 	e.Player.PlayerSrc.Y = e.Player.PlayerSrc.Height * float32(e.Player.PlayerFrame)
 
 	// animation boss loup/////////////////////////////
-	if e.Monsters[0].FrameCount % 8 == 1 {e.Monsters[0].MonsterFrame++}
+	/*if e.Monsters[0].FrameCount % 2 == 1 {e.Monsters[0].MonsterFrame++}
 
 	e.Monsters[0].FrameCount++
 
 	if e.Monsters[0].MonsterFrame > 3 { e.Monsters[0].MonsterFrame = 0}
 
-	e.Monsters[0].MonsterSrc.X = e.Monsters[0].MonsterSrc.Width * float32(e.Monsters[0].MonsterFrame)
-	e.Monsters[0].MonsterSrc.Y = e.Monsters[0].MonsterSrc.Height * float32(e.Monsters[0].MonsterFrame)
+	e.Monsters[0].MonsterSrc.X = e.Player.PlayerSrc.Width * float32(e.Player.PlayerFrame)
+	e.Monsters[0].MonsterSrc.Y = e.Player.PlayerSrc.Height * float32(e.Player.PlayerFrame)*/
 	////////////////////////////////////////////////////
 }
 

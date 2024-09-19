@@ -193,6 +193,8 @@ func (e *Engine) SellerLogic() {
 	if rl.IsKeyPressed(rl.KeyR) {
 		e.SellerMenu = MENUSELLER
 	}
+
+	
 }
 
 func (e *Engine) CheckCollisionsWithObjects() bool {
@@ -265,6 +267,19 @@ func (e *Engine) PnjCollisions() {
 		}
 	}
 }
+
+func (e *Engine) UseSelectedItem() {
+    if len(e.Player.Inventory) > 0 && e.Player.Inventory[e.selectedIndex].Quantity > 0 {
+        e.Player.Inventory[e.selectedIndex].Quantity--
+
+        // Si la quantité atteint 0, tu peux décider de retirer l'objet ou simplement l'afficher comme indisponible.
+        if e.Player.Inventory[e.selectedIndex].Quantity == 0 {
+            // Optionnel: supprimer l'objet si plus de quantité
+            // e.Player.Inventory = append(e.Player.Inventory[:e.selectedIndex], e.Player.Inventory[e.selectedIndex+1:]...)
+        }
+    }
+}
+
 func (e *Engine) TowerCollisions() {
 	for _, tower := range e.Tower {
 		if tower.Position.X > e.Player.Position.X-20 &&

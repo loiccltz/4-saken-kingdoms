@@ -2,6 +2,7 @@ package engine
 
 import (
 	"main/src/building"
+	"fmt"
 	"main/src/entity"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -23,9 +24,9 @@ func (e *Engine) InGameRendering() {
 	rl.BeginMode2D(e.Camera)
 	e.RenderMap()
 	e.RenderMobs()
-
-	e.RenderPlayer()
 	e.RenderWolf()
+	e.RenderPlayer()
+
 	rl.EndMode2D()
 	
 	rl.DrawText("Playing", int32(rl.GetScreenWidth())/2-rl.MeasureText("Playing", 40)/2, int32(rl.GetScreenHeight())/2-350, 40, rl.RayWhite)
@@ -36,7 +37,6 @@ func (e *Engine) InGameRendering() {
 	e.RenderEnduranceBar()
 
 	e.RenderTower()
-
 	e.UpdateAnimation()
 	e.RenderSeller()
 	e.RenderEnduranceBar()
@@ -47,6 +47,10 @@ func (e *Engine) InGameRendering() {
 
 	e.RenderSeller()
 
+	e.RenderWolf()
+	e.RenderCrabe()
+	e.RenderDragon()
+	e.RenderGriffon()
 	e.RenderPlayer()
 	rl.EndMode2D()
 	rl.DrawText("[Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Esc] to Pause", 20)/2, int32(rl.GetScreenHeight())/2-300, 20, rl.RayWhite)
@@ -88,6 +92,19 @@ func (e *Engine) InventoryRendering() {
         }
     }
 
+
+	if rl.IsKeyPressed(rl.KeyEnter) {
+		e.UseSelectedItem()
+	}
+	if len(e.Player.Inventory) > 0 {
+		item := e.Player.Inventory[0]
+		
+	
+		rl.DrawTexture(item.Sprite, 50, 50, rl.White)
+	
+		rl.DrawText(fmt.Sprintf("x%d", item.Quantity), 50, 110, 20, rl.White)
+	}
+
     for i := 0; i < 7; i++ {
         itemXPos := inventoryXPos + int32(i)*(itemSize + itemSpacing) + itemSpacing
         itemYPos := inventoryYPos + (inventoryHeight-itemSize)/2
@@ -107,6 +124,10 @@ func (e *Engine) InventoryRendering() {
     if rl.IsKeyPressed(rl.KeyEscape) || rl.IsKeyPressed(rl.KeyI) {
         e.StateEngine = INGAME
     }
+}
+
+func (e *Engine) LoadInventoryItems() {
+		e.Player.Inventory[0].Sprite = rl.LoadTexture("textures/items/item.png")  // Mettre le chemin de l'image
 }
 
 
@@ -160,6 +181,64 @@ func (e *Engine) RenderPlayer(){
 	rl.EndMode2D()
 
 }
+
+func (e *Engine) RenderWolf() {
+	rl.BeginMode2D(e.Camera)
+		rl.DrawTexturePro(
+			e.Monsters[0].Sprite,
+			e.Monsters[0].MonsterSrc,
+			rl.NewRectangle(e.Monsters[0].Position.X, e.Monsters[0].Position.Y, 150, 150),
+			rl.NewVector2(e.Monsters[0].MonsterDest.Width, e.Monsters[0].MonsterDest.Height),
+			0,
+			rl.White,
+		)
+	rl.EndMode2D()
+}
+
+
+func (e *Engine) RenderGriffon() {
+	rl.BeginMode2D(e.Camera)
+		rl.DrawTexturePro(
+			e.Monsters[1].Sprite,
+			e.Monsters[1].MonsterSrc,
+			rl.NewRectangle(e.Monsters[1].Position.X, e.Monsters[1].Position.Y, 140, 140),
+			rl.NewVector2(e.Monsters[1].MonsterDest.Width, e.Monsters[1].MonsterDest.Height),
+			0,
+			rl.White,
+		)
+	rl.EndMode2D()
+}
+
+func (e *Engine) RenderCrabe() {
+	rl.BeginMode2D(e.Camera)
+		rl.DrawTexturePro(
+			e.Monsters[2].Sprite,
+			e.Monsters[2].MonsterSrc,
+			rl.NewRectangle(e.Monsters[2].Position.X, e.Monsters[2].Position.Y, 170, 170),
+			rl.NewVector2(e.Monsters[2].MonsterDest.Width, e.Monsters[2].MonsterDest.Height),
+			0,
+			rl.White,
+		)
+	rl.EndMode2D()
+}
+
+func (e *Engine) RenderDragon() {
+	rl.BeginMode2D(e.Camera)
+		rl.DrawTexturePro(
+			e.Monsters[3].Sprite,
+			e.Monsters[3].MonsterSrc,
+			rl.NewRectangle(e.Monsters[3].Position.X, e.Monsters[3].Position.Y, 150, 150),
+			rl.NewVector2(e.Monsters[3].MonsterDest.Width, e.Monsters[3].MonsterDest.Height),
+			0,
+			rl.White,
+		)
+	rl.EndMode2D()
+}
+
+
+
+
+
 func (e *Engine) RenderShoot() {
 	for _, Shoot := range e.Shoot {
 		rl.DrawTexturePro(
@@ -172,18 +251,6 @@ func (e *Engine) RenderShoot() {
 		)
 	}
 	
-}
-func (e *Engine) RenderWolf() {
-	rl.BeginMode2D(e.Camera)
-		rl.DrawTexturePro(
-			e.Monsters[0].Sprite,
-			e.Monsters[0].MonsterSrc,
-			rl.NewRectangle(e.Monsters[0].Position.X, e.Monsters[0].Position.Y, 100, 100),
-			rl.NewVector2(e.Monsters[0].MonsterDest.Width, e.Monsters[0].MonsterDest.Height),
-			0,
-			rl.White,
-		)
-	rl.EndMode2D()
 }
 func (e *Engine) RenderMobs() {
 	for _, mobs := range e.Mobs {

@@ -14,7 +14,7 @@ const (
 	ScreenHeight = 720
 )
 
-/*
+
 	func (e *Engine) InitWindow() {
 		rl.InitWindow(0, 0, "textures/4SKMENUENTRE-Photoroom.png")
 		rl.CloseWindow()
@@ -23,7 +23,7 @@ const (
 			rl.ClearBackground(rl.RayWhite)
 		}
 	}
-*/
+
 func (e *Engine) Init() {
 	rl.InitWindow(ScreenWidth, ScreenHeight, "4saken Kingdom")
 	e.IsRunning = true
@@ -75,8 +75,8 @@ func (e *Engine) InitBuilding() {
 func (e *Engine) InitEntities() {
 	e.Player = entity.Player{
 
-		Position:              rl.Vector2{X: 3152, Y: 7026},
-		Health:                100,
+		Position:              rl.Vector2{X: 7543, Y: 3894},
+		Health:                100000,
 		PlayerSrc: rl.NewRectangle(0, 0, 32, 32),
 		PlayerDest: rl.NewRectangle(0, 0, -20, -10,),
 
@@ -200,13 +200,14 @@ func (e *Engine) InitMobs() {
 func (e *Engine) InitMonsters() {
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "Loup",
-		Position: rl.Vector2{X: 3151, Y: 7026},
+		Position: rl.Vector2{X: 2989, Y: 4850},
+		MonsterSrc: rl.NewRectangle(10, 10, 50, 50),
+		MonsterDest: rl.NewRectangle(0, 0, 0, 0),
+
 		Health:   20,
 		Damage:   1,
 		Loot:     []item.Item{},
 		Worth:    25,
-		MonsterSrc: rl.NewRectangle(0, 0, 120, 120),
-		MonsterDest: rl.NewRectangle(0, 0, -20, -20),
 		IsAlive: true,
 		Sprite: rl.LoadTexture("textures/entities/boss/animation/loup.png"),
 	})
@@ -221,14 +222,18 @@ func (e *Engine) InitMonsters() {
 		// taille 119x119
 		// il faut des tailles paires
 		Name:     "Griffon",
-		Position: rl.Vector2{X: 1000, Y: 620},
+		Position: rl.Vector2{X: 3151, Y: 6900},
+
+		MonsterSrc: rl.NewRectangle(10, 10, 50, 50),
+		MonsterDest: rl.NewRectangle(0, 0, 0, 0),
+
 		Health:   40,
 		Damage:   1,
 		Loot:     []item.Item{},
 		Worth:    50,
 
 		IsAlive: true,
-		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+		Sprite:  rl.LoadTexture("textures/entities/boss/animation/Gryphon.png"),
 	})
 	e.Monsters[len(e.Monsters)-1].Loot = append(e.Monsters[len(e.Monsters)-1].Loot, item.Item{
 		Name:         "Biscuit",
@@ -238,14 +243,18 @@ func (e *Engine) InitMonsters() {
 		Sprite:       rl.LoadTexture("textures/items/itemschelou.png")})
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "Crabe",
-		Position: rl.Vector2{X: -100, Y: 620},
+		Position: rl.Vector2{X: 7543, Y: 3870},
+
+		MonsterSrc: rl.NewRectangle(10, 10, 50, 50),
+		MonsterDest: rl.NewRectangle(0, 0, 0, 0),
+
 		Health:   60,
 		Damage:   1,
 		Loot:     []item.Item{},
 		Worth:    75,
 
 		IsAlive: true,
-		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+		Sprite:  rl.LoadTexture("textures/entities/boss/animation/Crabe"),
 	})
 	e.Monsters[len(e.Monsters)-1].Loot = append(e.Monsters[len(e.Monsters)-1].Loot, item.Item{
 		Name:         "Biscuit",
@@ -255,14 +264,18 @@ func (e *Engine) InitMonsters() {
 		Sprite:       rl.LoadTexture("textures/items/itemschelou.png")})
 	e.Monsters = append(e.Monsters, entity.Monster{
 		Name:     "Dragon",
-		Position: rl.Vector2{X: -100, Y: -20},
+		Position: rl.Vector2{X: 7634, Y: 7053},
+
+		MonsterSrc: rl.NewRectangle(10, 10, 50, 50),
+		MonsterDest: rl.NewRectangle(0, 0, 0, 0),
+
 		Health:   80,
 		Damage:   25,
 		Loot:     []item.Item{},
 		Worth:    100,
 
 		IsAlive: true,
-		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+		Sprite:  rl.LoadTexture("textures/entities/boss/animation/dragon.png"),
 	})
 	e.Monsters[len(e.Monsters)-1].Loot = append(e.Monsters[len(e.Monsters)-1].Loot, item.Item{
 		Name:         "Biscuit",
