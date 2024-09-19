@@ -24,7 +24,20 @@ func (e *Engine) InGameRendering() {
 	rl.BeginMode2D(e.Camera)
 	e.RenderMap()
 	e.RenderMobs()
+
+	e.RenderPlayer()
+	e.RenderWolf()
+	rl.EndMode2D()
+	
+	rl.DrawText("Playing", int32(rl.GetScreenWidth())/2-rl.MeasureText("Playing", 40)/2, int32(rl.GetScreenHeight())/2-350, 40, rl.RayWhite)
+	rl.DrawText("[Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[P] or [Esc] to Pause", 20)/2, int32(rl.GetScreenHeight())/2-300, 20, rl.RayWhite)
+	rl.DrawText("[Q]/[A] to Quit", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Esc] to Quit", 20)/2, int32(rl.GetScreenHeight())/2+100, 20, rl.RayWhite)
+	
+	e.RenderHealthBar()
+	e.RenderEnduranceBar()
+
 	e.RenderTower()
+
 	e.UpdateAnimation()
 	e.RenderSeller()
 	e.RenderMonsters()
@@ -33,9 +46,13 @@ func (e *Engine) InGameRendering() {
 	e.RenderShieldBar()
 	e.UpdateAndRenderEndurance()
 	e.UpdateAndRenderShield()
+
+	e.RenderSeller()
+
 	e.RenderPlayer()
 	rl.EndMode2D()
 	rl.DrawText("[Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Esc] to Pause", 20)/2, int32(rl.GetScreenHeight())/2-300, 20, rl.RayWhite)
+
 }
 
 func(e *Engine) InventoryRendering() {
@@ -70,6 +87,21 @@ func(e *Engine) SellerRendering() {
 }
 
 
+
+
+func (e *Engine) InFightRendering() {
+	rl.ClearBackground(rl.Gray)
+
+	e.RenderHealthBar()
+	e.RenderMobs()
+	e.RenderTower()
+	e.RenderSeller()
+	e.RenderShoot()
+	rl.EndMode2D()
+	rl.DrawText("Playing", int32(rl.GetScreenWidth())/2-rl.MeasureText("Playing", 40)/2, int32(rl.GetScreenHeight())/2-350, 40, rl.RayWhite)
+	rl.DrawText("[Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[P] or [Esc] to Pause", 20)/2, int32(rl.GetScreenHeight())/2-300, 20, rl.RayWhite)
+}
+
 func (e *Engine) RenderPlayer(){
 	rl.BeginMode2D(e.Camera)
 	//rl.DrawTexturePro(e.Player.Sprite, e.Player.PlayerSrc, e.Player.PlayerDest, rl.Vector2{X: 0, Y:0}, 0, rl.White)
@@ -98,17 +130,17 @@ func (e *Engine) RenderShoot() {
 	}
 	
 }
-func (e *Engine) RenderMonsters() {
-	for _, monster := range e.Monsters {
+func (e *Engine) RenderWolf() {
+	rl.BeginMode2D(e.Camera)
 		rl.DrawTexturePro(
-			monster.Sprite,
-			rl.NewRectangle(0, 0, 100, 100),
-			rl.NewRectangle(monster.Position.X, monster.Position.Y, 150, 150),
-			rl.Vector2{X: 0, Y: 0},
+			e.Monsters[0].Sprite,
+			e.Monsters[0].MonsterSrc,
+			rl.NewRectangle(e.Monsters[0].Position.X, e.Monsters[0].Position.Y, 100, 100),
+			rl.NewVector2(e.Monsters[0].MonsterDest.Width, e.Monsters[0].MonsterDest.Height),
 			0,
 			rl.White,
 		)
-	}
+	rl.EndMode2D()
 }
 func (e *Engine) RenderMobs() {
 	for _, mobs := range e.Mobs {
@@ -232,7 +264,6 @@ func (e *Engine) GameOverRendering() {
 }
 
 func (e *Engine) RenderHealthBar() {
-
     screenHeight := int32(rl.GetScreenHeight())
     barWidth := int32(250)  
     barHeight := int32(20)  

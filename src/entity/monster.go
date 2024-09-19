@@ -11,6 +11,10 @@ type Monster struct {
 	Name     string
 	Position rl.Vector2
 	Health   int
+	MonsterSrc rl.Rectangle
+	MonsterDest rl.Rectangle
+	MonsterFrame int
+	FrameCount int
 	Damage   int
 	Loot     []item.Item
 	Worth    int //valeur en argent quand tué
