@@ -202,7 +202,7 @@ func (e *Engine) InitMonsters() {
 		MonsterSrc: rl.NewRectangle(0, 0, 120, 120),
 		MonsterDest: rl.NewRectangle(0, 0, -20, -20),
 		IsAlive: true,
-		Sprite: rl.LoadTexture("textures/entities/boss/animation/LoupD.png"),
+		Sprite: rl.LoadTexture("textures/entities/boss/animation/loup.png"),
 	})
 	e.Monsters[len(e.Monsters)-1].Loot = append(e.Monsters[len(e.Monsters)-1].Loot, item.Item{
 		Name:         "Biscuit",
