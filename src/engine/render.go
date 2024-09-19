@@ -40,7 +40,6 @@ func (e *Engine) InGameRendering() {
 
 	e.UpdateAnimation()
 	e.RenderSeller()
-	e.RenderMonsters()
 	e.RenderEnduranceBar()
 	e.RenderHealthBar()
 	e.RenderShieldBar()
