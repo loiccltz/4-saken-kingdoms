@@ -302,26 +302,70 @@ func (e *Engine) TowerCollisions() {
 }
 
 func (e *Engine) MobsCollisions() {
-	for i := range e.Mobs {
-		if e.Mobs[i].IsAlive {
-			if e.Mobs[i].Position.X > e.Player.Position.X-20 &&
-				e.Mobs[i].Position.X < e.Player.Position.X+20 &&
-				e.Mobs[i].Position.Y > e.Player.Position.Y-20 &&
-				e.Mobs[i].Position.Y < e.Player.Position.Y+20 {
-				fmt.Println(e.Mobs[i].Health)
-				if e.Mobs[i].IsAlive == true && e.Player.IsAlive {
-					e.NormalTalkMobs(e.Mobs[i], "Bonjour")
-					//if time.Since(e.Mobs[i].LastAttackTime) < e.Mobs[i].CoolDown {
-					fight.MobsVsPlayer(&e.Player, &e.Mobs[i])
-					//e.Mobs[i].LastAttackTime = time.Now()
-				}
-				if rl.IsKeyPressed(rl.KeyE) {
-					fight.PlayerVsMobs(&e.Player, &e.Mobs[i])
-					fmt.Println(e.Player.Health)
-				}
-			}
-		}
-	}
+
+    e.Player.UpdateEndurance()
+
+    for i := range e.Mobs {
+        if e.Mobs[i].IsAlive {
+            if e.Mobs[i].Position.X > e.Player.Position.X-20 &&
+                e.Mobs[i].Position.X < e.Player.Position.X+20 &&
+                e.Mobs[i].Position.Y > e.Player.Position.Y-20 &&
+                e.Mobs[i].Position.Y < e.Player.Position.Y+20 {
+
+                fmt.Println(e.Mobs[i].Health)
+
+                if e.Player.IsAlive {
+
+                    e.ApplyDamageToPlayer(e.Mobs[i].Damage)
+
+
+                    if rl.IsKeyPressed(rl.KeyEnter) {
+                        if e.Player.Endurance >= e.Player.MaxEndurance {
+
+                            fight.PlayerVsMobs(&e.Player, &e.Mobs[i])
+
+                            e.Player.Endurance = 0
+                            fmt.Println(e.Player.Health)
+                        } else {
+                            fmt.Println("Endurance insuffisante pour attaquer")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    for i, monster := range e.Monsters {
+        if monster.IsAlive {
+            if e.Player.Position.X > monster.Position.X-20 &&
+                e.Player.Position.X < monster.Position.X+20 &&
+                e.Player.Position.Y > monster.Position.Y-20 &&
+                e.Player.Position.Y < monster.Position.Y+20 {
+
+                fmt.Println(monster.Health)
+
+                if e.Player.IsAlive {
+
+                    e.ApplyDamageToPlayer(monster.Damage)
+
+
+                    if rl.IsKeyPressed(rl.KeyEnter) {
+                        if e.Player.Endurance >= e.Player.MaxEndurance {
+                            fight.PlayerVsMonster(&e.Player, &e.Monsters[i])
+                            e.Player.Endurance = 0
+                            fmt.Println(e.Player.Health)
+                        } else {
+                            fmt.Println("Endurance insuffisante pour attaquer")
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
 }
 
 /*
@@ -368,17 +412,18 @@ func (e *Engine) MobsCollisions() {
 	}
 */
 func (e *Engine) ShootCollisions() {
-	for _, shoot := range e.Shoot {
-		if shoot.Position.X > e.Player.Position.X-10 &&
-			shoot.Position.X < e.Player.Position.X+10 &&
-			shoot.Position.Y > e.Player.Position.Y-10 &&
-			shoot.Position.Y < e.Player.Position.Y+10 {
-			if shoot.IsShooting == true && e.Player.Health > 0 {
-				shoot.AttackOfShoot(&e.Player)
-			}
-		}
-	}
+    for _, shoot := range e.Shoot {
+        if shoot.Position.X > e.Player.Position.X-10 &&
+            shoot.Position.X < e.Player.Position.X+10 &&
+            shoot.Position.Y > e.Player.Position.Y-10 &&
+            shoot.Position.Y < e.Player.Position.Y+10 {
+            if shoot.IsShooting && e.Player.IsAlive {
+                e.ApplyDamageToPlayer(shoot.Damage)
+            }
+        }
+    }
 }
+
 
 func (e *Engine) NormalTalk(m entity.Monster, sentence string) {
 	e.RenderDialog(m, sentence)
