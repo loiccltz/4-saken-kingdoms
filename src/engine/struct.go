@@ -39,6 +39,7 @@ type Engine struct {
 	Shop     building.Shop
 	Shoot    []entity.Shoot
 	Maps     []fight.Fight2
+	selectedIndex int 
 
 	Objects  []Object
 
