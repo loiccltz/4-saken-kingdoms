@@ -77,8 +77,8 @@ func (e *Engine) InitBuilding() {
 }
 func (e *Engine) InitEntities() {
 	e.Player = entity.Player{
-		Position:              rl.Vector2{X: 4430, Y: 6720},
-		Health:                10000,
+		Position:              rl.Vector2{X: 3152, Y: 7026},
+		Health:                100,
 		PlayerSrc: rl.NewRectangle(0, 0, 32, 32),
 		PlayerDest: rl.NewRectangle(0, 0, -20, -10,),
 		MaxHealth:             100,
@@ -193,15 +193,16 @@ func (e *Engine) InitMobs() {
 
 func (e *Engine) InitMonsters() {
 	e.Monsters = append(e.Monsters, entity.Monster{
-		Name:     "lvl 1",
-		Position: rl.Vector2{X: 4450, Y: 6900},
+		Name:     "Loup",
+		Position: rl.Vector2{X: 3151, Y: 7026},
 		Health:   20,
 		Damage:   1,
 		Loot:     []item.Item{},
 		Worth:    25,
-
+		MonsterSrc: rl.NewRectangle(0, 0, 120, 120),
+		MonsterDest: rl.NewRectangle(0, 0, -20, -20),
 		IsAlive: true,
-		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+		Sprite: rl.LoadTexture("textures/entities/boss/animation/LoupD.png"),
 	})
 	e.Monsters[len(e.Monsters)-1].Loot = append(e.Monsters[len(e.Monsters)-1].Loot, item.Item{
 		Name:         "Biscuit",
@@ -211,7 +212,9 @@ func (e *Engine) InitMonsters() {
 		Sprite:       rl.LoadTexture("textures/items/itemschelou.png")})
 
 	e.Monsters = append(e.Monsters, entity.Monster{
-		Name:     "lvl 2",
+		// taille 119x119
+		// il faut des tailles paires
+		Name:     "Griffon",
 		Position: rl.Vector2{X: 1000, Y: 620},
 		Health:   40,
 		Damage:   1,
@@ -228,7 +231,7 @@ func (e *Engine) InitMonsters() {
 		IsEquippable: false,
 		Sprite:       rl.LoadTexture("textures/items/itemschelou.png")})
 	e.Monsters = append(e.Monsters, entity.Monster{
-		Name:     "lvl 3",
+		Name:     "Crabe",
 		Position: rl.Vector2{X: -100, Y: 620},
 		Health:   60,
 		Damage:   1,
@@ -245,7 +248,7 @@ func (e *Engine) InitMonsters() {
 		IsEquippable: false,
 		Sprite:       rl.LoadTexture("textures/items/itemschelou.png")})
 	e.Monsters = append(e.Monsters, entity.Monster{
-		Name:     "lvl 4",
+		Name:     "Dragon",
 		Position: rl.Vector2{X: -100, Y: -20},
 		Health:   80,
 		Damage:   25,
