@@ -6,6 +6,7 @@ import (
 	"main/src/entity"
 	"main/src/fight"
 	"math/rand"
+
 	//"time"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -29,29 +30,6 @@ func (e *Engine) HomeLogic() {
 	}
 	if rl.IsKeyPressed(rl.KeyEscape) {
 		e.IsRunning = false
-	}
-}
-
-func (e *Engine) GameOverLogic() {
-	if e.Player.Health <= 0 {
-		if !rl.IsMusicStreamPlaying(e.Music) {
-			e.Music = rl.LoadMusicStream("sounds/music/OSC-Ambient-Time-08-Egress.mp3")
-			rl.PlayMusicStream(e.Music)
-		}
-		rl.UpdateMusicStream(e.Music)
-
-		//Menus
-		if rl.IsKeyPressed(rl.KeyEnter) {
-			e.Player.IsAlive = true
-			e.Player.Health = e.Player.MaxHealth
-			e.StateMenu = PLAY
-			e.StateEngine = INGAME
-			rl.StopMusicStream(e.Music)
-
-		}
-		if rl.IsKeyPressed(rl.KeyEscape) {
-			e.IsRunning = false
-		}
 	}
 }
 
@@ -110,75 +88,97 @@ func (e *Engine) InGameLogic() {
 	}
 	for i := range e.Mobs {
 		if e.Mobs[i].Health <= 0 {
-		e.Mobs[i].IsAlive = false
-	}
-
-	e.FightCollisions()
-
-	if rl.IsKeyPressed(rl.KeyJ) || rl.IsKeyPressed(rl.KeyK) || rl.IsKeyPressed(rl.KeyL) || rl.IsKeyPressed(rl.KeyM) {
-		e.StateFight = FIGHT
-		e.StateEngine = INFIGHT
-		rl.StopMusicStream(e.Music)
-
-	}
-
-	if rl.IsKeyPressed(rl.KeyEscape) {
-		e.IsRunning = false
-	}
-}
-}
-func (e *Engine) ShootLogic() {
-	if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
-		e.Player.Position.Y -= e.Player.Speed
-	}
-	if rl.IsKeyDown(rl.KeyS) || rl.IsKeyDown(rl.KeyDown) {
-		e.Player.Position.Y += e.Player.Speed
-	}
-	if rl.IsKeyDown(rl.KeyA) || rl.IsKeyDown(rl.KeyLeft) {
-		e.Player.Position.X -= e.Player.Speed
-	}
-	if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
-		e.Player.Position.X += e.Player.Speed
-	}
-
-	// Camera
-	e.Camera.Target = rl.Vector2{X: e.Player.Position.X + 70, Y: e.Player.Position.Y + 70}
-	e.Camera.Offset = rl.Vector2{X: ScreenWidth / 2, Y: ScreenHeight / 2}
-
-	// Menus
-	if rl.IsKeyPressed(rl.KeyEscape) {
-		e.StateEngine = PAUSE
-	}
-	e.CheckCollisions()
-
-	//Musique
-	if !rl.IsMusicStreamPlaying(e.Music) {
-		e.Music = rl.LoadMusicStream("sounds/music/OSC-Ambient-Time-07-Simon_s-In-There-Somewhere.mp3")
-		rl.PlayMusicStream(e.Music)
-	}
-	rl.UpdateMusicStream(e.Music)
-
-	if e.Player.Health <= 0 {
-		e.Player.IsAlive = false
-		e.Player.Money /= 2
-		e.StateEngine = GAMEOVER
-	}
-
-	e.FightCollisions()
-	for i := range e.Monsters {
-		if e.Monsters[i].Health <= 0 {
-		e.Monsters[i].IsAlive = false
-		e.StateEngine = INGAME
-	}}
-
-	for {
-		if rand.Intn(100) < 10 {
-			e.CreateShoot()
+			e.Mobs[i].IsAlive = false
 		}
-		e.MoveShoot()
-		e.UpdateShoot()
-		e.ShootCollision()
-	}}
+
+		e.FightCollisions()
+		posX := e.Player.Position.X
+		posY := e.Player.Position.Y
+		if posX == 356 && posY == 200 {
+			for e.Monsters[0].Health > 0 {
+				if rand.Intn(100) < 10 {
+					e.CreateShoot()
+				}
+				e.MoveShoot()
+				e.UpdateShoot()
+				e.ShootCollision()
+			}
+			if e.Monsters[0].Health <= 0 {
+				posX =3
+				posY =3
+				break
+			}
+		}
+		if posX == 356 && posY == 200 {
+			for e.Monsters[1].Health > 0 {
+				if rand.Intn(100) < 10 {
+					e.CreateShoot()
+				}
+				e.MoveShoot()
+				e.UpdateShoot()
+				e.ShootCollision()
+			}
+			if e.Monsters[1].Health <= 0 {
+				posX =3
+				posY =3
+				break
+			}
+		}
+		if posX == 356 && posY == 200 {
+			for e.Monsters[2].Health > 0 {
+				if rand.Intn(100) < 10 {
+					e.CreateShoot()
+				}
+				e.MoveShoot()
+				e.UpdateShoot()
+				e.ShootCollision()
+			}
+			if e.Monsters[2].Health <= 0 {
+				posX =3
+				posY =3
+				break
+			}
+		}
+		if posX == 356 && posY == 200 {
+			for e.Monsters[3].Health > 0 {
+				if rand.Intn(100) < 10 {
+					e.CreateShoot()
+				}
+				e.MoveShoot()
+				e.UpdateShoot()
+				e.ShootCollision()
+			}
+			if e.Monsters[3].Health <= 0 {
+				posX =3
+				posY =3
+				break
+			}
+		}
+	}
+}
+func (e *Engine) GameOverLogic() {
+	if e.Player.Health <= 0 {
+		if !rl.IsMusicStreamPlaying(e.Music) {
+			e.Music = rl.LoadMusicStream("sounds/music/OSC-Ambient-Time-08-Egress.mp3")
+			rl.PlayMusicStream(e.Music)
+		}
+		rl.UpdateMusicStream(e.Music)
+
+		//Menus
+		if rl.IsKeyPressed(rl.KeyEnter) {
+			e.Player.IsAlive = true
+			e.Player.Health = e.Player.MaxHealth
+			e.StateMenu = PLAY
+			e.StateEngine = INGAME
+			rl.StopMusicStream(e.Music)
+
+		}
+		if rl.IsKeyPressed(rl.KeyEscape) {
+			e.IsRunning = false
+		}
+	}
+}
+
 func (e *Engine) InventoryLogic() {
 	if rl.IsKeyPressed(rl.KeyI) {
 		e.StateEngine = INGAME
@@ -210,7 +210,6 @@ func (e *Engine) CheckCollisionsWithObjects() bool {
 	return false
 }
 
-
 func (e *Engine) CheckCollisions() {
 	// fmt.Println(e.Player.Position.X)
 	// fmt.Println(e.Player.Position.Y)
@@ -223,21 +222,21 @@ func (e *Engine) CheckCollisions() {
 	e.CheckCollisionsWithObjects()
 	e.BlockCollisions()
 }
-func (e *Engine) BlockCollisions(){
-    if e.CheckCollisionsWithObjects(){
-        if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
-            e.Player.Position.Y += e.Player.Speed
-        }
-        if rl.IsKeyDown(rl.KeyS) || rl.IsKeyDown(rl.KeyDown) {
-            e.Player.Position.Y -= e.Player.Speed
-        }
-        if rl.IsKeyDown(rl.KeyA) || rl.IsKeyDown(rl.KeyLeft) {
-            e.Player.Position.X += e.Player.Speed
-        }
-        if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
-            e.Player.Position.X -= e.Player.Speed
-        }
-    }
+func (e *Engine) BlockCollisions() {
+	if e.CheckCollisionsWithObjects() {
+		if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
+			e.Player.Position.Y += e.Player.Speed
+		}
+		if rl.IsKeyDown(rl.KeyS) || rl.IsKeyDown(rl.KeyDown) {
+			e.Player.Position.Y -= e.Player.Speed
+		}
+		if rl.IsKeyDown(rl.KeyA) || rl.IsKeyDown(rl.KeyLeft) {
+			e.Player.Position.X += e.Player.Speed
+		}
+		if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
+			e.Player.Position.X -= e.Player.Speed
+		}
+	}
 }
 func (e *Engine) FightCollisions() {
 	e.UpdateShoot()
@@ -245,22 +244,28 @@ func (e *Engine) FightCollisions() {
 	e.UpdateShoot()
 	//e.SpellCollision()
 }
-//GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
+
+// GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
 func (e *Engine) SellerCollisions() {
 	if e.Seller.Position.X > e.Player.Position.X-20 &&
 		e.Seller.Position.X < e.Player.Position.X+20 &&
 		e.Seller.Position.Y > e.Player.Position.Y-20 &&
 		e.Seller.Position.Y < e.Player.Position.Y+20 {
 		if e.Seller.Name == "Robin" {
-			e.NormalExplanationShop(e.Shop, "We have all do you want to rescue the princess, press n to enter")
-			if rl.IsKeyPressed(rl.KeyN) {
-				e.Player.Position.X = 100
-				e.Player.Position.Y = 700
-			}
+			e.NormalExplanationShop(e.Seller, "We have all do you want to rescue the princess, press R to enter")
 		}
 	}
 }
-
+func (e *Engine) PnjCollisions() {
+	if e.Pnj.Position.X > e.Player.Position.X-20 &&
+		e.Pnj.Position.X < e.Player.Position.X+20 &&
+		e.Pnj.Position.Y > e.Player.Position.Y-20 &&
+		e.Pnj.Position.Y < e.Player.Position.Y+20 {
+		if e.Pnj.Name == "Jack" {
+			e.NormalExplanationPnj(e.Pnj, "We have all do you want to rescue the princess, press R to enter")
+		}
+	}
+}
 func (e *Engine) TowerCollisions() {
 	for _, tower := range e.Tower {
 		if tower.Position.X > e.Player.Position.X-20 &&
@@ -307,33 +312,18 @@ func (e *Engine) MobsCollisions() {
 				if e.Mobs[i].IsAlive == true && e.Player.IsAlive {
 					e.NormalTalkMobs(e.Mobs[i], "Bonjour")
 					//if time.Since(e.Mobs[i].LastAttackTime) < e.Mobs[i].CoolDown {
-						fight.MobsVsPlayer(&e.Player, &e.Mobs[i])
-						//e.Mobs[i].LastAttackTime = time.Now()
-					}
-					if rl.IsKeyPressed(rl.KeyE) {
-						fight.PlayerVsMobs(&e.Player, &e.Mobs[i])
-						fmt.Println(e.Player.Health)
-					}
+					fight.MobsVsPlayer(&e.Player, &e.Mobs[i])
+					//e.Mobs[i].LastAttackTime = time.Now()
+				}
+				if rl.IsKeyPressed(rl.KeyE) {
+					fight.PlayerVsMobs(&e.Player, &e.Mobs[i])
+					fmt.Println(e.Player.Health)
 				}
 			}
 		}
 	}
-
-func (e *Engine) KillMobs(mobs *entity.Mobs) {
-    // Libérer la texture du monstre
-    rl.UnloadTexture(mobs.Sprite)
-
-    // Optionnel : supprimer le monstre de la liste
-    for i := len(e.Mobs) - 1; i >= 0; i-- {
-        m := &e.Mobs[i] // Utiliser un pointeur ici
-
-        // Comparer les valeurs plutôt que les pointeurs
-        if m.Name == mobs.Name && m.Position == mobs.Position {
-            e.Mobs = append(e.Mobs[:i], e.Mobs[i+1:]...) // Supprimer le monstre
-            break
-        }
-    }
 }
+
 /*
 	func (e *Engine) MonsterCollisions() {
 		for i, monster := range e.Monsters {
@@ -400,25 +390,24 @@ func (e *Engine) NormalExplanation(m building.Tower, sentence string) {
 	e.RenderExplanation(m, sentence)
 }
 
-func (e *Engine) NormalExplanationShop(m building.Shop, sentence string) {
+func (e *Engine) NormalExplanationShop(m entity.Seller, sentence string) {
 	e.RenderExplanationShop(m, sentence)
-}/*
+}
+func (e *Engine) NormalExplanationPnj(m entity.Pnj, sentence string) {
+	e.RenderExplanationPnj(m, sentence)
+}
+/*
 func (e *Engine) ComeBackLogic() {
 	if rl.IsKeyPressed(rl.KeySpace) {
 		e.StateEngine = INGAME
 	}
 }*/
-func (e *Engine) AutoAttack() {
-	if rl.IsKeyPressed(rl.KeyE) {
-		e.StateEngine = INFIGHT
-	}
-}
 
 func (e *Engine) PauseLogic() {
-	if rl.IsKeyPressed(rl.KeyEscape) {
+	if rl.IsKeyPressed(rl.KeyR) {
 		e.StateEngine = INGAME
 	}
-	if rl.IsKeyPressed(rl.KeyF) {
+	if rl.IsKeyPressed(rl.KeyEscape) {
 		e.StateMenu = HOME
 		rl.StopMusicStream(e.Music)
 	}

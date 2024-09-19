@@ -23,8 +23,8 @@ func (e *Engine) InGameRendering() {
 	rl.ClearBackground(rl.Gray)
 	rl.BeginMode2D(e.Camera)
 	e.RenderMap()
-	e.RenderTower()
 	e.RenderMobs()
+
 	e.RenderPlayer()
 	e.RenderWolf()
 	rl.EndMode2D()
@@ -35,11 +35,24 @@ func (e *Engine) InGameRendering() {
 	
 	e.RenderHealthBar()
 	e.RenderEnduranceBar()
+
+	e.RenderTower()
+
 	e.UpdateAnimation()
+	e.RenderSeller()
+	e.RenderMonsters()
+	e.RenderEnduranceBar()
+	e.RenderHealthBar()
 	e.RenderShieldBar()
 	e.UpdateAndRenderEndurance()
 	e.UpdateAndRenderShield()
+
 	e.RenderSeller()
+
+	e.RenderPlayer()
+	rl.EndMode2D()
+	rl.DrawText("[Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Esc] to Pause", 20)/2, int32(rl.GetScreenHeight())/2-300, 20, rl.RayWhite)
+
 }
 
 func(e *Engine) InventoryRendering() {
@@ -54,28 +67,25 @@ func(e *Engine) InventoryRendering() {
 	
 }
 
-
-
 func (e *Engine) PauseRendering() {
-	rl.ClearBackground(rl.Gray)
-
-	rl.DrawText("Resume", int32(rl.GetScreenWidth())/2-rl.MeasureText("Resume", 40)/2, int32(rl.GetScreenHeight())/2-150, 40, rl.RayWhite)
-	rl.DrawText("[Esc] to resume", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Esc] to resume", 20)/2, int32(rl.GetScreenHeight())/2, 20, rl.Beige)
-	rl.DrawText("[Q] to Quit", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Esc] to Quit", 20)/2, int32(rl.GetScreenHeight())/2+100, 20, rl.Beige)
-
+	
+	image := rl.LoadImage("4SKPAUSEMENU.png")
+    texture := rl.LoadTextureFromImage(image)
+	rl.DrawTexture(texture, 0, 0, rl.White)
 }
 
 func(e *Engine) SellerRendering() {
 	rl.ClearBackground(rl.Beige)
 
 	rl.DrawText("MenuSeller", int32(rl.GetScreenWidth())/2-rl.MeasureText("MesnuSeller", 40)/2, int32(rl.GetScreenHeight())/2-150, 40, rl.RayWhite)
-	rl.DrawText("[M] to resume", int32(rl.GetScreenWidth())/2-rl.MeasureText("[M] to resume", 20)/2, int32(rl.GetScreenHeight())/2, 20, rl.White)
+	rl.DrawText("[R] to resume", int32(rl.GetScreenWidth())/2-rl.MeasureText("[R] to resume", 20)/2, int32(rl.GetScreenHeight())/2, 20, rl.White)
 	
 	rl.DrawText("ITEM 1", int32(rl.GetScreenWidth())/2-rl.MeasureText("ITEM 1", 20)/2, int32(rl.GetScreenHeight())/2+200, 20, rl.Black)
 	rl.DrawText("ITEM 2", int32(rl.GetScreenWidth())/2-rl.MeasureText("ITEM 2", 20)/2, int32(rl.GetScreenHeight())/2+250, 20, rl.Black)
 	rl.DrawText("ITEM 3", int32(rl.GetScreenWidth())/2-rl.MeasureText("ITEM 3", 20)/2, int32(rl.GetScreenHeight())/2+300, 20, rl.Black)
 	
 }
+
 
 
 
@@ -207,7 +217,18 @@ func (e *Engine) RenderExplanation(m building.Tower, sentence string) {
 
 
 
-func (e *Engine) RenderExplanationShop(m building.Shop, sentence string) {
+func (e *Engine) RenderExplanationShop(m entity.Seller, sentence string) {
+	rl.BeginMode2D(e.Camera)
+	rl.DrawText(
+		sentence,
+		int32(m.Position.X),
+		int32(m.Position.Y)+50,
+		10,
+		rl.RayWhite,
+	)
+	rl.EndMode2D()
+}
+func (e *Engine) RenderExplanationPnj(m entity.Pnj, sentence string) {
 	rl.BeginMode2D(e.Camera)
 	rl.DrawText(
 		sentence,

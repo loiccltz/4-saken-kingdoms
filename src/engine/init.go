@@ -40,13 +40,10 @@ func (e *Engine) Init() {
 	e.InitMap("textures/map/tilesets/map.json")
 
 }
-
+func (e *Engine) InitPauseRendering() {
+	rl.InitWindow(ScreenWidth, ScreenHeight, "4SKPAUSEMENU.png")
+}
 func (e *Engine) InitBuilding() {
-	e.Shop = building.Shop{
-		Name:     "Sharp Sword",
-		Position: rl.Vector2{X: -100, Y: -20},
-		Sprite:   rl.LoadTexture("textures/items/itemschelou.png"),
-	}
 	e.Tower = append(e.Tower, building.Tower{
 		Name:     "Royaume de Ran",
 		Position: rl.Vector2{X: 3943, Y: 4890},
@@ -77,10 +74,13 @@ func (e *Engine) InitBuilding() {
 }
 func (e *Engine) InitEntities() {
 	e.Player = entity.Player{
+
 		Position:              rl.Vector2{X: 3152, Y: 7026},
 		Health:                100,
 		PlayerSrc: rl.NewRectangle(0, 0, 32, 32),
 		PlayerDest: rl.NewRectangle(0, 0, -20, -10,),
+
+    
 		MaxHealth:             100,
 		Shield:                10,
 		MaxShield:             100,
@@ -99,10 +99,16 @@ func (e *Engine) InitEntities() {
 	//fmt.Println(e.Player.Position.X)
 	//fmt.Println(e.Player.Position.Y)
 	e.Seller = entity.Seller{
-		Name:	   "Robin",
+		Name:      "Robin",
 		Position:  rl.Vector2{X: 4400, Y: 6700},
 		Money:     500,
 		Inventory: []item.Item{},
+		IsAlive:   true,
+		Sprite:    rl.LoadTexture("textures/towers/TXStruct.png"),
+	}
+	e.Pnj = entity.Pnj{
+		Name:      "Jack",
+		Position:  rl.Vector2{X: 4400, Y: 6700},
 		IsAlive:   true,
 		Sprite:    rl.LoadTexture("textures/towers/TXStruct.png"),
 	}
