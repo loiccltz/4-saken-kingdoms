@@ -210,6 +210,7 @@ func (e *Engine) CheckCollisionsWithObjects() bool {
 	return false
 }
 
+
 func (e *Engine) CheckCollisions() {
 	// fmt.Println(e.Player.Position.X)
 	// fmt.Println(e.Player.Position.Y)

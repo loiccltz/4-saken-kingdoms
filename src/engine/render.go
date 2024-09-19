@@ -18,6 +18,30 @@ func (e *Engine) HomeRendering() {
 	rl.DrawTexture(texture, 0, 0, rl.White)
 	
 }
+
+func (e *Engine) InGameRendering() {
+	rl.ClearBackground(rl.Gray)
+	rl.BeginMode2D(e.Camera)
+	e.RenderMap()
+	e.RenderTower()
+	e.RenderMobs()
+	e.RenderPlayer()
+	rl.EndMode2D()
+	
+	rl.DrawText("Playing", int32(rl.GetScreenWidth())/2-rl.MeasureText("Playing", 40)/2, int32(rl.GetScreenHeight())/2-350, 40, rl.RayWhite)
+	rl.DrawText("[Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[P] or [Esc] to Pause", 20)/2, int32(rl.GetScreenHeight())/2-300, 20, rl.RayWhite)
+	rl.DrawText("[Q]/[A] to Quit", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Esc] to Quit", 20)/2, int32(rl.GetScreenHeight())/2+100, 20, rl.RayWhite)
+	
+	e.RenderHealthBar()
+	e.RenderEnduranceBar()
+	e.UpdateAnimation()
+	e.RenderShieldBar()
+	e.UpdateAndRenderEndurance()
+	e.UpdateAndRenderShield()
+	e.RenderSeller()
+	e.RenderMonsters()
+}
+
 func(e *Engine) InventoryRendering() {
 	rl.ClearBackground(rl.Black)
 
@@ -30,6 +54,8 @@ func(e *Engine) InventoryRendering() {
 	
 }
 
+
+
 func (e *Engine) PauseRendering() {
 	rl.ClearBackground(rl.Gray)
 
@@ -40,10 +66,10 @@ func (e *Engine) PauseRendering() {
 }
 
 func(e *Engine) SellerRendering() {
-	rl.ClearBackground(rl.White)
+	rl.ClearBackground(rl.Beige)
 
 	rl.DrawText("MenuSeller", int32(rl.GetScreenWidth())/2-rl.MeasureText("MesnuSeller", 40)/2, int32(rl.GetScreenHeight())/2-150, 40, rl.RayWhite)
-	rl.DrawText("[M] to resume", int32(rl.GetScreenWidth())/2-rl.MeasureText("[M] to resume", 20)/2, int32(rl.GetScreenHeight())/2, 20, rl.Beige)
+	rl.DrawText("[M] to resume", int32(rl.GetScreenWidth())/2-rl.MeasureText("[M] to resume", 20)/2, int32(rl.GetScreenHeight())/2, 20, rl.White)
 	
 	rl.DrawText("ITEM 1", int32(rl.GetScreenWidth())/2-rl.MeasureText("ITEM 1", 20)/2, int32(rl.GetScreenHeight())/2+200, 20, rl.Black)
 	rl.DrawText("ITEM 2", int32(rl.GetScreenWidth())/2-rl.MeasureText("ITEM 2", 20)/2, int32(rl.GetScreenHeight())/2+250, 20, rl.Black)
@@ -51,48 +77,24 @@ func(e *Engine) SellerRendering() {
 	
 }
 
-func (e *Engine) InGameRendering() {
-	rl.ClearBackground(rl.Gray)
-	rl.BeginMode2D(e.Camera)
-	e.RenderMap()
-	e.RenderMobs()
-	e.RenderTower()
-	e.UpdateAnimation()
-	e.RenderSeller()
-	e.RenderMonsters()
-	e.RenderEnduranceBar()
-	e.RenderHealthBar()
-	e.RenderShieldBar()
-	e.UpdateAndRenderEndurance()
-	e.UpdateAndRenderShield()
-	e.RenderPlayer()
-	rl.EndMode2D()
-	rl.DrawText("Playing", int32(rl.GetScreenWidth())/2-rl.MeasureText("Playing", 40)/2, int32(rl.GetScreenHeight())/2-350, 40, rl.RayWhite)
-	rl.DrawText("[Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[P] or [Esc] to Pause", 20)/2, int32(rl.GetScreenHeight())/2-300, 20, rl.RayWhite)
-	rl.DrawText("[Q]/[A] to Quit", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Esc] to Quit", 20)/2, int32(rl.GetScreenHeight())/2+100, 20, rl.RayWhite)
-}
+
 
 func (e *Engine) InFightRendering() {
 	rl.ClearBackground(rl.Gray)
-	rl.BeginMode2D(e.Camera)
-	e.RenderMap()
+
+	e.RenderHealthBar()
 	e.RenderMobs()
 	e.RenderTower()
 	e.RenderSeller()
 	e.RenderMonsters()
-	e.RenderEnduranceBar()
-	e.RenderHealthBar()
-	e.RenderShieldBar()
 	e.RenderShoot()
-	e.UpdateAndRenderEndurance()
-	e.UpdateAndRenderShield()
-	e.RenderPlayer()
 	rl.EndMode2D()
 	rl.DrawText("Playing", int32(rl.GetScreenWidth())/2-rl.MeasureText("Playing", 40)/2, int32(rl.GetScreenHeight())/2-350, 40, rl.RayWhite)
 	rl.DrawText("[Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[P] or [Esc] to Pause", 20)/2, int32(rl.GetScreenHeight())/2-300, 20, rl.RayWhite)
 }
 
 func (e *Engine) RenderPlayer(){
+	rl.BeginMode2D(e.Camera)
 	//rl.DrawTexturePro(e.Player.Sprite, e.Player.PlayerSrc, e.Player.PlayerDest, rl.Vector2{X: 0, Y:0}, 0, rl.White)
 	rl.DrawTexturePro(
 		e.Player.Sprite,
@@ -103,6 +105,7 @@ func (e *Engine) RenderPlayer(){
 		0,
 		rl.White,
 	)
+	rl.EndMode2D()
 
 }
 func (e *Engine) RenderShoot() {
@@ -178,6 +181,7 @@ func (e *Engine) RenderDialog(m entity.Monster, sentence string) {
 	)
 	rl.EndMode2D()
 }
+
 func (e *Engine) RenderDialogMobs(m entity.Mobs, sentence string) {
 	rl.BeginMode2D(e.Camera)
 	rl.DrawText(
@@ -201,6 +205,8 @@ func (e *Engine) RenderExplanation(m building.Tower, sentence string) {
 	)
 	rl.EndMode2D()
 }
+
+
 
 func (e *Engine) RenderExplanationShop(m building.Shop, sentence string) {
 	rl.BeginMode2D(e.Camera)
@@ -237,8 +243,8 @@ func (e *Engine) GameOverRendering() {
 	rl.DrawText(instructions2, (screenWidth-instruction2Width)/2, 640, 32, rl.White)
 }
 
-
 func (e *Engine) RenderHealthBar() {
+
     screenHeight := int32(rl.GetScreenHeight())
     barWidth := int32(250)  
     barHeight := int32(20)  
@@ -255,7 +261,9 @@ func (e *Engine) RenderHealthBar() {
     rl.DrawRectangle(barX, barY, healthBarWidth, barHeight, rl.Red)
 }
 
+
 func (e *Engine) UpdateAndRenderEndurance() {
+	
     e.Player.UpdateEndurance()
     if rl.IsKeyPressed(rl.KeyEnter) {
         if e.Player.Endurance >= e.Player.MaxEndurance {
@@ -266,9 +274,10 @@ func (e *Engine) UpdateAndRenderEndurance() {
 }
 
 func (e *Engine) RenderEnduranceBar() {
+
     screenWidth := int32(rl.GetScreenWidth())
     screenHeight := int32(rl.GetScreenHeight())
-    barWidth := int32(150) 
+    barWidth := int32(150)
     barHeight := int32(20)
     barX := screenWidth - barWidth - 20
     barY := screenHeight - barHeight - 20
@@ -281,9 +290,11 @@ func (e *Engine) RenderEnduranceBar() {
     enduranceBarWidth := int32(float32(barWidth) * enduranceRatio)
     rl.DrawRectangle(barX, barY, barWidth, barHeight, rl.Gray)
     rl.DrawRectangle(barX, barY, enduranceBarWidth, barHeight, rl.Yellow)
+	
 }
 
 func (e *Engine) UpdateAndRenderShield() {
+	
     e.Player.UpdateShield()
     if rl.IsKeyPressed(rl.KeyQ) {
         if e.Player.Shield >= e.Player.MaxShield {
@@ -308,6 +319,8 @@ func (e *Engine) RenderShieldBar() {
     shieldBarWidth := int32(float32(barWidth) * shieldRatio)
     rl.DrawRectangle(barX, barY, barWidth, barHeight, rl.Gray)
     rl.DrawRectangle(barX, barY, shieldBarWidth, barHeight, rl.Blue)
+
+	
 }
 
 

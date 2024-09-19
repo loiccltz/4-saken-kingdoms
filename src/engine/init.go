@@ -78,7 +78,7 @@ func (e *Engine) InitBuilding() {
 func (e *Engine) InitEntities() {
 	e.Player = entity.Player{
 		Position:              rl.Vector2{X: 4430, Y: 6720},
-		Health:                100,
+		Health:                10000,
 		PlayerSrc: rl.NewRectangle(0, 0, 32, 32),
 		PlayerDest: rl.NewRectangle(0, 0, -20, -10,),
 		MaxHealth:             100,
