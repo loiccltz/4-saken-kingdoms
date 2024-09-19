@@ -10,10 +10,12 @@ import (
 type Player struct {
 	Position              rl.Vector2
 	Health                int
+	
 	PlayerSrc rl.Rectangle
 	PlayerDest rl.Rectangle
 	PlayerFrame int
 	FrameCount int
+
 	MaxHealth             int
 	Shield                int
 	MaxShield             int
