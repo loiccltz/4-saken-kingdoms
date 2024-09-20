@@ -24,14 +24,14 @@ func (e *Engine) InGameRendering() {
 	rl.BeginMode2D(e.Camera)
 	e.RenderMap()
 	e.RenderMobs()
+	e.RenderShoot()
 	e.RenderWolf()
 	e.RenderPlayer()
 
 	rl.EndMode2D()
 	
-	rl.DrawText("Playing", int32(rl.GetScreenWidth())/2-rl.MeasureText("Playing", 40)/2, int32(rl.GetScreenHeight())/2-350, 40, rl.RayWhite)
-	rl.DrawText("[Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[P] or [Esc] to Pause", 20)/2, int32(rl.GetScreenHeight())/2-300, 20, rl.RayWhite)
-	rl.DrawText("[Q]/[A] to Quit", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Esc] to Quit", 20)/2, int32(rl.GetScreenHeight())/2+100, 20, rl.RayWhite)
+	rl.DrawText("[Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Esc] to Pause", 340)/4, int32(rl.GetScreenHeight())/2-320, 20, rl.Black)
+	rl.DrawText("[I] to Inventory", int32(rl.GetScreenWidth())/2-rl.MeasureText("[I] to Inventory", 420)/4, int32(rl.GetScreenHeight())/2-280, 20, rl.Black)
 	
 	e.RenderHealthBar()
 	e.RenderEnduranceBar()
@@ -53,7 +53,8 @@ func (e *Engine) InGameRendering() {
 	e.RenderGriffon()
 	e.RenderPlayer()
 	rl.EndMode2D()
-	rl.DrawText("[Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Esc] to Pause", 20)/2, int32(rl.GetScreenHeight())/2-300, 20, rl.RayWhite)
+	rl.DrawText("[Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Esc] to Pause", 340)/4, int32(rl.GetScreenHeight())/2-320, 20, rl.Black)
+	rl.DrawText("[I] to Inventory", int32(rl.GetScreenWidth())/2-rl.MeasureText("[I] to Inventory", 420)/4, int32(rl.GetScreenHeight())/2-280, 20, rl.Black)
 
 }
 
@@ -150,21 +151,6 @@ func(e *Engine) SellerRendering() {
 	
 }
 
-
-
-
-func (e *Engine) InFightRendering() {
-	rl.ClearBackground(rl.Gray)
-
-	e.RenderHealthBar()
-	e.RenderMobs()
-	e.RenderTower()
-	e.RenderSeller()
-	e.RenderShoot()
-	rl.EndMode2D()
-	rl.DrawText("Playing", int32(rl.GetScreenWidth())/2-rl.MeasureText("Playing", 40)/2, int32(rl.GetScreenHeight())/2-350, 40, rl.RayWhite)
-	rl.DrawText("[Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[P] or [Esc] to Pause", 20)/2, int32(rl.GetScreenHeight())/2-300, 20, rl.RayWhite)
-}
 
 func (e *Engine) RenderPlayer(){
 	rl.BeginMode2D(e.Camera)

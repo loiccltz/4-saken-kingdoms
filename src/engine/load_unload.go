@@ -72,7 +72,12 @@ func (e *Engine) Unload() {
 	for _, sprite := range e.Sprites {
 		rl.UnloadTexture(sprite)
 	}
-
+	for _, shoot := range e.Shoot {
+		rl.UnloadTexture(shoot.Sprite)
+	}
+	for _, mobs := range e.Mobs {
+		rl.UnloadTexture(mobs.Sprite)
+	}
 	for _, monster := range e.Monsters {
 		rl.UnloadTexture(monster.Sprite)
 	}
