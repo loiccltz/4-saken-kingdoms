@@ -14,6 +14,7 @@ type Object struct {
     Y      float32 `json "y"`
     Width  float32 `json "width"`
     Height float32 `json "height"`
+	Rotation float32 `json "rotation"`
 }
 
 type Layer struct {
@@ -93,6 +94,7 @@ func (e *Engine) InitMap(mapFile string) {
 			e.Objects = append(e.Objects, Layer.Objects...) // Ajouter les objets a e.Objects
 		}
 	}
+	
 }
 
 func (e *Engine) RenderMap() {

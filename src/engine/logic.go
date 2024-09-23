@@ -202,7 +202,7 @@ func (e *Engine) CheckCollisionsWithObjects() bool {
 	playerRect := rl.NewRectangle(e.Player.Position.X, e.Player.Position.Y, 40, 40)
 	// * 2 - 16
 	for _, obj := range e.Objects {
-		objectRect := rl.NewRectangle(obj.X*2-16, obj.Y*2-16, obj.Width, obj.Height)
+		objectRect := rl.NewRectangle(obj.X*2-16, obj.Y*2-16, obj.Width*2-16, obj.Height*2-16)
 		if rl.CheckCollisionRecs(playerRect, objectRect) {
 			// fmt.Print("coli")
 			// fmt.Println(objectRect)
@@ -211,6 +211,7 @@ func (e *Engine) CheckCollisionsWithObjects() bool {
 	}
 	return false
 }
+
 
 func (e *Engine) CheckCollisions() {
 	// fmt.Println(e.Player.Position.X)
