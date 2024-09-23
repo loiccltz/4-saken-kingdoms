@@ -42,6 +42,7 @@ func (e *Engine) SettingsLogic() {
 }
 
 func (e *Engine) InGameLogic() {
+	
 	// Mouvement
 	if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
 		e.Player.Position.Y -= e.Player.Speed
@@ -269,14 +270,10 @@ func (e *Engine) PnjCollisions() {
 }
 
 func (e *Engine) UseSelectedItem() {
-    if len(e.Player.Inventory) > 0 && e.Player.Inventory[e.selectedIndex].Quantity > 0 {
-        e.Player.Inventory[e.selectedIndex].Quantity--
+    e.Player.Health += e.Player.Inventory[e.selectedIndex].Regen
 
-        // Si la quantité atteint 0, tu peux décider de retirer l'objet ou simplement l'afficher comme indisponible.
-        if e.Player.Inventory[e.selectedIndex].Quantity == 0 {
-            // Optionnel: supprimer l'objet si plus de quantité
-            // e.Player.Inventory = append(e.Player.Inventory[:e.selectedIndex], e.Player.Inventory[e.selectedIndex+1:]...)
-        }
+    if e.Player.Health > e.Player.MaxHealth {
+        e.Player.Health = e.Player.MaxHealth
     }
 }
 

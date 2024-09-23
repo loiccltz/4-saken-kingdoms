@@ -76,7 +76,7 @@ func (e *Engine) InitEntities() {
 	e.Player = entity.Player{
 
 		Position:              rl.Vector2{X: 7543, Y: 3894},
-		Health:                100000,
+		Health:                10,
 		PlayerSrc: rl.NewRectangle(0, 0, 32, 32),
 		PlayerDest: rl.NewRectangle(0, 0, -20, -10,),
 
@@ -95,6 +95,14 @@ func (e *Engine) InitEntities() {
 		IsAlive:               true,
 		Sprite:                e.Player.Sprite,
 	}
+	e.Player.Inventory = append(e.Player.Inventory, item.Item{
+		Name: "Potion",
+		Price: 5,
+		IsConsumable: true,
+		IsEquippable: false,
+		Regen : 10,
+		Sprite: rl.LoadTexture("textures/items/item.png"),
+	})
 	e.Player.Money = 10
 	//fmt.Println(e.Player.Position.X)
 	//fmt.Println(e.Player.Position.Y)
@@ -122,6 +130,7 @@ func (e *Engine) InitItem() {
 		Price:        5,
 		IsConsumable: true,
 		IsEquippable: false,
+		Regen : 10,
 		Sprite:       rl.LoadTexture("textures/items/itemschelou.png"),
 	})
 	e.Seller.Inventory = append(e.Seller.Inventory, item.Item{
@@ -129,6 +138,7 @@ func (e *Engine) InitItem() {
 		Price:        15,
 		IsConsumable: true,
 		IsEquippable: false,
+		Regen : 10,
 		Sprite:       rl.LoadTexture("textures/items/itemschelou.png"),
 	})
 	e.Seller.Inventory = append(e.Seller.Inventory, item.Item{
@@ -159,6 +169,7 @@ func (e *Engine) InitMobs() {
 		Price:        5,
 		IsConsumable: true,
 		IsEquippable: false,
+		Regen : 10,
 		Sprite:       rl.LoadTexture("textures/items/itemschelou.png")})
 
 	e.Mobs = append(e.Mobs, entity.Mobs{
@@ -177,6 +188,7 @@ func (e *Engine) InitMobs() {
 		Price:        5,
 		IsConsumable: true,
 		IsEquippable: false,
+		Regen : 10,
 		Sprite:       rl.LoadTexture("textures/items/itemschelou.png")})
 	e.Mobs = append(e.Mobs, entity.Mobs{
 		Name:     "mob3",
@@ -194,6 +206,7 @@ func (e *Engine) InitMobs() {
 		Price:        5,
 		IsConsumable: true,
 		IsEquippable: false,
+		Regen : 10,
 		Sprite:       rl.LoadTexture("textures/items/itemschelou.png")})
 }
 

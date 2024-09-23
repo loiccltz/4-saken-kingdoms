@@ -113,6 +113,8 @@ func (e *Engine) InventoryRendering() {
             rl.DrawRectangle(itemXPos-5, itemYPos-5, itemSize+10, itemSize+10, rl.White)
         }
 
+		
+
         rl.DrawRectangle(itemXPos, itemYPos, itemSize, itemSize, rl.Black)
 
         if i < len(e.Player.Inventory) {
@@ -126,9 +128,6 @@ func (e *Engine) InventoryRendering() {
     }
 }
 
-func (e *Engine) LoadInventoryItems() {
-		e.Player.Inventory[0].Sprite = rl.LoadTexture("textures/items/item.png")  // Mettre le chemin de l'image
-}
 
 
 func (e *Engine) PauseRendering() {
