@@ -9,9 +9,9 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-const (
-	ScreenWidth  = 1280
-	ScreenHeight = 720
+var (
+    ScreenWidth = rl.GetScreenWidth()
+    ScreenHeight = rl.GetScreenHeight()
 )
 
 
@@ -25,7 +25,7 @@ const (
 	}
 
 func (e *Engine) Init() {
-	rl.InitWindow(ScreenWidth, ScreenHeight, "4saken Kingdom")
+	rl.InitWindow(int32(ScreenWidth), int32(ScreenHeight), "4saken Kingdom")
 	e.IsRunning = true
 	e.Sprites = make(map[string]rl.Texture2D)
 	e.InitEntities()
@@ -41,7 +41,7 @@ func (e *Engine) Init() {
 
 }
 func (e *Engine) InitPauseRendering() {
-	rl.InitWindow(ScreenWidth, ScreenHeight, "4SKPAUSEMENU.png")
+	rl.InitWindow(int32(ScreenWidth), int32(ScreenHeight), "4SKPAUSEMENU.png")
 }
 func (e *Engine) InitTower() {
 	e.Tower = append(e.Tower, building.Tower{
@@ -159,7 +159,7 @@ func (e *Engine) InitItem() {
 func (e *Engine) InitMobs() {
 	e.Mobs = append(e.Mobs, entity.Mobs{
 		Name:     "mob1",
-		Position: rl.Vector2{X: 4430, Y: 6880}, // Il faut changer les coordonnées pour Le mob
+		Position: rl.Vector2{X: 4064, Y: 5060}, // Il faut changer les coordonnées pour Le mob
 		Health:   20,
 		Damage:   2,
 		Loot:     []item.Item{},
@@ -179,7 +179,7 @@ func (e *Engine) InitMobs() {
 
 	e.Mobs = append(e.Mobs, entity.Mobs{
 		Name:     "mob2",
-		Position: rl.Vector2{X: 4400, Y: 6800}, // Il faut changer les coordonnées pour Le mob
+		Position: rl.Vector2{X: 4064, Y: 5060}, // Il faut changer les coordonnées pour Le mob
 		Health:   20,
 		Damage:   2,
 		Loot:     []item.Item{},
