@@ -6,6 +6,16 @@ import (
 
 func (engine *Engine) Run() {
 	rl.SetTargetFPS(60)
+<<<<<<< Updated upstream
+=======
+	// si l'option -f est utilisée, affiche les FPS
+	showFPS := flag.Bool("f", false, "Affiche les FPS")
+	fullscreen := flag.Bool("fullscreen", false, "Lance le jeu en plein ecran")
+	flag.Parse()
+
+
+   
+>>>>>>> Stashed changes
 
 	for engine.IsRunning {
 
@@ -46,6 +56,17 @@ func (engine *Engine) Run() {
 					engine.GameOverLogic()
 			}
 		}
-		rl.EndDrawing()
+<<<<<<< Updated upstream
+=======
+
+		if *showFPS {
+            fps := rl.GetFPS()
+            rl.DrawText(fmt.Sprintf("FPS: %d", fps), 10, 10, 20, rl.DarkGray)
+        }
+		if *fullscreen {
+			rl.ToggleFullscreen()
+		}
+>>>>>>> Stashed changes
+			rl.EndDrawing()
 	}
 }

@@ -258,7 +258,7 @@ func (e *Engine) SellerCollisions() {
 	}
 }
 func (e *Engine) PnjCollisions() {
-	if e.Pnj.Position.X > e.Player.Position.X-20 &&
+	if e.Pnj.Position.X > e.Player.Position.X-20 && 
 		e.Pnj.Position.X < e.Player.Position.X+20 &&
 		e.Pnj.Position.Y > e.Player.Position.Y-20 &&
 		e.Pnj.Position.Y < e.Player.Position.Y+20 {
@@ -439,6 +439,10 @@ func (e *Engine) ShootCollisions() {
 func (e *Engine) NormalTalk(m entity.Monster, sentence string) {
 	e.RenderDialog(m, sentence)
 }
+func (e *Engine) CypherTalk(pnj entity.Pnj, sentence string, r rune){
+	
+}
+
 func (e *Engine) NormalTalkMobs(m entity.Mobs, sentence string) {
 	e.RenderDialogMobs(m, sentence)
 }
@@ -551,3 +555,5 @@ func (e *Engine) UpdateShoot() {
 		}
 	}
 }
+//for cypher := "a"; cypher <= "z"; cypher++ {}
+

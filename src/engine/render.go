@@ -132,7 +132,7 @@ func (e *Engine) LoadInventoryItems() {
 
 
 func (e *Engine) PauseRendering() {
-	
+
 	image := rl.LoadImage("4SKPAUSEMENU.png")
     texture := rl.LoadTextureFromImage(image)
 	rl.DrawTexture(texture, 0, 0, rl.White)
@@ -179,7 +179,6 @@ func (e *Engine) RenderPlayer(){
 		rl.White,
 	)
 	rl.EndMode2D()
-
 }
 
 func (e *Engine) RenderWolf() {
