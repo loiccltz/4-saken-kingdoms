@@ -225,13 +225,18 @@ func (e *Engine) PnjCollisions() {
 			e.Pnj[i].Position.X < e.Player.Position.X+20 &&
 			e.Pnj[i].Position.Y > e.Player.Position.Y-20 &&
 			e.Pnj[i].Position.Y < e.Player.Position.Y+20 {
-			if e.Pnj[i].Name == "Jack" {
-				sentence := "B"
-				runes := []rune(sentence)
-				for i := 0; i <= len(runes) - 1; i++ {
-					e.CypherTalk(e.Pnj[0], runes[i] + 1,)
-				}
-			}
+			
+            // On stock le message crypté
+            var cipherSentence string
+			sentence := "Bonjour"
+            runes := []rune(sentence)
+            for _, r := range runes {
+                // On décale chaque lettres de 1 ( methode céasar)
+                cipherRune := r + 1
+                cipherSentence += string(cipherRune)
+            }
+
+            e.CypherTalk(e.Pnj[i], cipherSentence)
 				
 			if e.Pnj[i].Name == "Marie" {
 				e.NormalExplanationPnj(e.Pnj[i], "Banger")
@@ -406,8 +411,8 @@ func (e *Engine) ShootCollisions() {
 func (e *Engine) NormalTalk(m entity.Monster, sentence string) {
 	e.RenderDialog(m, sentence)
 }
-func (e *Engine) CypherTalk(pnj entity.Pnj, r rune){
-	e.RenderExplanationPnjCypher(pnj, r)
+func (e *Engine) CypherTalk(pnj entity.Pnj, sentence string){
+	e.RenderExplanationPnjCypher(pnj, sentence)
 }
 
 func (e *Engine) NormalTalkMobs(m entity.Mobs, sentence string) {

@@ -334,10 +334,10 @@ func (e *Engine) RenderExplanationPnj(m entity.Pnj, sentence string) {
 	rl.EndMode2D()
 }
 
-func (e *Engine) RenderExplanationPnjCypher(m entity.Pnj, r rune) {
+func (e *Engine) RenderExplanationPnjCypher(m entity.Pnj, sentence string) {
 	rl.BeginMode2D(e.Camera)
 	rl.DrawText(
-		string(r),
+		sentence,
 		int32(m.Position.X),
 		int32(m.Position.Y)+50,
 		10,
