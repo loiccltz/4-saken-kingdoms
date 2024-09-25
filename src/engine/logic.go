@@ -7,7 +7,7 @@ import (
 	"main/src/fight"
 	"math/rand"
 
-	//"time"
+	"time"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -42,6 +42,7 @@ func (e *Engine) SettingsLogic() {
 }
 
 func (e *Engine) InGameLogic() {
+	
 	// Mouvement
 	if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
 		e.Player.Position.Y -= e.Player.Speed
@@ -90,68 +91,13 @@ func (e *Engine) InGameLogic() {
 			e.Mobs[i].IsAlive = false
 		}
 
-		e.FightCollisions()
-		posX := e.Player.Position.X
-		posY := e.Player.Position.Y
-		if posX == 356 && posY == 200 {
-			for e.Monsters[0].Health > 0 {
-				if rand.Intn(100) < 10 {
-					e.CreateShoot()
-				}
-				e.MoveShoot()
-				e.UpdateShoot()
-				e.ShootCollision()
-			}
-			if e.Monsters[0].Health <= 0 {
-				posX =3
-				posY =3
-				break
-			}
-		}
-		if posX == 356 && posY == 200 {
-			for e.Monsters[1].Health > 0 {
-				if rand.Intn(100) < 10 {
-					e.CreateShoot()
-				}
-				e.MoveShoot()
-				e.UpdateShoot()
-				e.ShootCollision()
-			}
-			if e.Monsters[1].Health <= 0 {
-				posX =3
-				posY =3
-				break
-			}
-		}
-		if posX == 356 && posY == 200 {
-			for e.Monsters[2].Health > 0 {
-				if rand.Intn(100) < 10 {
-					e.CreateShoot()
-				}
-				e.MoveShoot()
-				e.UpdateShoot()
-				e.ShootCollision()
-			}
-			if e.Monsters[2].Health <= 0 {
-				posX =3
-				posY =3
-				break
-			}
-		}
-		if posX == 356 && posY == 200 {
-			for e.Monsters[3].Health > 0 {
-				if rand.Intn(100) < 10 {
-					e.CreateShoot()
-				}
-				e.MoveShoot()
-				e.UpdateShoot()
-				e.ShootCollision()
-			}
-			if e.Monsters[3].Health <= 0 {
-				posX =3
-				posY =3
-				break
-			}
+	}
+	//e.FightCollisions()
+	posX := e.Player.Position.X
+	posY := e.Player.Position.Y
+	if posX == 356 && posY == 200 {
+		for e.Monsters[0].Health > 0 {
+			e.ShootLogic()
 		}
 	}
 }
@@ -201,7 +147,7 @@ func (e *Engine) CheckCollisionsWithObjects() bool {
 	playerRect := rl.NewRectangle(e.Player.Position.X, e.Player.Position.Y, 40, 40)
 	// * 2 - 16
 	for _, obj := range e.Objects {
-		objectRect := rl.NewRectangle(obj.X*2-16, obj.Y*2-16, obj.Width, obj.Height)
+		objectRect := rl.NewRectangle(obj.X*2-16, obj.Y*2-16, obj.Width*2-16, obj.Height*2-16)
 		if rl.CheckCollisionRecs(playerRect, objectRect) {
 			// fmt.Print("coli")
 			// fmt.Println(objectRect)
@@ -211,13 +157,15 @@ func (e *Engine) CheckCollisionsWithObjects() bool {
 	return false
 }
 
+
 func (e *Engine) CheckCollisions() {
 	// fmt.Println(e.Player.Position.X)
 	// fmt.Println(e.Player.Position.Y)
 	e.MobsCollisions()
 	//e.MonsterCollisions()
-	e.ShootCollision()
+	e.ShootCollisions()
 	e.UpdateMobs()
+	e.PnjCollisions()
 	e.TowerCollisions()
 	e.SellerCollisions()
 	e.CheckCollisionsWithObjects()
@@ -239,12 +187,12 @@ func (e *Engine) BlockCollisions() {
 		}
 	}
 }
-func (e *Engine) FightCollisions() {
+/*func (e *Engine) FightCollisions() {
 	e.UpdateShoot()
 	e.MoveShoot()
 	e.UpdateShoot()
 	//e.SpellCollision()
-}
+}*/
 
 // GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
 func (e *Engine) SellerCollisions() {
@@ -263,20 +211,23 @@ func (e *Engine) PnjCollisions() {
 		e.Pnj.Position.Y > e.Player.Position.Y-20 &&
 		e.Pnj.Position.Y < e.Player.Position.Y+20 {
 		if e.Pnj.Name == "Jack" {
-			e.NormalExplanationPnj(e.Pnj, "We have all do you want to rescue the princess, press R to enter")
+			e.NormalExplanationPnj(e.Pnj, "Trouvez le feu vert puis entrez dans les Catacombes pour sauver le Premier Royaume, Le Royaume de Ran")
+			//en haut a gauche c'est le loup
+			e.NormalExplanationPnj(e.Pnj, "Trouvez le feu bleu puis entrez dans la tour pour sauver le Deuxième Royaume, Le Royaume de Salkin")
+			//en bas à gauche c'est le griffon
+			e.NormalExplanationPnj(e.Pnj, "Trouvez le feu violet puis entrez dans la grotte pour sauver le Troisième Royaume, Royaume d'Usun")
+			//en haut a droite c'est le crabe
+			e.NormalExplanationPnj(e.Pnj, "Trouvez le feu rouge puis entrez dans la gotte du Dragon pour sauver le Quatrième Royaume, Royaume de Siroi")
+			//en bas a droite c'est le dragon
 		}
 	}
 }
 
 func (e *Engine) UseSelectedItem() {
-    if len(e.Player.Inventory) > 0 && e.Player.Inventory[e.selectedIndex].Quantity > 0 {
-        e.Player.Inventory[e.selectedIndex].Quantity--
+    e.Player.Health += e.Player.Inventory[e.selectedIndex].Regen
 
-        // Si la quantité atteint 0, tu peux décider de retirer l'objet ou simplement l'afficher comme indisponible.
-        if e.Player.Inventory[e.selectedIndex].Quantity == 0 {
-            // Optionnel: supprimer l'objet si plus de quantité
-            // e.Player.Inventory = append(e.Player.Inventory[:e.selectedIndex], e.Player.Inventory[e.selectedIndex+1:]...)
-        }
+    if e.Player.Health > e.Player.MaxHealth {
+        e.Player.Health = e.Player.MaxHealth
     }
 }
 
@@ -289,26 +240,26 @@ func (e *Engine) TowerCollisions() {
 			if tower.Name == "Royaume de Ran" {
 				e.NormalExplanation(tower, "To save Princess Tom press J")
 				if rl.IsKeyPressed(rl.KeyJ) {
-					e.Player.Position.X = 100
-					e.Player.Position.Y = 700
+					e.Player.Position.X = 3116
+					e.Player.Position.Y = 5046
 				}
 			} else if tower.Name == "Royaume de Salkin" {
 				e.NormalExplanation(tower, "To save Princess Arnaud press K")
 				if rl.IsKeyPressed(rl.KeyK) {
-					e.Player.Position.X = 100
-					e.Player.Position.Y = 700
+					e.Player.Position.X = 3152
+					e.Player.Position.Y = 7269
 				}
 			} else if tower.Name == "Royaume d'Usun" {
 				e.NormalExplanation(tower, "To save Princess Yann press L")
 				if rl.IsKeyPressed(rl.KeyL) {
-					e.Player.Position.X = 100
-					e.Player.Position.Y = 700
+					e.Player.Position.X = 7517
+					e.Player.Position.Y = 4128
 				}
 			} else if tower.Name == "Royaume de Siroi" {
 				e.NormalExplanation(tower, "To save Princess Léo press M")
 				if rl.IsKeyPressed(rl.KeyM) {
-					e.Player.Position.X = 100
-					e.Player.Position.Y = 700
+					e.Player.Position.X = 7449
+					e.Player.Position.Y = 7598
 				}
 			}
 		}
@@ -329,7 +280,7 @@ func (e *Engine) MobsCollisions() {
                 fmt.Println(e.Mobs[i].Health)
 
                 if e.Player.IsAlive {
-
+					
                     e.ApplyDamageToPlayer(e.Mobs[i].Damage)
 
 
@@ -358,7 +309,7 @@ func (e *Engine) MobsCollisions() {
                 e.Player.Position.Y < monster.Position.Y+20 {
 
                 fmt.Println(monster.Health)
-
+				e.ShootLogic()
                 if e.Player.IsAlive {
 
                     e.ApplyDamageToPlayer(monster.Damage)
@@ -473,7 +424,99 @@ func (e *Engine) PauseLogic() {
 	}
 	rl.UpdateMusicStream(e.Music)
 }
+func (e *Engine) UpdateMobs() {
+	for i := 0; i < len(e.Mobs); i++ {
+		if e.Mobs[i].IsAlive {
+			distance := rl.Vector2Distance(e.Player.Position, e.Mobs[i].Position)
+			if distance <= ChaseDistance {
+				direction := rl.Vector2Subtract(e.Player.Position, e.Mobs[i].Position)
+				direction = rl.Vector2Normalize(direction)
+				e.Mobs[i].Position = rl.Vector2Add(e.Mobs[i].Position, direction)
+			}
 
+		}
+	}
+}
+
+func (e *Engine) UpdateShoot() {
+	for i := 0; i < len(e.Shoot); i++ {
+		if e.Shoot[i].IsShooting {
+			distance := rl.Vector2Distance(e.Player.Position, e.Shoot[i].Position)
+			if distance <= ChaseDistance {
+				direction := rl.Vector2Subtract(e.Player.Position, e.Shoot[i].Position)
+				direction = rl.Vector2Normalize(direction)
+				e.Shoot[i].Position = rl.Vector2Add(e.Shoot[i].Position, direction)
+			}
+
+		}
+	}
+}
+
+const (
+	boxSize    = 50
+	ShootSpeed = 6
+)
+
+func (e *Engine) ShootLogic() {
+	boxX := float32(ScreenWidth/2 - boxSize/2)
+	boxY := float32(ScreenHeight/2 - boxSize/2)
+	rand.Seed(time.Now().UnixNano())
+	for !rl.WindowShouldClose() {
+		// Ajouter une nouvelle flèche aléatoirement
+		if rand.Float32() < 0.6 { // 1% de chance par frame d'ajouter une flèche
+			shoot := entity.Shoot{
+				Position:   rl.Vector2{X: boxX + boxSize/2, Y: boxY + boxSize/2},
+				IsShooting: true,
+				Direction:  rand.Intn(4), // Direction aléatoire
+				Sprite:     rl.LoadTexture("textures/fefolet.png"),
+			}
+			e.Shoot = append(e.Shoot, shoot)
+		}
+
+		// Mise à jour des flèches
+		for i := 0; i < len(e.Shoot); i++ {
+			switch e.Shoot[i].Direction {
+			case 0: // Haut
+				e.Shoot[i].Position.Y -= ShootSpeed
+			case 1: // Bas
+				e.Shoot[i].Position.Y += ShootSpeed
+			case 2: // Gauche
+				e.Shoot[i].Position.X -= ShootSpeed
+			case 3: // Droite
+				e.Shoot[i].Position.X += ShootSpeed
+			}
+
+			// Retirer les flèches qui sortent de l'écran
+			if e.Shoot[i].Position.X < 0 || e.Shoot[i].Position.X > float32(ScreenWidth) ||
+				e.Shoot[i].Position.Y < 0 || e.Shoot[i].Position.Y > float32(ScreenHeight) {
+				e.Shoot = append(e.Shoot[:i], e.Shoot[i+1:]...)
+				i--
+			}
+		}
+
+		// Dessin à l'écran
+		rl.BeginDrawing()
+		rl.DrawRectangle(int32(boxX), int32(boxY), boxSize, boxSize, rl.DarkGray)
+
+		// Dessiner les flèches
+		for _, shoot := range e.Shoot {
+			switch shoot.Direction {
+			case 0: // Haut
+				rl.DrawTriangle(rl.Vector2{shoot.Position.X, shoot.Position.Y}, rl.Vector2{shoot.Position.X - 10, shoot.Position.Y + 20}, rl.Vector2{shoot.Position.X + 10, shoot.Position.Y + 20}, rl.Red)
+			case 1: // Bas
+				rl.DrawTriangle(rl.Vector2{shoot.Position.X, shoot.Position.Y}, rl.Vector2{shoot.Position.X - 10, shoot.Position.Y - 20}, rl.Vector2{shoot.Position.X + 10, shoot.Position.Y - 20}, rl.Red)
+			case 2: // Gauche
+				rl.DrawTriangle(rl.Vector2{shoot.Position.X, shoot.Position.Y}, rl.Vector2{shoot.Position.X + 20, shoot.Position.Y - 10}, rl.Vector2{shoot.Position.X + 20, shoot.Position.Y + 10}, rl.Red)
+			case 3: // Droite
+				rl.DrawTriangle(rl.Vector2{shoot.Position.X, shoot.Position.Y}, rl.Vector2{shoot.Position.X - 20, shoot.Position.Y - 10}, rl.Vector2{shoot.Position.X - 20, shoot.Position.Y + 10}, rl.Red)
+			}
+		}
+
+		rl.EndDrawing()
+	}
+}
+
+/*
 func (e *Engine) Random(tab []int) int {
 	index := rand.Intn(len(tab))
 	return tab[index]
@@ -555,5 +598,3 @@ func (e *Engine) UpdateShoot() {
 		}
 	}
 }
-//for cypher := "a"; cypher <= "z"; cypher++ {}
-

@@ -1,22 +1,20 @@
 package engine
 
 import (
+	"flag"
+	"fmt"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
 func (engine *Engine) Run() {
 	rl.SetTargetFPS(60)
-<<<<<<< Updated upstream
-=======
 	// si l'option -f est utilisée, affiche les FPS
 	showFPS := flag.Bool("f", false, "Affiche les FPS")
 	fullscreen := flag.Bool("fullscreen", false, "Lance le jeu en plein ecran")
 	flag.Parse()
 
-
+        // Si l'option -f est utilisée, afficher les FPS
    
->>>>>>> Stashed changes
-
 	for engine.IsRunning {
 
 		rl.BeginDrawing()
@@ -56,8 +54,6 @@ func (engine *Engine) Run() {
 					engine.GameOverLogic()
 			}
 		}
-<<<<<<< Updated upstream
-=======
 
 		if *showFPS {
             fps := rl.GetFPS()
@@ -66,7 +62,8 @@ func (engine *Engine) Run() {
 		if *fullscreen {
 			rl.ToggleFullscreen()
 		}
->>>>>>> Stashed changes
+
 			rl.EndDrawing()
+
 	}
 }
