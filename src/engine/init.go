@@ -9,9 +9,9 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-var (
-    ScreenWidth = rl.GetScreenWidth()
-    ScreenHeight = rl.GetScreenHeight()
+const (
+	ScreenWidth  = 1280
+	ScreenHeight = 720
 )
 
 
@@ -25,7 +25,7 @@ var (
 	}
 
 func (e *Engine) Init() {
-	rl.InitWindow(int32(ScreenWidth), int32(ScreenHeight), "4saken Kingdom")
+	rl.InitWindow(ScreenWidth, ScreenHeight, "4saken Kingdom")
 	e.IsRunning = true
 	e.Sprites = make(map[string]rl.Texture2D)
 	e.InitEntities()
@@ -41,7 +41,7 @@ func (e *Engine) Init() {
 
 }
 func (e *Engine) InitPauseRendering() {
-	rl.InitWindow(int32(ScreenWidth), int32(ScreenHeight), "4SKPAUSEMENU.png")
+	rl.InitWindow(ScreenWidth, ScreenHeight, "4SKPAUSEMENU.png")
 }
 func (e *Engine) InitTower() {
 	e.Tower = append(e.Tower, building.Tower{

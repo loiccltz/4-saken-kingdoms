@@ -8,15 +8,12 @@ import (
 
 func (engine *Engine) Run() {
 	rl.SetTargetFPS(60)
-	// si l'optio
 	
-	
-	
-	n -f est utilisée, affiche les FPS
+
 	showFPS := flag.Bool("f", false, "Affiche les FPS")
-	fullscreen := flag.Bool("fullscreen", false, "Lance le jeu en plein ecran")
+	// fullscreen := flag.Bool("fullscreen", false, "Lance le jeu en plein ecran")
 	showCoord := flag.Bool("coord", false, "Affiche les coordonnées du joueur")
-	fullscreenFlag := flag.Bool("p", false, "Lancer le jeu en mode plein écran")
+	// fullscreenFlag := flag.Bool("p", false, "Lancer le jeu en mode plein écran")
 	flag.Parse()
 
         // Si l'option -f est utilisée, afficher les FPS
@@ -62,13 +59,13 @@ func (engine *Engine) Run() {
 		}
 
 	
-		if *fullscreenFlag {
+		/*if *fullscreenFlag {
 			rl.ToggleFullscreen()
 		}
 			if rl.IsWindowFullscreen() {
 				ScreenWidth = rl.GetScreenWidth() 
 				ScreenHeight = rl.GetScreenHeight() 
-			}
+			}*/
 
 		if *showFPS {
             fps := rl.GetFPS()
@@ -80,9 +77,9 @@ func (engine *Engine) Run() {
 			coord := fmt.Sprintf("X: %.1f, Y: %.1f", engine.Player.Position.X, engine.Player.Position.Y)
 			rl.DrawText(coord, 20, 80, 20, rl.DarkGray)
 		}
-		if *fullscreen {
+		/*if *fullscreen {
 			rl.ToggleFullscreen()
-		}
+		}*/
 
 			rl.EndDrawing()
 
