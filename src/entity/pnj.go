@@ -8,5 +8,4 @@ type Pnj struct {
 	Name	  string
 	Position  rl.Vector2
 	IsAlive   bool
-	Sprite    rl.Texture2D
 }

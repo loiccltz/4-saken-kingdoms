@@ -334,6 +334,18 @@ func (e *Engine) RenderExplanationPnj(m entity.Pnj, sentence string) {
 	rl.EndMode2D()
 }
 
+func (e *Engine) RenderExplanationPnjCypher(m entity.Pnj, r rune) {
+	rl.BeginMode2D(e.Camera)
+	rl.DrawText(
+		string(r),
+		int32(m.Position.X),
+		int32(m.Position.Y)+50,
+		10,
+		rl.RayWhite,
+	)
+	rl.EndMode2D()
+}
+
 func (e *Engine) GameOverRendering() {
 	rl.ClearBackground(rl.Black)
 

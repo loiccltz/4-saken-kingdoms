@@ -116,12 +116,11 @@ func (e *Engine) InitEntities() {
 		IsAlive:   true,
 		Sprite:    rl.LoadTexture("textures/towers/TXStruct.png"),
 	}
-	e.Pnj = entity.Pnj{
-		Name:      "Jack",
-		Position:  rl.Vector2{X: 4400, Y: 6700},
-		IsAlive:   true,
-		Sprite:    rl.LoadTexture("textures/towers/TXStruct.png"),
-	}
+	e.Pnj = append(e.Pnj, entity.Pnj{
+		Name:     "Jack",
+		Position: rl.Vector2{X: 4628, Y: 6534}, // 
+		IsAlive:  true,
+	})
 
 }
 

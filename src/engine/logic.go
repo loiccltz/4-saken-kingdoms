@@ -13,7 +13,7 @@ import (
 )
 
 func (e *Engine) HomeLogic() {
-
+	fmt.Println()
 	//Musique
 	if !rl.IsMusicStreamPlaying(e.Music) {
 		e.Music = rl.LoadMusicStream("sounds/music/OSC-Ambient-Time-08-Egress.mp3")
@@ -42,7 +42,6 @@ func (e *Engine) SettingsLogic() {
 }
 
 func (e *Engine) InGameLogic() {
-	
 	// Mouvement
 	if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
 		e.Player.Position.Y -= e.Player.Speed
@@ -56,7 +55,18 @@ func (e *Engine) InGameLogic() {
 	if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
 		e.Player.Position.X += e.Player.Speed
 	}
-
+	if rl.IsKeyDown(rl.KeyW) && rl.IsKeyDown(rl.KeyLeftShift) {
+		e.Player.Position.Y -= e.Player.Speed - 2
+	}
+	if rl.IsKeyDown(rl.KeyS) && rl.IsKeyDown(rl.KeyLeftShift) {
+		e.Player.Position.Y += e.Player.Speed +2
+	}
+	if rl.IsKeyDown(rl.KeyA) && rl.IsKeyDown(rl.KeyLeftShift) {
+		e.Player.Position.X -= e.Player.Speed -2
+	}
+	if rl.IsKeyDown(rl.KeyD) && rl.IsKeyDown(rl.KeyLeftShift) {
+		e.Player.Position.X += e.Player.Speed +2
+	}
 	// Camera
 	e.Camera.Target = rl.Vector2{X: e.Player.Position.X + 70, Y: e.Player.Position.Y + 70}
 	e.Camera.Offset = rl.Vector2{X: ScreenWidth / 2, Y: ScreenHeight / 2}
@@ -185,6 +195,7 @@ func (e *Engine) BlockCollisions() {
 		if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
 			e.Player.Position.X -= e.Player.Speed
 		}
+		
 	}
 }
 /*func (e *Engine) FightCollisions() {
@@ -205,21 +216,26 @@ func (e *Engine) SellerCollisions() {
 		}
 	}
 }
+
 func (e *Engine) PnjCollisions() {
-	if e.Pnj.Position.X > e.Player.Position.X-20 && 
-		e.Pnj.Position.X < e.Player.Position.X+20 &&
-		e.Pnj.Position.Y > e.Player.Position.Y-20 &&
-		e.Pnj.Position.Y < e.Player.Position.Y+20 {
-		if e.Pnj.Name == "Jack" {
-			e.NormalExplanationPnj(e.Pnj, "Trouvez le feu vert puis entrez dans les Catacombes pour sauver le Premier Royaume, Le Royaume de Ran")
-			//en haut a gauche c'est le loup
-			e.NormalExplanationPnj(e.Pnj, "Trouvez le feu bleu puis entrez dans la tour pour sauver le Deuxième Royaume, Le Royaume de Salkin")
-			//en bas à gauche c'est le griffon
-			e.NormalExplanationPnj(e.Pnj, "Trouvez le feu violet puis entrez dans la grotte pour sauver le Troisième Royaume, Royaume d'Usun")
-			//en haut a droite c'est le crabe
-			e.NormalExplanationPnj(e.Pnj, "Trouvez le feu rouge puis entrez dans la gotte du Dragon pour sauver le Quatrième Royaume, Royaume de Siroi")
-			//en bas a droite c'est le dragon
-		}
+
+	for i := range e.Pnj {
+		if 	e.Pnj[i].Position.X > e.Player.Position.X-20 && 
+			e.Pnj[i].Position.X < e.Player.Position.X+20 &&
+			e.Pnj[i].Position.Y > e.Player.Position.Y-20 &&
+			e.Pnj[i].Position.Y < e.Player.Position.Y+20 {
+			if e.Pnj[i].Name == "Jack" {
+				sentence := "B"
+				runes := []rune(sentence)
+				for i := 0; i <= len(runes) - 1; i++ {
+					e.CypherTalk(e.Pnj[0], runes[i] + 1,)
+				}
+			}
+				
+			if e.Pnj[i].Name == "Marie" {
+				e.NormalExplanationPnj(e.Pnj[i], "Banger")
+			}
+		} 
 	}
 }
 
@@ -386,12 +402,11 @@ func (e *Engine) ShootCollisions() {
     }
 }
 
-
 func (e *Engine) NormalTalk(m entity.Monster, sentence string) {
 	e.RenderDialog(m, sentence)
 }
-func (e *Engine) CypherTalk(pnj entity.Pnj, sentence string, r rune){
-	
+func (e *Engine) CypherTalk(pnj entity.Pnj, r rune){
+	e.RenderExplanationPnjCypher(pnj, r)
 }
 
 func (e *Engine) NormalTalkMobs(m entity.Mobs, sentence string) {
@@ -516,7 +531,7 @@ func (e *Engine) ShootLogic() {
 	}
 }
 
-/*
+//
 func (e *Engine) Random(tab []int) int {
 	index := rand.Intn(len(tab))
 	return tab[index]
@@ -571,6 +586,7 @@ func (e *Engine) MoveShoot() { //BBBBBBBBBBBBBBBBBBBB
 	}
 }
 
+/*
 func (e *Engine) UpdateMobs() {
 	for i := 0; i < len(e.Mobs); i++ {
 		if e.Mobs[i].IsAlive {
@@ -597,4 +613,4 @@ func (e *Engine) UpdateShoot() {
 
 		}
 	}
-}
+}*/

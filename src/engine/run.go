@@ -11,6 +11,7 @@ func (engine *Engine) Run() {
 	// si l'option -f est utilisée, affiche les FPS
 	showFPS := flag.Bool("f", false, "Affiche les FPS")
 	fullscreen := flag.Bool("fullscreen", false, "Lance le jeu en plein ecran")
+	
 	flag.Parse()
 
         // Si l'option -f est utilisée, afficher les FPS
@@ -59,6 +60,7 @@ func (engine *Engine) Run() {
             fps := rl.GetFPS()
             rl.DrawText(fmt.Sprintf("FPS: %d", fps), 10, 10, 20, rl.DarkGray)
         }
+
 		if *fullscreen {
 			rl.ToggleFullscreen()
 		}

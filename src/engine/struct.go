@@ -34,7 +34,7 @@ type Engine struct {
 	Mobs     []entity.Mobs
 	Item     []item.Item
 	Tower    []building.Tower
-	Pnj      entity.Pnj
+	Pnj     []entity.Pnj
 	Shoot    []entity.Shoot
 	Maps     []fight.Fight2
 	selectedIndex int 
