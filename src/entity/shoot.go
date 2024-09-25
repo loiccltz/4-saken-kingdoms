@@ -5,12 +5,13 @@ import (
 )
 
 type Shoot struct {
-	Position rl.Vector2
+	Position   rl.Vector2
 	IsShooting bool
-	Sprite rl.Texture2D
+	Direction  int // 0=haut, 1=bas, 2=gauche, 3=droite
 	Damage int
+	Sprite     rl.Texture2D
 }
 
 func (m *Shoot) AttackOfShoot(p *Player) {
-	p.Health -= 5
+	p.Health -= m.Damage
 }
