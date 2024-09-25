@@ -75,8 +75,10 @@ func (e *Engine) InitTower() {
 func (e *Engine) InitEntities() {
 	e.Player = entity.Player{
 
+
 		Position:              rl.Vector2{X: 4430, Y: 6720},
 		Health:                100,
+
 		PlayerSrc: rl.NewRectangle(0, 0, 32, 32),
 		PlayerDest: rl.NewRectangle(0, 0, -20, -10,),
 
@@ -95,6 +97,14 @@ func (e *Engine) InitEntities() {
 		IsAlive:               true,
 		Sprite:                e.Player.Sprite,
 	}
+	e.Player.Inventory = append(e.Player.Inventory, item.Item{
+		Name: "Potion",
+		Price: 5,
+		IsConsumable: true,
+		IsEquippable: false,
+		Regen : 10,
+		Sprite: rl.LoadTexture("textures/items/item.png"),
+	})
 	e.Player.Money = 10
 	//fmt.Println(e.Player.Position.X)
 	//fmt.Println(e.Player.Position.Y)
@@ -123,14 +133,20 @@ func (e *Engine) InitItem() {
 		Price:        5,
 		IsConsumable: true,
 		IsEquippable: false,
+		Regen : 10,
+		Sprite:       rl.LoadTexture("textures/items/itemschelou.png"),
+
 		Sprite:       rl.LoadTexture("textures/items/itemschelou.png"), // Il faut changer la texture pour La Potion
+
 	})
 	e.Seller.Inventory = append(e.Seller.Inventory, item.Item{
 		Name:         "Epée",
 		Price:        15,
-		IsConsumable: false,
-		IsEquippable: true,
-		Sprite:       rl.LoadTexture("textures/items/itemschelou.png"), // Il faut changer la texture pour L'Epée
+		IsConsumable: true,
+		IsEquippable: false,
+		Regen : 10,
+		Sprite:       rl.LoadTexture("textures/items/itemschelou.png"),
+
 	})
 	e.Seller.Inventory = append(e.Seller.Inventory, item.Item{
 		Name:         "Bouclier",
@@ -160,7 +176,8 @@ func (e *Engine) InitMobs() {
 		Price:        5,
 		IsConsumable: true,
 		IsEquippable: false,
-		Sprite:       rl.LoadTexture("textures/items/itemschelou.png")}) // Il faut changer la texture pour La potion
+		Regen : 10,
+		Sprite:       rl.LoadTexture("textures/items/itemschelou.png")})
 
 	e.Mobs = append(e.Mobs, entity.Mobs{
 		Name:     "mob2",
@@ -178,7 +195,27 @@ func (e *Engine) InitMobs() {
 		Price:        5,
 		IsConsumable: true,
 		IsEquippable: false,
-		Sprite:       rl.LoadTexture("textures/items/itemschelou.png")}) // Il faut changer la texture pour La potion
+
+		Regen : 10,
+		Sprite:       rl.LoadTexture("textures/items/itemschelou.png")})
+	e.Mobs = append(e.Mobs, entity.Mobs{
+		Name:     "mob3",
+		Position: rl.Vector2{X: 4450, Y: 6850},
+		Health:   3,
+		Damage:   1,
+		Loot:     []item.Item{},
+		Worth:    25,
+
+		IsAlive: true,
+		Sprite:  rl.LoadTexture("textures/entities/orc/Orc-Idle.png"),
+	})
+	e.Mobs[len(e.Mobs)-1].Loot = append(e.Mobs[len(e.Mobs)-1].Loot, item.Item{
+		Name:         "Biscuit",
+		Price:        5,
+		IsConsumable: true,
+		IsEquippable: false,
+		Regen : 10,
+		Sprite:       rl.LoadTexture("textures/items/itemschelou.png")})
 }
 
 func (e *Engine) InitMonsters() {

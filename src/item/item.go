@@ -12,6 +12,7 @@ type Item struct {
 	IsConsumable bool
 	IsEquippable bool
 	Quantity int
+	Regen int
 	Sprite       rl.Texture2D
 }
 

@@ -42,6 +42,7 @@ func (e *Engine) SettingsLogic() {
 }
 
 func (e *Engine) InGameLogic() {
+	
 	// Mouvement
 	if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
 		e.Player.Position.Y -= e.Player.Speed
@@ -146,7 +147,7 @@ func (e *Engine) CheckCollisionsWithObjects() bool {
 	playerRect := rl.NewRectangle(e.Player.Position.X, e.Player.Position.Y, 40, 40)
 	// * 2 - 16
 	for _, obj := range e.Objects {
-		objectRect := rl.NewRectangle(obj.X*2-16, obj.Y*2-16, obj.Width, obj.Height)
+		objectRect := rl.NewRectangle(obj.X*2-16, obj.Y*2-16, obj.Width*2-16, obj.Height*2-16)
 		if rl.CheckCollisionRecs(playerRect, objectRect) {
 			// fmt.Print("coli")
 			// fmt.Println(objectRect)
@@ -155,6 +156,7 @@ func (e *Engine) CheckCollisionsWithObjects() bool {
 	}
 	return false
 }
+
 
 func (e *Engine) CheckCollisions() {
 	// fmt.Println(e.Player.Position.X)
@@ -222,14 +224,10 @@ func (e *Engine) PnjCollisions() {
 }
 
 func (e *Engine) UseSelectedItem() {
-    if len(e.Player.Inventory) > 0 && e.Player.Inventory[e.selectedIndex].Quantity > 0 {
-        e.Player.Inventory[e.selectedIndex].Quantity--
+    e.Player.Health += e.Player.Inventory[e.selectedIndex].Regen
 
-        // Si la quantité atteint 0, tu peux décider de retirer l'objet ou simplement l'afficher comme indisponible.
-        if e.Player.Inventory[e.selectedIndex].Quantity == 0 {
-            // Optionnel: supprimer l'objet si plus de quantité
-            // e.Player.Inventory = append(e.Player.Inventory[:e.selectedIndex], e.Player.Inventory[e.selectedIndex+1:]...)
-        }
+    if e.Player.Health > e.Player.MaxHealth {
+        e.Player.Health = e.Player.MaxHealth
     }
 }
 

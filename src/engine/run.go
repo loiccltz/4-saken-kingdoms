@@ -1,11 +1,19 @@
 package engine
 
 import (
+	"flag"
+	"fmt"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
 func (engine *Engine) Run() {
 	rl.SetTargetFPS(60)
+	showFPS := flag.Bool("f", false, "Affiche les FPS")
+	flag.Parse()
+
+
+        // Si l'option -f est utilisée, afficher les FPS
+   
 
 	for engine.IsRunning {
 
@@ -46,6 +54,11 @@ func (engine *Engine) Run() {
 					engine.GameOverLogic()
 			}
 		}
+
+		if *showFPS {
+            fps := rl.GetFPS()
+            rl.DrawText(fmt.Sprintf("FPS: %d", fps), 10, 10, 20, rl.DarkGray)
+        }
 		rl.EndDrawing()
 	}
 }
