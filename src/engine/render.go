@@ -30,6 +30,7 @@ func (e *Engine) InGameRendering() {
 
 	rl.EndMode2D()
 	
+
 	rl.DrawText("[Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Esc] to Pause", 340)/4, int32(rl.GetScreenHeight())/2-320, 20, rl.Black)
 	rl.DrawText("[I] to Inventory", int32(rl.GetScreenWidth())/2-rl.MeasureText("[I] to Inventory", 420)/4, int32(rl.GetScreenHeight())/2-280, 20, rl.Black)
 	

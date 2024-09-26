@@ -56,6 +56,9 @@ type Engine struct {
 
 	InventoryMenu engine
 	SellerMenu    engine
+
+	ScreenWidth  int32
+    ScreenHeight int32
 }
 type Fight struct {
 	CurrentMonster      entity.Monster

@@ -70,7 +70,7 @@ func (e *Engine) InGameLogic() {
 	}
 	// Camera
 	e.Camera.Target = rl.Vector2{X: e.Player.Position.X + 70, Y: e.Player.Position.Y + 70}
-	e.Camera.Offset = rl.Vector2{X: ScreenWidth / 2, Y: ScreenHeight / 2}
+	e.Camera.Offset = rl.Vector2{X: float32(ScreenWidth) / 2, Y: float32(ScreenHeight) / 2}
 
 	// Menus
 	if rl.IsKeyPressed(rl.KeyEscape) {

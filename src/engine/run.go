@@ -7,8 +7,16 @@ import (
 )
 
 func (engine *Engine) Run() {
-	rl.SetTargetFPS(60)
-	
+
+	rl.SetTargetFPS(120)
+
+    rl.ToggleFullscreen()
+
+    if rl.IsWindowFullscreen() {
+        ScreenWidth = rl.GetScreenWidth()
+        ScreenHeight = rl.GetScreenHeight()
+    }
+
 
 	showFPS := flag.Bool("f", false, "Affiche les FPS")
 	// fullscreen := flag.Bool("fullscreen", false, "Lance le jeu en plein ecran")
