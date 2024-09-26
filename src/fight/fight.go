@@ -1,7 +1,6 @@
 package fight
 
 import (
-	"fmt"
 	"main/src/entity"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
@@ -54,7 +53,7 @@ func MobsVsPlayer(player *entity.Player, mobs *entity.Mobs) {
 		player.Inventory = append(player.Inventory, mobs.Loot[0])
 		player.Money += mobs.Worth
 		mobs.IsAlive= false
-		fmt.Println("dddd")
+
 		rl.UnloadTexture(mobs.Sprite)
 
 	}
@@ -68,7 +67,6 @@ func PlayerVsMobs(player *entity.Player, mobs *entity.Mobs) {
 		player.Inventory = append(player.Inventory, mobs.Loot[0])
 		player.Money += mobs.Worth
 		mobs.IsAlive= false
-		fmt.Println("dddd")
 		rl.UnloadTexture(mobs.Sprite)
 
 	}
