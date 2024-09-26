@@ -3,12 +3,17 @@ package engine
 import (
 	"os"
 
-	rl "github.com/gen2brain/raylib-go/raylib"
+	rl "github.com/gen2brain/raylib-go/raylib" // Import du module raylib pour gérer les fenêtres et le son
 )
 
+// Close : Fonction pour fermer proprement le moteur et quitter le jeu
 func (e *Engine) Close() {
+	// Ferme le dispositif audio (libère les ressources audio)
 	rl.CloseAudioDevice()
-	rl.CloseWindow()
-	os.Exit(0)
 
+	// Ferme la fenêtre du jeu créée par Raylib
+	rl.CloseWindow()
+
+	// Quitte le programme avec un code de sortie 0 (indiquant que tout s'est bien passé)
+	os.Exit(0)
 }
