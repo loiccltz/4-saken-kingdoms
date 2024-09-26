@@ -101,8 +101,6 @@ func (e *Engine) InitEntities() {
 		IsConsumable: true,
 		Regen:        10,
 		IsEquippable: false,
-
-		Regen:        10,
 		Sprite:       rl.LoadTexture("textures/items/Potion.png"),
 
 	})
@@ -199,8 +197,6 @@ func (e *Engine) InitMobs() {
 		Regen:        10,
 		IsConsumable: true,
 		IsEquippable: false,
-
-		Regen:        10,
 		Sprite:       rl.LoadTexture("textures/items/item.png")})
 
 

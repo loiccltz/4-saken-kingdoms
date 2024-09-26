@@ -5,11 +5,6 @@ import (
 	"main/src/building"
 	"main/src/entity"
 	"main/src/fight"
-
-	//"math/rand"
-
-	//"time"
-
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -239,7 +234,7 @@ func (e *Engine) PnjCollisions() {
 				e.CypherTalk(e.Pnj[i], cipherSentence)
 		}
 			if e.Pnj[i].Name == "Jacky" {
-				e.NormalExplanationPnj(e.Pnj[i], 
+				e.RenderExplanationPnj(e.Pnj[i], 
 					"Bonjour aventurier, je vais t'aider à traduire les messages de ce monde : '\n' Explore ce monde et libère les princesses, suis les différents chemins si tu es perdu ")
 			}
 
@@ -260,11 +255,11 @@ func (e *Engine) PnjCollisions() {
 			}
 
 			if e.Pnj[i].Name == "Francis" {
-				e.NormalExplanationPnj(e.Pnj[i], "Tu te dirige vers le chateau !")
+				e.RenderExplanationPnj(e.Pnj[i], "Tu te dirige vers le chateau !")
 			}
 
 			if e.Pnj[i].Name == "Garde" {
-				e.NormalExplanationPnj(e.Pnj[i], "Saluez le Roi Léo et la reine Jannette !")
+				e.RenderExplanationPnj(e.Pnj[i], "Saluez le Roi Léo et la reine Jannette !")
 			}
 
 		}
@@ -478,15 +473,6 @@ func (e *Engine) NormalExplanation(m building.Tower, sentence string) {
 
 func (e *Engine) NormalExplanationShop(m entity.Seller, sentence string) {
 	e.RenderExplanationShop(m, sentence)
-}
-func (e *Engine) NormalExplanationPnj2(m entity.Pnj, sentence string) {
-	e.RenderExplanationPnj2(m, sentence)
-}
-func (e *Engine) NormalExplanationPnj3(m entity.Pnj, sentence string) {
-	e.RenderExplanationPnj3(m, sentence)
-}
-func (e *Engine) NormalExplanationPnj4(m entity.Pnj, sentence string) {
-	e.RenderExplanationPnj4(m, sentence)
 }
 
 /*
