@@ -36,16 +36,17 @@ func (e *Engine) UpdateAnimation() {
 		e.Player.Sprite = e.Animations.Player.Walk[2] //  droite
 
 	}
-	if e.Player.FrameCount % 3 == 1 {e.Player.PlayerFrame++}
+
+	if e.Player.FrameCount % 3 == 1 {e.Player.PlayerFrame++}	// vitesse de l'animation
 
 	e.Player.FrameCount++
 
-	if e.Player.PlayerFrame > 3 { e.Player.PlayerFrame = 0}
+	if e.Player.PlayerFrame > 3 { e.Player.PlayerFrame = 0} 
 
 	e.Player.PlayerSrc.X = e.Player.PlayerSrc.Width * float32(e.Player.PlayerFrame)
 	e.Player.PlayerSrc.Y = e.Player.PlayerSrc.Height * float32(e.Player.PlayerFrame)
 
-	// animation boss loup/////////////////////////////
+	// animation boss loup ne fonctionne pas pour le moment
 	/*if e.Monsters[0].FrameCount % 2 == 1 {e.Monsters[0].MonsterFrame++}
 
 	e.Monsters[0].FrameCount++

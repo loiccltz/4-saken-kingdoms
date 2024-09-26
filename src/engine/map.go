@@ -96,6 +96,7 @@ func (e *Engine) InitMap(mapFile string) {
 		e.Sprites[TileSet.Name] = rl.LoadTexture(path + TileSet.Image)
 	}
 
+	// je récupère tous les objets dans le map.json
 	for _, Layer := range e.MapJSON.Layers {
 		if Layer.Type == "objectgroup" {
 			e.Objects = append(e.Objects, Layer.Objects...) // Ajouter les objets à e.Objects

@@ -51,8 +51,11 @@ func (e *Engine) InGameRendering() {
 	e.RenderPlayer()
 	rl.EndMode2D()
 	rl.DrawText("[Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Esc] to Pause", 340)/4, int32(rl.GetScreenHeight())/2-320, 20, rl.Black)
+
+	rl.DrawText("[A] AND [E] to navigate in the inventory", int32(rl.GetScreenWidth())/2-rl.MeasureText("[A] AND [E] to navigate in the inventory", 470)/4, int32(rl.GetScreenHeight())/2-280, 20, rl.Black)
 	rl.DrawText("[I] to Inventory", int32(rl.GetScreenWidth())/2-rl.MeasureText("[I] to Inventory", 320)/4, int32(rl.GetScreenHeight())/2-280, 20, rl.Black)
 	rl.DrawText("[Enter] to Attack", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Enter] to Attack", 280)/4, int32(rl.GetScreenHeight())/2-240, 20, rl.Black)
+
 
 }
 
@@ -275,7 +278,7 @@ func (e *Engine) RenderDialog(m entity.Monster, sentence string) {
 	rl.BeginMode2D(e.Camera)
 	rl.DrawText(
 		sentence,
-		int32(m.Position.X),
+		int32(m.Position.X)-50,
 		int32(m.Position.Y)+50,
 		10,
 		rl.RayWhite,
@@ -320,47 +323,17 @@ func (e *Engine) RenderExplanationShop(m entity.Seller, sentence string) {
 	)
 	rl.EndMode2D()
 }
-func (e *Engine) RenderExplanationPnj2(m entity.Pnj, sentence string) {
+
+func (e *Engine) RenderExplanationPnj(pnj entity.Pnj, sentence string) {
 	rl.BeginMode2D(e.Camera)
 	rl.DrawText(
 		sentence,
-		int32(m.Position.X)-200,
-		int32(m.Position.Y)+30,
+		int32(pnj.Position.X),
+		int32(pnj.Position.Y)+50,
 		10,
 		rl.Black,
-	)
-	rl.EndMode2D()
-}
-func (e *Engine) RenderExplanationPnj3(m entity.Pnj, sentence string) {
-	rl.BeginMode2D(e.Camera)
-	rl.DrawText(
-		sentence,
-		int32(m.Position.X)-200,
-		int32(m.Position.Y)+40,
-		10,
-		rl.Black,
-	)
-	rl.EndMode2D()
-}
-func (e *Engine) RenderExplanationPnj4(m entity.Pnj, sentence string) {
-	rl.BeginMode2D(e.Camera)
-	rl.DrawText(
-		sentence,
-		int32(m.Position.X)-200,
-		int32(m.Position.Y)+50,
-		10,
-		rl.Black,
-	)
-	rl.EndMode2D()
-}
-func (e *Engine) RenderExplanationPnj5(m entity.Pnj, sentence string) {
-	rl.BeginMode2D(e.Camera)
-	rl.DrawText(
-		sentence,
-		int32(m.Position.X)-200,
-		int32(m.Position.Y)+50,
-		10,
-		rl.Black,
+
+
 	)
 	rl.EndMode2D()
 }
@@ -369,10 +342,10 @@ func (e *Engine) RenderExplanationPnjCypher(m entity.Pnj, sentence string) {
 	rl.BeginMode2D(e.Camera)
 	rl.DrawText(
 		sentence,
-		int32(m.Position.X),
+		int32(m.Position.X)-50,
 		int32(m.Position.Y)+50,
 		10,
-		rl.RayWhite,
+		rl.Black,
 	)
 	rl.EndMode2D()
 }

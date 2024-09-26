@@ -1,23 +1,30 @@
-# Projet 4 Saken Kingdom
+# Projet 4 : Saken Kingdom
 
-## réalisé par 
+## Réalisé par :
 - Marino
 - Alexandre Reffert
 - Théo
 - Loic Collatuzo
 
-### Pré-requis
-    Guide d'installasion Golang  et Raylib
-
-    Pour installer Golang, lancé la commande suivante dans votre terminal.
-    sudo apt get golang 
-    installation de raylib
-
-    Une fois intallé, il vous faut vous diriger dans le dossier du projet et effectuer la commande suivant : go run .
-
-
-U
 ---
-### But du jeu
-    Pour pouvoir terminer le jeux, vous devrez tuer les 4 monstres afin de délivrer les 4 princesses des Royaumes Oubliés
-    Vous pourrez retrouvez un menu avec chaque touche du jeu en appuyant sur la touche 'ECHAP'
+
+### Pré-requis
+
+#### Installation de Golang et Raylib
+
+- Pour installer **Golang**, exécutez la commande suivante dans votre terminal :
+  ```bash
+  sudo apt-get install golang
+- Pour installer **Raylib**, suivez les instructions officielles disponibles [ici](https://github.com/raysan5/raylib).
+
+
+- Une fois les outils installés, dirigez-vous dans le dossier du projet et exécutez la commande suivante pour lancer le jeu :
+```bash
+go run . 
+``` 
+---
+
+ ## But du jeu
+- Votre mission est de vaincre les 4 monstres afin de délivrer les 4 princesses des Royaumes Oubliés.
+
+- Pour afficher le menu des contrôles, appuyez sur la touche ECHAP.
