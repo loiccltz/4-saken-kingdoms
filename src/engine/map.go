@@ -87,6 +87,11 @@ func (e *Engine) InitMap(mapFile string) {
 		path := path.Dir(mapFile) + "/"
 		e.Sprites[TileSet.Name] = rl.LoadTexture(path + TileSet.Image)
 	}
+	for _, Layer := range e.MapJSON.Layers {
+		if Layer.Type == "objectgroup" {
+			e.Objects = append(e.Objects, Layer.Objects...) // Ajouter les objets à e.Objects
+		}
+	}
 }
 
 func (e *Engine) RenderMap() {
@@ -106,11 +111,9 @@ func (e *Engine) RenderMap() {
 	srcRectangle := rl.Rectangle{X: 0, Y: 0, Width: float32(e.MapJSON.TileHeight), Height: float32(e.MapJSON.TileHeight)}
 	destRectangle := rl.Rectangle{X: 0, Y: 0, Width: float32(e.MapJSON.TileWidth), Height: float32(e.MapJSON.TileWidth)}
 	column_counter := 0
-
+	
 	for _, Layer := range e.MapJSON.Layers {
-		if Layer.Type == "objectgroup" {
-			e.Objects = append(e.Objects, Layer.Objects...) // Ajouter les objets à e.Objects
-		}
+
 		
 		for _, tile := range Layer.Data {
 			if tile != 0 {
