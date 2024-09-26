@@ -2,10 +2,10 @@ package engine
 
 import (
 	"fmt"
+	rl "github.com/gen2brain/raylib-go/raylib"
 	"main/src/building"
 	"main/src/entity"
 	"main/src/fight"
-	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
 func (e *Engine) HomeLogic() {
@@ -52,20 +52,20 @@ func (e *Engine) InGameLogic() {
 		e.Player.Position.X += e.Player.Speed
 	}
 	// sprint qui fonctionne pour l'instant comme un noclip
-/*
-	if rl.IsKeyDown(rl.KeyW) && rl.IsKeyDown(rl.KeyLeftShift) {
-		e.Player.Position.Y -= e.Player.Speed - 2
-	}
-	if rl.IsKeyDown(rl.KeyS) && rl.IsKeyDown(rl.KeyLeftShift) {
-		e.Player.Position.Y += e.Player.Speed + 2
-	}
-	if rl.IsKeyDown(rl.KeyA) && rl.IsKeyDown(rl.KeyLeftShift) {
-		e.Player.Position.X -= e.Player.Speed - 2
-	}
-	if rl.IsKeyDown(rl.KeyD) && rl.IsKeyDown(rl.KeyLeftShift) {
-		e.Player.Position.X += e.Player.Speed + 2
-	}
-*/
+	/*
+		if rl.IsKeyDown(rl.KeyW) && rl.IsKeyDown(rl.KeyLeftShift) {
+			e.Player.Position.Y -= e.Player.Speed - 2
+		}
+		if rl.IsKeyDown(rl.KeyS) && rl.IsKeyDown(rl.KeyLeftShift) {
+			e.Player.Position.Y += e.Player.Speed + 2
+		}
+		if rl.IsKeyDown(rl.KeyA) && rl.IsKeyDown(rl.KeyLeftShift) {
+			e.Player.Position.X -= e.Player.Speed - 2
+		}
+		if rl.IsKeyDown(rl.KeyD) && rl.IsKeyDown(rl.KeyLeftShift) {
+			e.Player.Position.X += e.Player.Speed + 2
+		}
+	*/
 	// Camera
 	e.Camera.Target = rl.Vector2{X: e.Player.Position.X + 70, Y: e.Player.Position.Y + 70}
 	e.Camera.Offset = rl.Vector2{X: float32(ScreenWidth) / 2, Y: float32(ScreenHeight) / 2}
@@ -151,14 +151,13 @@ func (e *Engine) SellerLogic() {
 
 }
 
-
 func (e *Engine) CheckCollisionsWithObjects() bool {
 	playerRect := rl.NewRectangle(e.Player.Position.X, e.Player.Position.Y, 40, 40) // Je trace un rectangle autour du joueur
 
 	for _, obj := range e.Objects { // je parcours chaque objet
 		// Je trace un rectangle au coordoonées de  l'objet, avec sa taille, on fait *2-16 car notre pack d'assets est en 16x16
-		objectRect := rl.NewRectangle(obj.X*2-16, obj.Y*2-16, obj.Width*2-16, obj.Height*2-16) 
-		if rl.CheckCollisionRecs(playerRect, objectRect) {// on peut maintenant regarder si il y a collisions entre les deux
+		objectRect := rl.NewRectangle(obj.X*2-16, obj.Y*2-16, obj.Width*2-16, obj.Height*2-16)
+		if rl.CheckCollisionRecs(playerRect, objectRect) { // on peut maintenant regarder si il y a collisions entre les deux
 			return true
 		}
 	}
@@ -232,18 +231,18 @@ func (e *Engine) PnjCollisions() {
 					cipherSentence += string(cipherRune)
 				}
 				e.CypherTalk(e.Pnj[i], cipherSentence)
-		}
+			}
 			if e.Pnj[i].Name == "Jacky" {
-				e.RenderExplanationPnj(e.Pnj[i], 
+				e.RenderExplanationPnj(e.Pnj[i],
 					"Bonjour aventurier, je vais t'aider à traduire les messages de ce monde : '\n' Explore ce monde et libère les princesses, suis les différents chemins si tu es perdu ")
 			}
 
 			if e.Pnj[i].Name == "Michou" {
 				var RobotSentence string
 				sentence := "Bonjour étranger tu te dirige vers le chateau !"
-				// 
+				//
 				for _, runes := range sentence {
-					// Convertir la rune (int32) en ASCII 
+					// Convertir la rune (int32) en ASCII
 					asciiValue := int(runes)
 					// convertir l'ASCII en chaîne binaire
 					binaryString := fmt.Sprintf("%08b", asciiValue)
@@ -259,7 +258,7 @@ func (e *Engine) PnjCollisions() {
 			}
 
 			if e.Pnj[i].Name == "Garde" {
-				e.RenderExplanationPnj(e.Pnj[i], "Saluez le Roi Léo et la reine Jannette !")
+				e.RenderExplanationPnj(e.Pnj[i], "Saluez le Roi Léo et la reine Yannette !")
 			}
 
 		}
@@ -505,7 +504,7 @@ func (e *Engine) UpdateMobs() {
 	}
 }
 
-//  met à jour la position des projectiles 
+// met à jour la position des projectiles
 func (e *Engine) UpdateShoot() {
 	// Parcourt tous les projectiles dans la liste e.Shoot
 	for i := 0; i < len(e.Shoot); i++ {
@@ -517,10 +516,10 @@ func (e *Engine) UpdateShoot() {
 			if distance <= ChaseDistance {
 				// Calcule la direction du projectile vers le joueur
 				direction := rl.Vector2Subtract(e.Player.Position, e.Shoot[i].Position)
-				
+
 				// Normalise la direction pour obtenir un vecteur de longueur 1
 				direction = rl.Vector2Normalize(direction)
-				
+
 				// Met à jour la position du projectile en ajoutant la direction normalisée à sa position actuelle
 				e.Shoot[i].Position = rl.Vector2Add(e.Shoot[i].Position, direction)
 			}
