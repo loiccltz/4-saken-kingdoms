@@ -55,19 +55,21 @@ func (e *Engine) InGameLogic() {
 	if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
 		e.Player.Position.X += e.Player.Speed
 	}
-	// sprint
+	// sprint qui fonctionne pour l'instant comme un noclip
+/*
 	if rl.IsKeyDown(rl.KeyW) && rl.IsKeyDown(rl.KeyLeftShift) {
 		e.Player.Position.Y -= e.Player.Speed - 2
 	}
 	if rl.IsKeyDown(rl.KeyS) && rl.IsKeyDown(rl.KeyLeftShift) {
-		e.Player.Position.Y += e.Player.Speed +2
+		e.Player.Position.Y += e.Player.Speed + 2
 	}
 	if rl.IsKeyDown(rl.KeyA) && rl.IsKeyDown(rl.KeyLeftShift) {
-		e.Player.Position.X -= e.Player.Speed -2
+		e.Player.Position.X -= e.Player.Speed - 2
 	}
 	if rl.IsKeyDown(rl.KeyD) && rl.IsKeyDown(rl.KeyLeftShift) {
-		e.Player.Position.X += e.Player.Speed +2
+		e.Player.Position.X += e.Player.Speed + 2
 	}
+*/
 	// Camera
 	e.Camera.Target = rl.Vector2{X: e.Player.Position.X + 70, Y: e.Player.Position.Y + 70}
 	e.Camera.Offset = rl.Vector2{X: float32(ScreenWidth) / 2, Y: float32(ScreenHeight) / 2}
@@ -151,29 +153,24 @@ func (e *Engine) SellerLogic() {
 		e.SellerMenu = MENUSELLER
 	}
 
-	
 }
 
+
 func (e *Engine) CheckCollisionsWithObjects() bool {
-	playerRect := rl.NewRectangle(e.Player.Position.X, e.Player.Position.Y, 40, 40)
-	// * 2 - 16
-	for _, obj := range e.Objects {
-		objectRect := rl.NewRectangle(obj.X*2-16, obj.Y*2-16, obj.Width*2-16, obj.Height*2-16)
-		if rl.CheckCollisionRecs(playerRect, objectRect) {
-			// fmt.Print("coli")
-			// fmt.Println(objectRect)
+	playerRect := rl.NewRectangle(e.Player.Position.X, e.Player.Position.Y, 40, 40) // Je trace un rectangle autour du joueur
+
+	for _, obj := range e.Objects { // je parcours chaque objet
+		// Je trace un rectangle au coordoonées de  l'objet, avec sa taille, on fait *2-16 car notre pack d'assets est en 16x16
+		objectRect := rl.NewRectangle(obj.X*2-16, obj.Y*2-16, obj.Width*2-16, obj.Height*2-16) 
+		if rl.CheckCollisionRecs(playerRect, objectRect) {// on peut maintenant regarder si il y a collisions entre les deux
 			return true
 		}
 	}
 	return false
 }
 
-
 func (e *Engine) CheckCollisions() {
-	// fmt.Println(e.Player.Position.X)
-	// fmt.Println(e.Player.Position.Y)
 	e.MobsCollisions()
-	//e.MonsterCollisions()
 	e.ShootCollisions()
 	e.UpdateMobs()
 	e.PnjCollisions()
@@ -184,6 +181,7 @@ func (e *Engine) CheckCollisions() {
 }
 func (e *Engine) BlockCollisions() {
 	if e.CheckCollisionsWithObjects() {
+		// si il y a une collision, on bloque le joueur
 		if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
 			e.Player.Position.Y += e.Player.Speed
 		}
@@ -196,9 +194,9 @@ func (e *Engine) BlockCollisions() {
 		if rl.IsKeyDown(rl.KeyD) || rl.IsKeyDown(rl.KeyRight) {
 			e.Player.Position.X -= e.Player.Speed
 		}
-		
 	}
 }
+
 /*func (e *Engine) FightCollisions() {
 	e.UpdateShoot()
 	e.MoveShoot()
@@ -221,36 +219,61 @@ func (e *Engine) SellerCollisions() {
 func (e *Engine) PnjCollisions() {
 
 	for i := range e.Pnj {
-		if 	e.Pnj[i].Position.X > e.Player.Position.X-20 && 
+		if e.Pnj[i].Position.X > e.Player.Position.X-20 &&
 			e.Pnj[i].Position.X < e.Player.Position.X+20 &&
 			e.Pnj[i].Position.Y > e.Player.Position.Y-20 &&
 			e.Pnj[i].Position.Y < e.Player.Position.Y+20 {
-			
-            // On stock le message crypté
-            var cipherSentence string
-			sentence := "Bonjour"
-            runes := []rune(sentence)
-            for _, r := range runes {
-                // On décale chaque lettres de 1 ( methode céasar)
-                cipherRune := r + 1
-                cipherSentence += string(cipherRune)
-            }
-
-            e.CypherTalk(e.Pnj[i], cipherSentence)
-				
-			if e.Pnj[i].Name == "Marie" {
-				e.NormalExplanationPnj(e.Pnj[i], "Banger")
+			// On stock le message crypté
+			if e.Pnj[i].Name == "Jack" {
+				var cipherSentence string
+				sentence := "Bonjour aventurier, explore ce monde et libère les princesses"
+				runes := []rune(sentence)
+				for _, r := range runes {
+					// On décale chaque lettres de 1 ( methode césar)
+					cipherRune := r + 1
+					cipherSentence += string(cipherRune)
+				}
+				e.CypherTalk(e.Pnj[i], cipherSentence)
+		}
+			if e.Pnj[i].Name == "Jacky" {
+				e.NormalExplanationPnj(e.Pnj[i], 
+					"Bonjour aventurier, je vais t'aider à traduire les messages de ce monde : '\n' Explore ce monde et libère les princesses, suis les différents chemins si tu es perdu ")
 			}
-		} 
+
+			if e.Pnj[i].Name == "Michou" {
+				var RobotSentence string
+				sentence := "Bonjour étranger tu te dirige vers le chateau !"
+				// 
+				for _, runes := range sentence {
+					// Convertir la rune (int32) en ASCII 
+					asciiValue := int(runes)
+					// convertir l'ASCII en chaîne binaire
+					binaryString := fmt.Sprintf("%08b", asciiValue)
+					// on ajoute la valeur en binaire
+					RobotSentence += binaryString
+				}
+				// Appeler la méthode pour faire parler binaire
+				e.RobotTalk(e.Pnj[i], RobotSentence)
+			}
+
+			if e.Pnj[i].Name == "Francis" {
+				e.NormalExplanationPnj(e.Pnj[i], "Tu te dirige vers le chateau !")
+			}
+
+			if e.Pnj[i].Name == "Garde" {
+				e.NormalExplanationPnj(e.Pnj[i], "Saluez le Roi Léo et la reine Jannette !")
+			}
+
+		}
 	}
 }
 
 func (e *Engine) UseSelectedItem() {
-    e.Player.Health += e.Player.Inventory[e.selectedIndex].Regen
+	e.Player.Health += e.Player.Inventory[e.selectedIndex].Regen
 
-    if e.Player.Health > e.Player.MaxHealth {
-        e.Player.Health = e.Player.MaxHealth
-    }
+	if e.Player.Health > e.Player.MaxHealth {
+		e.Player.Health = e.Player.MaxHealth
+	}
 }
 
 func (e *Engine) TowerCollisions() {
@@ -290,66 +313,61 @@ func (e *Engine) TowerCollisions() {
 
 func (e *Engine) MobsCollisions() {
 
-    e.Player.UpdateEndurance()
+	e.Player.UpdateEndurance()
 
-    for i := range e.Mobs {
-        if e.Mobs[i].IsAlive {
-            if e.Mobs[i].Position.X > e.Player.Position.X-20 &&
-                e.Mobs[i].Position.X < e.Player.Position.X+20 &&
-                e.Mobs[i].Position.Y > e.Player.Position.Y-20 &&
-                e.Mobs[i].Position.Y < e.Player.Position.Y+20 {
-
-                fmt.Println(e.Mobs[i].Health)
-
-                if e.Player.IsAlive {
-					
-                    e.ApplyDamageToPlayer(e.Mobs[i].Damage)
+	for i := range e.Mobs {
+		if e.Mobs[i].IsAlive {
+			if e.Mobs[i].Position.X > e.Player.Position.X-20 &&
+				e.Mobs[i].Position.X < e.Player.Position.X+20 &&
+				e.Mobs[i].Position.Y > e.Player.Position.Y-20 &&
+				e.Mobs[i].Position.Y < e.Player.Position.Y+20 {
 
 
-                    if rl.IsKeyPressed(rl.KeyEnter) {
-                        if e.Player.Endurance >= e.Player.MaxEndurance {
+				if e.Player.IsAlive {
 
-                            fight.PlayerVsMobs(&e.Player, &e.Mobs[i])
+					e.ApplyDamageToPlayer(e.Mobs[i].Damage)
 
-                            e.Player.Endurance = 0
-                            fmt.Println(e.Player.Health)
-                        } else {
-                            fmt.Println("Endurance insuffisante pour attaquer")
-                        }
-                    }
-                }
-            }
-        }
-    }
+					if rl.IsKeyPressed(rl.KeyEnter) {
+						if e.Player.Endurance >= e.Player.MaxEndurance {
 
+							fight.PlayerVsMobs(&e.Player, &e.Mobs[i])
 
-    for i, monster := range e.Monsters {
-        if monster.IsAlive {
-            if e.Player.Position.X > monster.Position.X-20 &&
-                e.Player.Position.X < monster.Position.X+20 &&
-                e.Player.Position.Y > monster.Position.Y-20 &&
-                e.Player.Position.Y < monster.Position.Y+20 {
+							e.Player.Endurance = 0
+						} else {
+							fmt.Println("Endurance insuffisante pour attaquer")
+						}
+					}
+				}
+			}
+		}
+	}
 
-                fmt.Println(monster.Health)
+	for i, monster := range e.Monsters {
+		if monster.IsAlive {
+			if e.Player.Position.X > monster.Position.X-20 &&
+				e.Player.Position.X < monster.Position.X+20 &&
+				e.Player.Position.Y > monster.Position.Y-20 &&
+				e.Player.Position.Y < monster.Position.Y+20 {
+
+				fmt.Println(monster.Health)
 				e.ShootLogic()
-                if e.Player.IsAlive {
+				if e.Player.IsAlive {
 
-                    e.ApplyDamageToPlayer(monster.Damage)
+					e.ApplyDamageToPlayer(monster.Damage)
 
-
-                    if rl.IsKeyPressed(rl.KeyEnter) {
-                        if e.Player.Endurance >= e.Player.MaxEndurance {
-                            fight.PlayerVsMonster(&e.Player, &e.Monsters[i])
-                            e.Player.Endurance = 0
-                            fmt.Println(e.Player.Health)
-                        } else {
-                            fmt.Println("Endurance insuffisante pour attaquer")
-                        }
-                    }
-                }
-            }
-        }
-    }
+					if rl.IsKeyPressed(rl.KeyEnter) {
+						if e.Player.Endurance >= e.Player.MaxEndurance {
+							fight.PlayerVsMonster(&e.Player, &e.Monsters[i])
+							e.Player.Endurance = 0
+							fmt.Println(e.Player.Health)
+						} else {
+							fmt.Println("Endurance insuffisante pour attaquer")
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 /*
@@ -396,23 +414,27 @@ func (e *Engine) MobsCollisions() {
 	}
 */
 func (e *Engine) ShootCollisions() {
-    for _, shoot := range e.Shoot {
-        if shoot.Position.X > e.Player.Position.X-10 &&
-            shoot.Position.X < e.Player.Position.X+10 &&
-            shoot.Position.Y > e.Player.Position.Y-10 &&
-            shoot.Position.Y < e.Player.Position.Y+10 {
-            if shoot.IsShooting && e.Player.IsAlive {
-                e.ApplyDamageToPlayer(shoot.Damage)
-            }
-        }
-    }
+	for _, shoot := range e.Shoot {
+		if shoot.Position.X > e.Player.Position.X-10 &&
+			shoot.Position.X < e.Player.Position.X+10 &&
+			shoot.Position.Y > e.Player.Position.Y-10 &&
+			shoot.Position.Y < e.Player.Position.Y+10 {
+			if shoot.IsShooting && e.Player.IsAlive {
+				e.ApplyDamageToPlayer(shoot.Damage)
+			}
+		}
+	}
 }
 
 func (e *Engine) NormalTalk(m entity.Monster, sentence string) {
 	e.RenderDialog(m, sentence)
 }
-func (e *Engine) CypherTalk(pnj entity.Pnj, sentence string){
-	e.RenderExplanationPnjCypher(pnj, sentence)
+func (e *Engine) CypherTalk(pnj entity.Pnj, sentence string) {
+	e.RenderExplanationPnj(pnj, sentence)
+}
+
+func (e *Engine) RobotTalk(pnj entity.Pnj, sentence string) {
+	e.RenderExplanationPnj(pnj, sentence)
 }
 
 func (e *Engine) NormalTalkMobs(m entity.Mobs, sentence string) {
@@ -428,6 +450,7 @@ func (e *Engine) NormalExplanationShop(m entity.Seller, sentence string) {
 func (e *Engine) NormalExplanationPnj(m entity.Pnj, sentence string) {
 	e.RenderExplanationPnj(m, sentence)
 }
+
 /*
 func (e *Engine) ComeBackLogic() {
 	if rl.IsKeyPressed(rl.KeySpace) {
@@ -537,7 +560,6 @@ func (e *Engine) ShootLogic() {
 	}
 }
 
-//
 func (e *Engine) Random(tab []int) int {
 	index := rand.Intn(len(tab))
 	return tab[index]

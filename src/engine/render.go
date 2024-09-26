@@ -56,7 +56,8 @@ func (e *Engine) InGameRendering() {
 	rl.EndMode2D()
 	rl.DrawText("[Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Esc] to Pause", 340)/4, int32(rl.GetScreenHeight())/2-320, 20, rl.Black)
 	rl.DrawText("[I] to Inventory", int32(rl.GetScreenWidth())/2-rl.MeasureText("[I] to Inventory", 420)/4, int32(rl.GetScreenHeight())/2-280, 20, rl.Black)
-
+	rl.DrawText("[A] AND [E] to navigate in the inventory", int32(rl.GetScreenWidth())/2-rl.MeasureText("[A] AND [E] to navigate in the inventory", 470)/4, int32(rl.GetScreenHeight())/2-280, 20, rl.Black)
+	rl.DrawText("[ENTER] to Attack", int32(rl.GetScreenWidth())/2-rl.MeasureText("[ENTER] to Attack", 530)/4, int32(rl.GetScreenHeight())/2-280, 20, rl.Black)
 }
 
 func (e *Engine) InventoryRendering() {
@@ -278,7 +279,7 @@ func (e *Engine) RenderDialog(m entity.Monster, sentence string) {
 	rl.BeginMode2D(e.Camera)
 	rl.DrawText(
 		sentence,
-		int32(m.Position.X),
+		int32(m.Position.X)-50,
 		int32(m.Position.Y)+50,
 		10,
 		rl.RayWhite,
@@ -323,14 +324,14 @@ func (e *Engine) RenderExplanationShop(m entity.Seller, sentence string) {
 	)
 	rl.EndMode2D()
 }
-func (e *Engine) RenderExplanationPnj(m entity.Pnj, sentence string) {
+func (e *Engine) RenderExplanationPnj(pnj entity.Pnj, sentence string) {
 	rl.BeginMode2D(e.Camera)
 	rl.DrawText(
 		sentence,
-		int32(m.Position.X),
-		int32(m.Position.Y)+50,
+		int32(pnj.Position.X),
+		int32(pnj.Position.Y)+50,
 		10,
-		rl.RayWhite,
+		rl.Black,
 	)
 	rl.EndMode2D()
 }
@@ -339,10 +340,10 @@ func (e *Engine) RenderExplanationPnjCypher(m entity.Pnj, sentence string) {
 	rl.BeginMode2D(e.Camera)
 	rl.DrawText(
 		sentence,
-		int32(m.Position.X),
+		int32(m.Position.X)-50,
 		int32(m.Position.Y)+50,
 		10,
-		rl.RayWhite,
+		rl.Black,
 	)
 	rl.EndMode2D()
 }
