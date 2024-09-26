@@ -16,6 +16,12 @@ type Object struct {
     Height float32 `json "height"`
 	Rotation float32 `json "rotation"`
 }
+type Ranger struct {
+    X      float32 `json "x"`
+    Y      float32 `json "y"`
+    Width  float32 `json "width"`
+    Height float32 `json "height"`
+}
 
 type Layer struct {
 	Data    []int   `json:"data"`
@@ -29,6 +35,7 @@ type Layer struct {
 	X       int     `json:"x"`
 	Y       int     `json:"y"`
 	Objects []Object `json: "objects"`
+	BossFight []Ranger `json: "objects"`
 }
 
 type TileSet struct {

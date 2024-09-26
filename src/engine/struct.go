@@ -40,6 +40,7 @@ type Engine struct {
 	selectedIndex int 
 
 	Objects []Object
+	BossFight []Ranger
 
 	Music       rl.Music
 	MusicVolume float32

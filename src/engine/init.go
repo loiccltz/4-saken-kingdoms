@@ -74,6 +74,7 @@ func (e *Engine) InitTower() {
 func (e *Engine) InitEntities() {
 	e.Player = entity.Player{
 
+
 		Position: rl.Vector2{X: 4648, Y: 6670},
 		Health:   100,
 
@@ -88,7 +89,7 @@ func (e *Engine) InitEntities() {
 		MaxEndurance:          100,
 		EnduranceRechargeRate: 1,
 		Money:                 1000,
-		Speed:                 6,
+		Speed:                 10,
 		Damage:                5,
 		Inventory:             []item.Item{},
 		IsAlive:               true,
@@ -98,20 +99,24 @@ func (e *Engine) InitEntities() {
 		Name:         "Potion",
 		Price:        5,
 		IsConsumable: true,
+		Regen:        10,
 		IsEquippable: false,
+
 		Regen:        10,
 		Sprite:       rl.LoadTexture("textures/items/Potion.png"),
+
 	})
 	e.Player.Money = 10
 	e.Seller = entity.Seller{
 		Name:      "Robin",
-		Position:  rl.Vector2{X: 4400, Y: 6700},
+		Position:  rl.Vector2{X: 5250, Y: 5300},
 		Money:     500,
 		Inventory: []item.Item{},
 		IsAlive:   true,
 		Sprite:    rl.LoadTexture("textures/towers/TXStruct.png"),
 	}
 	e.Pnj = append(e.Pnj, entity.Pnj{
+
 		Name:     "Jack",
 		Position: rl.Vector2{X: 4628, Y: 6534}, //
 		IsAlive:  true,
@@ -146,16 +151,21 @@ func (e *Engine) InitItem() {
 		Price:        5,
 		IsConsumable: true,
 		IsEquippable: false,
+
 		Regen:        10,
 		Sprite:       rl.LoadTexture("textures/items/item.png"),
+
 	})
 	e.Seller.Inventory = append(e.Seller.Inventory, item.Item{
 		Name:         "Epée",
 		Price:        15,
+
 		IsConsumable: true,
 		IsEquippable: false,
 		Regen:        10,
 		Sprite:       rl.LoadTexture("textures/items/item.png"),
+
+
 	})
 	e.Seller.Inventory = append(e.Seller.Inventory, item.Item{
 		Name:         "Bouclier",
@@ -170,8 +180,11 @@ func (e *Engine) InitItem() {
 func (e *Engine) InitMobs() {
 	e.Mobs = append(e.Mobs, entity.Mobs{
 		Name:     "mob1",
+
 		Position: rl.Vector2{X: 4064, Y: 5080},
 		Health:   20,
+
+
 		Damage:   2,
 		Loot:     []item.Item{},
 		Worth:    25,
@@ -183,15 +196,18 @@ func (e *Engine) InitMobs() {
 	e.Mobs[len(e.Mobs)-1].Loot = append(e.Mobs[len(e.Mobs)-1].Loot, item.Item{
 		Name:         "Potion",
 		Price:        5,
+		Regen:        10,
 		IsConsumable: true,
 		IsEquippable: false,
+
 		Regen:        10,
 		Sprite:       rl.LoadTexture("textures/items/item.png")})
 
+
 	e.Mobs = append(e.Mobs, entity.Mobs{
 		Name:     "mob2",
-		Position: rl.Vector2{X: 4064, Y: 5060}, // Il faut changer les coordonnées pour Le mob
-		Health:   20,
+		Position: rl.Vector2{X: 4712, Y: 5750}, // Il faut changer les coordonnées pour Le mob
+		Health:   10,
 		Damage:   2,
 		Loot:     []item.Item{},
 		Worth:    25,
@@ -225,6 +241,8 @@ func (e *Engine) InitMobs() {
 		IsEquippable: false,
 		Regen:        10,
 		Sprite:       rl.LoadTexture("textures/items/item.png")})
+
+
 }
 
 func (e *Engine) InitMonsters() {
@@ -320,24 +338,49 @@ func (e *Engine) InitMonsters() {
 
 func (e *Engine) InitShoot() {
 	e.Shoot = append(e.Shoot, entity.Shoot{
-		Position:   rl.Vector2{X: 4420, Y: 6880},
+		Position:   rl.Vector2{X: 3100, Y: 4775},
 		IsShooting: true,
-		Damage:     5,
-		Sprite:     rl.LoadTexture("textures/tilesets/TX Tileset Stone Ground.png"),
+		Direction:  3,
+		Damage:     1,
+		Sprite:     rl.LoadTexture("textures/fefolet.png"),
 	})
 	e.Shoot = append(e.Shoot, entity.Shoot{
-		Position:   rl.Vector2{X: 4450, Y: 6880},
+		Position:   rl.Vector2{X: 3100, Y: 4850},
 		IsShooting: true,
-		Damage:     5,
-		Sprite:     rl.LoadTexture("textures/tilesets/TX Tileset Stone Ground.png"),
+		Direction:  2,
+		Damage:     1,
+		Sprite:     rl.LoadTexture("textures/fefolet.png"),
 	})
 	e.Shoot = append(e.Shoot, entity.Shoot{
-		Position:   rl.Vector2{X: 4400, Y: 6880},
+		Position:   rl.Vector2{X: 3100, Y: 4950},
 		IsShooting: true,
-		Damage:     5,
-		Sprite:     rl.LoadTexture("textures/tilesets/TX Tileset Stone Ground.png"),
+		Direction:  1,
+		Damage:     1,
+		Sprite:     rl.LoadTexture("textures/fefolet.png"),
+	})
+	e.Shoot = append(e.Shoot, entity.Shoot{
+		Position:   rl.Vector2{X: 3150, Y: 4775},
+		IsShooting: true,
+		Direction:  4,
+		Damage:     1,
+		Sprite:     rl.LoadTexture("textures/fefolet.png"),
+	})
+	e.Shoot = append(e.Shoot, entity.Shoot{
+		Position:   rl.Vector2{X: 3050, Y: 4850},
+		IsShooting: true,
+		Direction:  2,
+		Damage:     1,
+		Sprite:     rl.LoadTexture("textures/fefolet.png"),
+	})
+	e.Shoot = append(e.Shoot, entity.Shoot{
+		Position:   rl.Vector2{X: 3000, Y: 4950},
+		IsShooting: true,
+		Direction:  1,
+		Damage:     1,
+		Sprite:     rl.LoadTexture("textures/fefolet.png"),
 	})
 }
+
 func (e *Engine) InitCamera() {
 	e.Camera = rl.NewCamera2D(
 		rl.NewVector2(0, 0),
@@ -346,7 +389,6 @@ func (e *Engine) InitCamera() {
 		2.0,
 	)
 }
-
 func (e *Engine) InitMusic() {
 	rl.InitAudioDevice()
 

@@ -30,10 +30,6 @@ func (e *Engine) InGameRendering() {
 
 	rl.EndMode2D()
 	
-
-	rl.DrawText("[Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Esc] to Pause", 340)/4, int32(rl.GetScreenHeight())/2-320, 20, rl.Black)
-	rl.DrawText("[I] to Inventory", int32(rl.GetScreenWidth())/2-rl.MeasureText("[I] to Inventory", 420)/4, int32(rl.GetScreenHeight())/2-280, 20, rl.Black)
-	
 	e.RenderHealthBar()
 	e.RenderEnduranceBar()
 
@@ -55,9 +51,12 @@ func (e *Engine) InGameRendering() {
 	e.RenderPlayer()
 	rl.EndMode2D()
 	rl.DrawText("[Esc] to Pause", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Esc] to Pause", 340)/4, int32(rl.GetScreenHeight())/2-320, 20, rl.Black)
-	rl.DrawText("[I] to Inventory", int32(rl.GetScreenWidth())/2-rl.MeasureText("[I] to Inventory", 420)/4, int32(rl.GetScreenHeight())/2-280, 20, rl.Black)
+
 	rl.DrawText("[A] AND [E] to navigate in the inventory", int32(rl.GetScreenWidth())/2-rl.MeasureText("[A] AND [E] to navigate in the inventory", 470)/4, int32(rl.GetScreenHeight())/2-280, 20, rl.Black)
-	rl.DrawText("[ENTER] to Attack", int32(rl.GetScreenWidth())/2-rl.MeasureText("[ENTER] to Attack", 530)/4, int32(rl.GetScreenHeight())/2-280, 20, rl.Black)
+	rl.DrawText("[I] to Inventory", int32(rl.GetScreenWidth())/2-rl.MeasureText("[I] to Inventory", 320)/4, int32(rl.GetScreenHeight())/2-280, 20, rl.Black)
+	rl.DrawText("[Enter] to Attack", int32(rl.GetScreenWidth())/2-rl.MeasureText("[Enter] to Attack", 280)/4, int32(rl.GetScreenHeight())/2-240, 20, rl.Black)
+
+
 }
 
 func (e *Engine) InventoryRendering() {
@@ -324,6 +323,7 @@ func (e *Engine) RenderExplanationShop(m entity.Seller, sentence string) {
 	)
 	rl.EndMode2D()
 }
+
 func (e *Engine) RenderExplanationPnj(pnj entity.Pnj, sentence string) {
 	rl.BeginMode2D(e.Camera)
 	rl.DrawText(
@@ -332,6 +332,8 @@ func (e *Engine) RenderExplanationPnj(pnj entity.Pnj, sentence string) {
 		int32(pnj.Position.Y)+50,
 		10,
 		rl.Black,
+
+
 	)
 	rl.EndMode2D()
 }
