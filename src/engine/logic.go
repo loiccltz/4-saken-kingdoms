@@ -281,9 +281,12 @@ func (e *Engine) CheckCollisionsWithSquare() bool {
 }
 
 func (e *Engine) UseSelectedItem() {
+	// Ajoute le montant de régénération de l'objet selectionné
 	e.Player.Health += e.Player.Inventory[e.selectedIndex].Regen
 
+	// Vérifie si la santé dépasse la santé maximale
 	if e.Player.Health > e.Player.MaxHealth {
+		// Si c'est le cas, remet la santé du joueur à la santé maximale
 		e.Player.Health = e.Player.MaxHealth
 	}
 }
@@ -375,7 +378,6 @@ func (e *Engine) MobsCollisions() {
 								e.ApplyDamageToPlayer(e.Shoot[i].Damage)
 								e.Shoot[i].IsShooting = false
 								e.Shoot = append(e.Shoot[:i], e.Shoot[i+1:]...)
-
 							}
 						}
 					}
@@ -454,14 +456,11 @@ func (e *Engine) NormalTalk(m entity.Monster, sentence string) {
 	e.RenderDialog(m, sentence)
 }
 func (e *Engine) CypherTalk(pnj entity.Pnj, sentence string) {
-
 	e.RenderExplanationPnj(pnj, sentence)
 }
 
 func (e *Engine) RobotTalk(pnj entity.Pnj, sentence string) {
 	e.RenderExplanationPnj(pnj, sentence)
-
-
 }
 
 func (e *Engine) NormalTalkMobs(m entity.Mobs, sentence string) {
@@ -506,16 +505,25 @@ func (e *Engine) UpdateMobs() {
 	}
 }
 
+//  met à jour la position des projectiles 
 func (e *Engine) UpdateShoot() {
+	// Parcourt tous les projectiles dans la liste e.Shoot
 	for i := 0; i < len(e.Shoot); i++ {
+		// Vérifie si le projectile est en train d'être tiré
 		if e.Shoot[i].IsShooting {
+			// Calcule la distance entre le joueur et le projectile
 			distance := rl.Vector2Distance(e.Player.Position, e.Shoot[i].Position)
+			// Si le projectile est à une distance suffisante du joueur, commence à le suivre
 			if distance <= ChaseDistance {
+				// Calcule la direction du projectile vers le joueur
 				direction := rl.Vector2Subtract(e.Player.Position, e.Shoot[i].Position)
+				
+				// Normalise la direction pour obtenir un vecteur de longueur 1
 				direction = rl.Vector2Normalize(direction)
+				
+				// Met à jour la position du projectile en ajoutant la direction normalisée à sa position actuelle
 				e.Shoot[i].Position = rl.Vector2Add(e.Shoot[i].Position, direction)
 			}
-
 		}
 	}
 }

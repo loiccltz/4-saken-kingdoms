@@ -3,7 +3,7 @@
 ## Réalisé par :
 - Marino
 - Alexandre Reffert
-- Théo
+- Théo Deschler
 - Loic Collatuzo
 
 ---

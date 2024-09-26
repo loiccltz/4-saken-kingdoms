@@ -82,6 +82,7 @@ func (e *Engine) InventoryRendering() {
 
     rl.DrawRectangle(inventoryXPos, inventoryYPos, inventoryWidth, inventoryHeight, rl.Gray)
 
+	// permet de naviguer dans l'inventaire
     if rl.IsKeyPressed(rl.KeyQ) {
         e.selectedIndex--  
         if e.selectedIndex < 0 {
@@ -94,7 +95,7 @@ func (e *Engine) InventoryRendering() {
         }
     }
 
-
+	// on utilise l'objet selectionné
 	if rl.IsKeyPressed(rl.KeyEnter) {
 		e.UseSelectedItem()
 	}
