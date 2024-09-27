@@ -49,16 +49,18 @@ func (e *Engine) UpdateAnimation() {
 		e.Player.PlayerFrame++
 	}
 
+
+	if e.Player.FrameCount % 3 == 1 {e.Player.PlayerFrame++}	// vitesse de l'animation
+
 	e.Player.FrameCount++
 
-	// Réinitialisation de la frame si elle dépasse 3
-	if e.Player.PlayerFrame > 3 {
-		e.Player.PlayerFrame = 0
-	}
+	if e.Player.PlayerFrame > 3 { e.Player.PlayerFrame = 0} 
+
 
 	// Mise à jour de la source de l'image en fonction de la frame d'animation actuelle
 	e.Player.PlayerSrc.X = e.Player.PlayerSrc.Width * float32(e.Player.PlayerFrame)
 	e.Player.PlayerSrc.Y = e.Player.PlayerSrc.Height * float32(e.Player.PlayerFrame)
+
 }
 
 // loadTextures charge une série de textures à partir de chemins donnés

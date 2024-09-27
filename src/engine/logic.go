@@ -2,10 +2,10 @@ package engine
 
 import (
 	"fmt"
+	rl "github.com/gen2brain/raylib-go/raylib"
 	"main/src/building"
 	"main/src/entity"
 	"main/src/fight"
-
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -63,21 +63,9 @@ func (e *Engine) InGameLogic() {
 		e.Player.Position.X += e.Player.Speed // Déplacement vers la droite
 	}
 
-	// Sprint : mouvement plus rapide avec la touche Maj gauche
-	if rl.IsKeyDown(rl.KeyW) && rl.IsKeyDown(rl.KeyLeftShift) {
-		e.Player.Position.Y -= e.Player.Speed - 2 // Sprint vers le haut
-	}
-	if rl.IsKeyDown(rl.KeyS) && rl.IsKeyDown(rl.KeyLeftShift) {
-		e.Player.Position.Y += e.Player.Speed + 2 // Sprint vers le bas
-	}
-	if rl.IsKeyDown(rl.KeyA) && rl.IsKeyDown(rl.KeyLeftShift) {
-		e.Player.Position.X -= e.Player.Speed - 2 // Sprint vers la gauche
-	}
-	if rl.IsKeyDown(rl.KeyD) && rl.IsKeyDown(rl.KeyLeftShift) {
-		e.Player.Position.X += e.Player.Speed + 2 // Sprint vers la droite
-	}
 
 	// Mise à jour de la caméra pour suivre le joueur
+	// Camera
 	e.Camera.Target = rl.Vector2{X: e.Player.Position.X + 70, Y: e.Player.Position.Y + 70}
 	e.Camera.Offset = rl.Vector2{X: float32(ScreenWidth) / 2, Y: float32(ScreenHeight) / 2}
 
@@ -204,10 +192,14 @@ func (e *Engine) SellerLogic() {
 
 // Vérifie les collisions entre le joueur et les objets
 func (e *Engine) CheckCollisionsWithObjects() bool {
-	playerRect := rl.NewRectangle(e.Player.Position.X, e.Player.Position.Y, 40, 40)
-	for _, obj := range e.Objects {
+
+	playerRect := rl.NewRectangle(e.Player.Position.X, e.Player.Position.Y, 40, 40) // Je trace un rectangle autour du joueur
+
+	for _, obj := range e.Objects { // je parcours chaque objet
+		// Je trace un rectangle au coordoonées de  l'objet, avec sa taille, on fait *2-16 car notre pack d'assets est en 16x16
 		objectRect := rl.NewRectangle(obj.X*2-16, obj.Y*2-16, obj.Width*2-16, obj.Height*2-16)
-		if rl.CheckCollisionRecs(playerRect, objectRect) {
+		if rl.CheckCollisionRecs(playerRect, objectRect) { // on peut maintenant regarder si il y a collisions entre les deux
+
 			return true
 		}
 	}
@@ -229,6 +221,7 @@ func (e *Engine) CheckCollisions() {
 // Gère les collisions entre le joueur et les obstacles qui le bloquent
 func (e *Engine) BlockCollisions() {
 	if e.CheckCollisionsWithObjects() {
+		// si il y a une collision, on bloque le joueur
 		if rl.IsKeyDown(rl.KeyW) || rl.IsKeyDown(rl.KeyUp) {
 			e.Player.Position.Y += e.Player.Speed
 		}
@@ -259,29 +252,52 @@ func (e *Engine) SellerCollisions() {
 // Gère les collisions avec les PNJ et les interactions associées
 func (e *Engine) PnjCollisions() {
 	for i := range e.Pnj {
-		if e.Pnj[i].Position.X > e.Player.Position.X-100 &&
-			e.Pnj[i].Position.X < e.Player.Position.X+100 &&
-			e.Pnj[i].Position.Y > e.Player.Position.Y-100 &&
-			e.Pnj[i].Position.Y < e.Player.Position.Y+100 {
-			if e.Pnj[i].Name == "Marie" {
+
+		if e.Pnj[i].Position.X > e.Player.Position.X-20 &&
+			e.Pnj[i].Position.X < e.Player.Position.X+20 &&
+			e.Pnj[i].Position.Y > e.Player.Position.Y-20 &&
+			e.Pnj[i].Position.Y < e.Player.Position.Y+20 {
+			// On stock le message crypté
+			if e.Pnj[i].Name == "Jack" {
 				var cipherSentence string
-				sentence := "Bonjour"
+				sentence := "Bonjour aventurier, explore ce monde et libère les princesses"
 				runes := []rune(sentence)
 				for _, r := range runes {
-					// On applique un chiffrement de César en décalant chaque lettre de 1
+
+					// On décale chaque lettres de 1 ( methode césar)
 					cipherRune := r + 1
 					cipherSentence += string(cipherRune)
 				}
 				e.CypherTalk(e.Pnj[i], cipherSentence)
 			}
-		} else if e.Pnj[i].Name == "John1" {
-			e.NormalExplanationPnj2(e.Pnj[i], "Sauvez le Premier Royaume, Le Royaume de Ran")
-		} else if e.Pnj[i].Name == "Jean2" {
-			e.NormalExplanationPnj3(e.Pnj[i], "Sauvez le Deuxième Royaume, Le Royaume de Salkin")
-		} else if e.Pnj[i].Name == "Jill3" {
-			e.NormalExplanationPnj4(e.Pnj[i], "Sauvez le Troisième Royaume, Royaume d'Usun")
-		} else if e.Pnj[i].Name == "Judi4" {
-			e.NormalExplanationPnj5(e.Pnj[i], "Sauvez le Quatrième Royaume, Royaume de Siroi")
+			if e.Pnj[i].Name == "Jacky" {
+				e.RenderExplanationPnj(e.Pnj[i],
+					"Bonjour aventurier, je vais t'aider à traduire les messages de ce monde : '\n' Explore ce monde et libère les princesses, suis les différents chemins si tu es perdu ")
+			}
+
+			if e.Pnj[i].Name == "Michou" {
+				var RobotSentence string
+				sentence := "Bonjour étranger tu te dirige vers le chateau !"
+				//
+				for _, runes := range sentence {
+					// Convertir la rune (int32) en ASCII
+					asciiValue := int(runes)
+					// convertir l'ASCII en chaîne binaire
+					binaryString := fmt.Sprintf("%08b", asciiValue)
+					// on ajoute la valeur en binaire
+					RobotSentence += binaryString
+				}
+				// Appeler la méthode pour faire parler binaire
+				e.RobotTalk(e.Pnj[i], RobotSentence)
+			}
+
+			if e.Pnj[i].Name == "Francis" {
+				e.RenderExplanationPnj(e.Pnj[i], "Tu te dirige vers le chateau !")
+			}
+
+			if e.Pnj[i].Name == "Garde" {
+				e.RenderExplanationPnj(e.Pnj[i], "Saluez le Roi Léo et la reine Yannette !")
+			}
 		}
 	}
 }
@@ -303,9 +319,12 @@ func (e *Engine) CheckCollisionsWithSquare() bool {
 
 // Utilise l'objet sélectionné dans l'inventaire et régénère la santé du joueur
 func (e *Engine) UseSelectedItem() {
+	// Ajoute le montant de régénération de l'objet selectionné
 	e.Player.Health += e.Player.Inventory[e.selectedIndex].Regen
 
+	// Vérifie si la santé dépasse la santé maximale
 	if e.Player.Health > e.Player.MaxHealth {
+		// Si c'est le cas, remet la santé du joueur à la santé maximale
 		e.Player.Health = e.Player.MaxHealth
 	}
 }
@@ -456,7 +475,11 @@ func (e *Engine) NormalTalk(m entity.Monster, sentence string) {
 
 // Affiche un dialogue chiffré pour les PNJ (système de cryptage de message)
 func (e *Engine) CypherTalk(pnj entity.Pnj, sentence string) {
-	e.RenderExplanationPnjCypher(pnj, sentence)
+	e.RenderExplanationPnj(pnj, sentence)
+}
+
+func (e *Engine) RobotTalk(pnj entity.Pnj, sentence string) {
+	e.RenderExplanationPnj(pnj, sentence)
 }
 
 // Affiche un dialogue normal pour les mobs (petits ennemis)
@@ -473,27 +496,6 @@ func (e *Engine) NormalExplanation(m building.Tower, sentence string) {
 func (e *Engine) NormalExplanationShop(m entity.Seller, sentence string) {
 	e.RenderExplanationShop(m, sentence)
 }
-
-// Affiche une explication pour le PNJ n°2
-func (e *Engine) NormalExplanationPnj2(m entity.Pnj, sentence string) {
-	e.RenderExplanationPnj2(m, sentence)
-}
-
-// Affiche une explication pour le PNJ n°3
-func (e *Engine) NormalExplanationPnj3(m entity.Pnj, sentence string) {
-	e.RenderExplanationPnj3(m, sentence)
-}
-
-// Affiche une explication pour le PNJ n°4
-func (e *Engine) NormalExplanationPnj4(m entity.Pnj, sentence string) {
-	e.RenderExplanationPnj4(m, sentence)
-}
-
-// Affiche une explication pour le PNJ n°5
-func (e *Engine) NormalExplanationPnj5(m entity.Pnj, sentence string) {
-	e.RenderExplanationPnj5(m, sentence)
-}
-
 // Gère la logique de pause du jeu (retour au menu ou reprise)
 func (e *Engine) PauseLogic() {
 	// Si la touche "R" est appuyée, le jeu reprend
@@ -526,16 +528,25 @@ func (e *Engine) UpdateMobs() {
 	}
 }
 
+
 // Met à jour la position des tirs en fonction de la distance par rapport au joueur
 func (e *Engine) UpdateShoot() {
+	// Parcourt tous les projectiles dans la liste e.Shoot
 	for i := 0; i < len(e.Shoot); i++ {
+		// Vérifie si le projectile est en train d'être tiré
 		if e.Shoot[i].IsShooting {
-			// Calcule la distance entre le joueur et le tir
+			// Calcule la distance entre le joueur et le projectile
 			distance := rl.Vector2Distance(e.Player.Position, e.Shoot[i].Position)
-			// Si le tir est suffisamment proche du joueur, il le poursuit
+			// Si le projectile est à une distance suffisante du joueur, commence à le suivre
+
 			if distance <= ChaseDistance {
+				// Calcule la direction du projectile vers le joueur
 				direction := rl.Vector2Subtract(e.Player.Position, e.Shoot[i].Position)
+
+				// Normalise la direction pour obtenir un vecteur de longueur 1
 				direction = rl.Vector2Normalize(direction)
+
+				// Met à jour la position du projectile en ajoutant la direction normalisée à sa position actuelle
 				e.Shoot[i].Position = rl.Vector2Add(e.Shoot[i].Position, direction)
 			}
 		}
