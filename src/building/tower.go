@@ -7,6 +7,6 @@ import (
 type Tower struct {
 	Name     string
 	Position rl.Vector2
-	Worth    int //valeur en argent quand tué
+	Worth    int 
 	Sprite   rl.Texture2D
 }
