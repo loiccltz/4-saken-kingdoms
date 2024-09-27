@@ -191,9 +191,7 @@ func (e *Engine) SellerLogic() {
 
 // Vérifie les collisions entre le joueur et les objets
 func (e *Engine) CheckCollisionsWithObjects() bool {
-
 	playerRect := rl.NewRectangle(e.Player.Position.X, e.Player.Position.Y, 40, 40) // Je trace un rectangle autour du joueur
-
 	for _, obj := range e.Objects { // je parcours chaque objet
 		// Je trace un rectangle au coordoonées de  l'objet, avec sa taille, on fait *2-16 car notre pack d'assets est en 16x16
 		objectRect := rl.NewRectangle(obj.X*2-16, obj.Y*2-16, obj.Width*2-16, obj.Height*2-16)
@@ -210,6 +208,7 @@ func (e *Engine) CheckCollisions() {
 	e.MobsCollisions()
 	e.ShootCollisions()
 	e.UpdateMobs()
+	e.UpdateShoot()
 	e.PnjCollisions()
 	e.TowerCollisions()
 	e.SellerCollisions()

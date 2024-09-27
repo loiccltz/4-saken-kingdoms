@@ -12,6 +12,7 @@ type Mobs struct {
 	Name           string          // Nom du mob
 	Position       rl.Vector2      // Position du mob sur l'écran, représentée par un vecteur 2D
 	Health         int             // Points de vie du mob
+  MaxHealth	   int
 	Damage         int             // Dégâts infligés par le mob lors d'une attaque
 	Loot           []item.Item     // Liste d'objets que le mob peut laisser après sa défaite
 	Worth          int             // Valeur du mob, potentiellement utilisée pour des mécanismes de récompense
@@ -19,6 +20,7 @@ type Mobs struct {
 	IsAlive        bool            // Indicateur de l'état de vie du mob (vivant ou mort)
 	Sprite         rl.Texture2D    // Texture du mob pour le rendu graphique
 	LastAttackTime time.Time        // Horodatage du dernier moment où le mob a attaqué
+
 }
 
 // Attack : Méthode pour faire attaquer un mob un joueur

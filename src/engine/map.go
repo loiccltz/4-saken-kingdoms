@@ -39,7 +39,6 @@ type Layer struct {
 	X         int      `json:"x"`       // Position X de départ du calque
 	Y         int      `json:"y"`       // Position Y de départ du calque
 	Objects   []Object `json:"objects"` // Liste des objets sur le calque (s'il s'agit d'un calque d'objets)
-	BossFight []Ranger `json:"objects"` // Liste des boss sur le calque (s'il s'agit d'un calque de boss)
 }
 
 // Définition d'un TileSet (jeu de tuiles), avec ses caractéristiques
