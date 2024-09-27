@@ -35,6 +35,9 @@ func (e *Engine) InGameRendering() {
 	// Rendu des barres de vie et d'endurance
 	e.RenderHealthBar()
 	e.RenderEnduranceBar()
+	e.RenderMobsHealthBar()
+
+
 	e.RenderTower()
 	e.UpdateAnimation()
 	e.RenderSeller() // Rendu du vendeur
@@ -504,4 +507,36 @@ func (e *Engine) RenderShieldBar() {
 
     // Dessin de la barre de bouclier
     rl.DrawRectangle(barX, barY, shieldBarWidth, barHeight, shieldColor)
+
+}
+
+func (e *Engine) RenderMobsHealthBar() {
+    barWidth := int32(60)  // Largeur de la barre de vie
+    barHeight := int32(9)  // Hauteur de la barre de vie
+
+    // Boucle à travers tous les mobs
+    for _, mob := range e.Mobs {
+        if mob.IsAlive {  //dessiner la barre que si le mob est vivant
+            // Utiliser la fonction GetWorldToScreen pour obtenir la position de la barre de vie sur l'écran
+            screenPosition := rl.GetWorldToScreen2D(mob.Position, e.Camera)
+
+            barX := int32(screenPosition.X) + 125  // Ajustement horizontal (décalage à droite)
+            barY := int32(screenPosition.Y) + int32(mob.Sprite.Height)/2 + 50 // Ajustement vertical (décalage vers le bas)
+
+            // Calculer le ratio de santé du mob
+            healthRatio := float32(mob.Health) / float32(mob.MaxHealth)
+            if healthRatio > 1 {
+                healthRatio = 1
+            } else if healthRatio < 0 {
+                healthRatio = 0
+            }
+            healthBarWidth := int32(float32(barWidth) * healthRatio)
+
+            // Dessiner la barre de vie en arrière-plan (barre grise)
+            rl.DrawRectangle(barX, barY, barWidth, barHeight, rl.Gray)
+
+            // Dessiner la barre de vie en fonction de la santé restante (barre blanche)
+            rl.DrawRectangle(barX, barY, healthBarWidth, barHeight, rl.White)
+        }
+    }
 }
