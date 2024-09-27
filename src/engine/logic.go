@@ -2,7 +2,6 @@ package engine
 
 import (
 	"fmt"
-	rl "github.com/gen2brain/raylib-go/raylib"
 	"main/src/building"
 	"main/src/entity"
 	"main/src/fight"
@@ -263,7 +262,6 @@ func (e *Engine) PnjCollisions() {
 				sentence := "Bonjour aventurier, explore ce monde et libère les princesses"
 				runes := []rune(sentence)
 				for _, r := range runes {
-
 					// On décale chaque lettres de 1 ( methode césar)
 					cipherRune := r + 1
 					cipherSentence += string(cipherRune)

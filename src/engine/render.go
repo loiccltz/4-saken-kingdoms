@@ -22,33 +22,36 @@ func (e *Engine) HomeRendering() {
 
 // InGameRendering : Rendu du jeu en cours
 func (e *Engine) InGameRendering() {
-	rl.ClearBackground(rl.Gray) // Efface l'arrière-plan avec une couleur grise
-	rl.BeginMode2D(e.Camera) // Début du mode 2D avec la caméra définie
-	e.RenderMap() // Rendu de la carte
-	e.RenderMobs() // Rendu des monstres
-	e.RenderShoot() // Rendu des tirs
-	e.RenderWolf() // Rendu du loup
-	e.RenderPlayer() // Rendu du joueur
+	rl.ClearBackground(rl.Gray)
+	rl.BeginMode2D(e.Camera)
+	e.RenderMap()
+	e.RenderMobs()
 
-	rl.EndMode2D() // Fin du mode 2D
+	e.RenderPlayer()
+	e.RenderShoot()
+	e.RenderWolf()
 
-	// Rendu des barres de vie et d'endurance
+	rl.EndMode2D()
+
+	
 	e.RenderHealthBar()
 	e.RenderEnduranceBar()
+	e.RenderShieldBar()
+	e.UpdateAndRenderShield()
+
 	e.RenderTower()
 	e.UpdateAnimation()
-	e.RenderSeller() // Rendu du vendeur
-	e.RenderEnduranceBar()
-	e.RenderHealthBar()
-	e.RenderShieldBar()
-	e.UpdateAndRenderShield() // Mise à jour et rendu de la barre de bouclier
-
-	// Rendu des différents monstres
 	e.RenderSeller()
+
+
+	e.RenderSeller()
+
 	e.RenderWolf()
 	e.RenderCrabe()
 	e.RenderDragon()
 	e.RenderGriffon()
+	e.RenderPlayer()
+	rl.EndMode2D()
 	e.RenderPlayer()
 
 	// Affichage des commandes à l'écran

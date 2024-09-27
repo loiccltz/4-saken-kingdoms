@@ -83,11 +83,9 @@ func (e *Engine) InitTower() {
 
 // InitEntities initialise les entités comme le joueur, le vendeur et les PNJs.
 func (e *Engine) InitEntities() {
-
-
+	e.Player = entity.Player{
 		Position: rl.Vector2{X: 4648, Y: 6670},
 		Health:   100,
-
 		PlayerSrc:  rl.NewRectangle(0, 0, 32, 32),
 		PlayerDest: rl.NewRectangle(0, 0, -20, -10),
 		MaxHealth:  100,
