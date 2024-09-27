@@ -363,7 +363,7 @@ func (e *Engine) TowerCollisions() {
 				}
 			} else if tower.Name == "Royaume de Siroi" {
 				e.NormalExplanation(tower, "To save Princess Léo press M")
-				if rl.IsKeyPressed(rl.KeyM) {
+				if rl.IsKeyPressed(rl.KeyN) {
 					e.Player.Position.X = 7449
 					e.Player.Position.Y = 7598
 				}
