@@ -146,6 +146,7 @@ func (e *Engine) InitMobs() {
 		Name:     "mob1",
 		Position: rl.Vector2{X: 4430, Y: 6880},
 		Health:   20,
+		MaxHealth:	20,
 		Damage:   2,
 		Loot:     []item.Item{},
 		Worth:    25,
@@ -290,13 +291,14 @@ func (e *Engine) InitShoot() {
 	})
 }
 func (e *Engine) InitCamera() {
-	e.Camera = rl.NewCamera2D(
-		rl.NewVector2(0, 0),
-		rl.NewVector2(0, 0),
-		0.0,
-		2.0,
-	)
+    e.Camera = rl.Camera2D{
+        Target: rl.Vector2{X: 0, Y: 0},                 // La cible que la caméra suit (souvent le joueur)
+        Offset: rl.Vector2{X: float32(ScreenWidth) / 2, Y: float32(ScreenHeight) / 2},  // Centre de l'écran
+        Rotation: 0.0,
+        Zoom: 2.0,
+    }
 }
+
 
 func (e *Engine) InitMusic() {
 	rl.InitAudioDevice()

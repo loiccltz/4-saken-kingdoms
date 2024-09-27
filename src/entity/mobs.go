@@ -11,6 +11,7 @@ type Mobs struct {
 	Name           string
 	Position       rl.Vector2
 	Health         int
+	MaxHealth	   int
 	Damage         int
 	Loot           []item.Item
 	Worth          int
