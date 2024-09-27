@@ -26,14 +26,15 @@ func (e *Engine) InGameRendering() {
 	rl.BeginMode2D(e.Camera)
 	e.RenderMap()
 	e.RenderMobs()
-
+	
 	e.RenderPlayer()
 	e.RenderShoot()
 	e.RenderWolf()
-
-	rl.EndMode2D()
-
 	
+	rl.EndMode2D()
+	
+	
+	e.RenderMobsHealthBar()
 	e.RenderHealthBar()
 	e.RenderEnduranceBar()
 	e.RenderShieldBar()
