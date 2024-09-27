@@ -2,6 +2,8 @@ package engine
 
 import (
 	"fmt"
+	"math/rand"
+	"time"
 	"main/src/building"
 	"main/src/entity"
 	"main/src/fight"
@@ -111,8 +113,8 @@ func (e *Engine) InGameLogic() {
 	}
 	// Si le monstre 0 est mort, téléporte le joueur à une position spécifique
 	if e.Monsters[0].Health <= 0 {
-		e.Player.Position.X = 4430
-		e.Player.Position.Y = 6720
+		e.Player.Position.X = 4648
+		e.Player.Position.Y = 6670
 	}
 
 	// Même logique pour le monstre 1
@@ -120,8 +122,8 @@ func (e *Engine) InGameLogic() {
 		e.ShootLogic()
 	}
 	if e.Monsters[1].Health <= 0 {
-		e.Player.Position.X = 4430
-		e.Player.Position.Y = 6720
+		e.Player.Position.X = 4648
+		e.Player.Position.Y = 6670
 	}
 
 	// Même logique pour le monstre 2
@@ -129,8 +131,8 @@ func (e *Engine) InGameLogic() {
 		e.ShootLogic()
 	}
 	if e.Monsters[2].Health <= 0 {
-		e.Player.Position.X = 4430
-		e.Player.Position.Y = 6720
+		e.Player.Position.X = 4648
+		e.Player.Position.Y = 6670
 	}
 
 	// Même logique pour le monstre 3
@@ -138,8 +140,8 @@ func (e *Engine) InGameLogic() {
 		e.ShootLogic()
 	}
 	if e.Monsters[3].Health <= 0 {
-		e.Player.Position.X = 4430
-		e.Player.Position.Y = 6720
+		e.Player.Position.X = 4648
+		e.Player.Position.Y = 6670
 	}
 }
 
@@ -314,9 +316,17 @@ func (e *Engine) CheckCollisionsWithSquare() bool {
 	return false
 }
 
-// Utilise l'objet sélectionné dans l'inventaire et régénère la santé du joueur
 func (e *Engine) UseSelectedItem() {
-	// Ajoute le montant de régénération de l'objet selectionné
+	// Génère un nombre aléatoire entre 0 et 99
+	rand.Seed(time.Now().UnixNano())
+	chance := rand.Intn(100)
+
+	// Si la chance est, par exemple, inférieure à 10, le joueur meurt
+	if chance < 10 {
+		e.Player.Health = 1
+	}
+
+	// Sinon, la potion régénère la santé comme d'habitude
 	e.Player.Health += e.Player.Inventory[e.selectedIndex].Regen
 
 	// Vérifie si la santé dépasse la santé maximale
