@@ -11,6 +11,8 @@ type Item struct {
 	Price        int
 	IsConsumable bool
 	IsEquippable bool
+	Quantity int
+	Regen int
 	Sprite       rl.Texture2D
 }
 
